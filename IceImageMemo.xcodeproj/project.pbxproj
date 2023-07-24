@@ -14,6 +14,10 @@
 		D09964522A6EE74800B41CE3 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09964512A6EE74800B41CE3 /* GridView.swift */; };
 		D09964542A6EE76B00B41CE3 /* showImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09964532A6EE76A00B41CE3 /* showImage.swift */; };
 		D09964562A6EE82800B41CE3 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09964552A6EE82800B41CE3 /* CameraView.swift */; };
+		D09964582A6EED0500B41CE3 /* file_control.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09964572A6EED0500B41CE3 /* file_control.swift */; };
+		D099645A2A6EED1900B41CE3 /* file_control2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09964592A6EED1900B41CE3 /* file_control2.swift */; };
+		D099645C2A6EED3000B41CE3 /* date_control.swift in Sources */ = {isa = PBXBuildFile; fileRef = D099645B2A6EED3000B41CE3 /* date_control.swift */; };
+		D099645E2A6EED6000B41CE3 /* exif_control.swift in Sources */ = {isa = PBXBuildFile; fileRef = D099645D2A6EED6000B41CE3 /* exif_control.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +29,10 @@
 		D09964512A6EE74800B41CE3 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		D09964532A6EE76A00B41CE3 /* showImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = showImage.swift; sourceTree = "<group>"; };
 		D09964552A6EE82800B41CE3 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		D09964572A6EED0500B41CE3 /* file_control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = file_control.swift; sourceTree = "<group>"; };
+		D09964592A6EED1900B41CE3 /* file_control2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = file_control2.swift; sourceTree = "<group>"; };
+		D099645B2A6EED3000B41CE3 /* date_control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = date_control.swift; sourceTree = "<group>"; };
+		D099645D2A6EED6000B41CE3 /* exif_control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = exif_control.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +70,10 @@
 				D09964512A6EE74800B41CE3 /* GridView.swift */,
 				D09964532A6EE76A00B41CE3 /* showImage.swift */,
 				D09964552A6EE82800B41CE3 /* CameraView.swift */,
+				D09964572A6EED0500B41CE3 /* file_control.swift */,
+				D09964592A6EED1900B41CE3 /* file_control2.swift */,
+				D099645B2A6EED3000B41CE3 /* date_control.swift */,
+				D099645D2A6EED6000B41CE3 /* exif_control.swift */,
 				D09964452A6EA0B900B41CE3 /* Assets.xcassets */,
 				D09964472A6EA0B900B41CE3 /* Preview Content */,
 			);
@@ -146,9 +158,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D099645A2A6EED1900B41CE3 /* file_control2.swift in Sources */,
 				D09964442A6EA0B700B41CE3 /* ContentView.swift in Sources */,
 				D09964522A6EE74800B41CE3 /* GridView.swift in Sources */,
+				D099645C2A6EED3000B41CE3 /* date_control.swift in Sources */,
 				D09964542A6EE76B00B41CE3 /* showImage.swift in Sources */,
+				D09964582A6EED0500B41CE3 /* file_control.swift in Sources */,
+				D099645E2A6EED6000B41CE3 /* exif_control.swift in Sources */,
 				D09964562A6EE82800B41CE3 /* CameraView.swift in Sources */,
 				D09964422A6EA0B700B41CE3 /* IceImageMemoApp.swift in Sources */,
 			);
@@ -282,6 +298,7 @@
 				DEVELOPMENT_TEAM = X492QDP79L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -311,6 +328,7 @@
 				DEVELOPMENT_TEAM = X492QDP79L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

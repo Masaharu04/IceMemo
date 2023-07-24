@@ -6,21 +6,41 @@
 //
 
 import SwiftUI
+import UIKit
+import Photos
 
-struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
+struct TapItems:Identifiable{
+    var id = UUID()
+    var icon : String
+    var tap:Tap
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
+var tapItems = [
+    TapItems(icon: "d.circle", tap: .day),
+    TapItems(icon: "w.circle", tap: .week),
+    TapItems(icon: "m.circle", tap: .month),
+    TapItems(icon: "y.circle", tap: .year)]
+
+enum Tap :String{
+    case day
+    case week
+    case month
+    case year
+}
+
+
+struct ContentView: View{
+    init(){
+        make_directory_2()
+    }
+    var body: some View{
+        CameraView()
+    }
+    
+}
+
+struct ContentView_Preiews: PreviewProvider{
+    static var previews: some View{
         ContentView()
     }
 }
