@@ -90,14 +90,15 @@ struct showImage: View {
             
         })
         .overlay(alignment: .topLeading, content: {
-                    let photo = Image(uiImage: read_image2(image_url: select_url!))
-                    ShareLink(item: photo,
-                              preview: SharePreview("test",image:photo),
-                              label: { Image(systemName: "square.and.arrow.up")
-                            .font(.largeTitle)
-                            .foregroundColor(.white)
-                            .padding(show ? 30 : 17)
-                    })
+            let photo = Image(uiImage: read_image2(image_url: select_url!))
+            let filename = get_file_name(image_url: select_url!)
+            ShareLink(item: photo,
+                      preview: SharePreview(filename,image:photo),
+                      label: { Image(systemName: "square.and.arrow.up")
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+                    .padding(show ? 30 : 17)
+            })
         })
         .edgesIgnoringSafeArea(.all)
     }
