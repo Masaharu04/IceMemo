@@ -158,4 +158,29 @@ func sort_url(all_image_url :[URL]) -> [URL]{
     return result_urls
 }
 
+func judge_format(file_url: URL) -> String{
+    let image_url = change_name_to_url(image_name: "abc.jpeg")
+    let ans = image_url.pathExtension
+    print(ans)
+    return ans
+}
+
+
+func write_text(text_url: URL,text: String){
+    do {
+        try text.write(to: text_url, atomically: true, encoding: .utf8)
+    } catch {
+        print("書き込み失敗")
+    }
+}
+
+func read_text(text_url: URL) -> String{
+    var text: String = ""
+    do{
+        text = try String(contentsOf: text_url, encoding: .utf8)
+    } catch {
+        print("読み込み失敗")
+    }
+    return text
+}
 
