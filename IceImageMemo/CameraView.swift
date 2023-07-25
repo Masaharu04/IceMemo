@@ -151,7 +151,6 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
     @Published var capturedImage: UIImage?
     @Published var variable2: Int = 1
     @Published var is_button_invalid:Bool = false
-    @Published var capture_list :[UIImage]?
     private var device: AVCaptureDevice?
     //カメラの権限があるかCheck!
     func Check() {
@@ -227,7 +226,11 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
                 let turnImage = turn_image(capturedImage)
                 //capturedImage.write(to: capture_list)
                 print(variable2)
-                change_directory_and_save(mode: variable2, uiimage_data: turnImage)
+                Task{
+                    await waitfunc(mode: variable2, uiimage: turnImage)
+                }
+                 
+                //change_directory_and_save(mode: variable2, uiimage_data: turnImage)
                 is_button_invalid = false
                     
                     } else {
@@ -282,4 +285,8 @@ struct CameraPreview: UIViewRepresentable {
     func updateUIView(_ uiView: UIViewType, context: Context) {
         
     }
+}
+
+func waitfunc(mode: Int, uiimage: UIImage) async {
+    change_directory_and_save(mode: mode, uiimage_data: uiimage)
 }
