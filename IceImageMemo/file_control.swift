@@ -43,7 +43,7 @@ func read_image2(image_url: URL) -> UIImage{
     if let uiimage_data = UIImage(contentsOfFile: image_url.path){
         return uiimage_data
     }else{
-        return UIImage(imageLiteralResourceName: "m4")
+        return UIImage(imageLiteralResourceName: "m3")
     }
 }
 
