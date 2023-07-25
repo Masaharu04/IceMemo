@@ -142,7 +142,7 @@ struct CameraView: View {
 }
 
 //CameraSetting
-class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
+class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCaptureMetadataOutputObjectsDelegate{
     @Published var isTaken = false
     @Published var session = AVCaptureSession()
     @Published var alert = false
@@ -152,6 +152,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
     @Published var variable2: Int = 1
     @Published var is_button_invalid:Bool = false
     @Published var capture_list :[UIImage]?
+    @Published var detectedQRCode: String?
     private var device: AVCaptureDevice?
     //カメラの権限があるかCheck!
     func Check() {
@@ -195,6 +196,16 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
                 self.session.addOutput(self.output)
             }
             
+            let metadataOutput = AVCaptureMetadataOutput()
+            if session.canAddOutput(metadataOutput) {
+                session.addOutput(metadataOutput)
+
+                metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+                metadataOutput.metadataObjectTypes = [.qr]
+            } else {
+                print("Failed to add metadata output")
+            }
+            
             self.session.commitConfiguration()
         }
         
@@ -233,6 +244,18 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
                     } else {
                         print("Captured image is nil")
                     }
+        }
+    }
+    
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
+           metadataObj.type == .qr,
+           let qrCodeString = metadataObj.stringValue {
+            print("Detected QR Code: \(qrCodeString)")
+            detectedQRCode = qrCodeString
+        } else {
+            detectedQRCode = nil
+            print("No QR Code detected.")
         }
     }
     
