@@ -185,7 +185,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
              device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
             
 
-            
+            //写真とる
             let input = try AVCaptureDeviceInput(device: device!)
             
             if self.session.canAddInput(input){
@@ -196,6 +196,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
                 self.session.addOutput(self.output)
             }
             
+            //qr読む
             let metadataOutput = AVCaptureMetadataOutput()
             if session.canAddOutput(metadataOutput) {
                 session.addOutput(metadataOutput)
