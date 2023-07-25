@@ -83,6 +83,7 @@ struct showImage: View {
                 .foregroundColor(.white)
                 .padding(show ? 30 : 20)
                 .onTapGesture {
+                    image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
                     auto_remove_image(all_image_url: image_url)
                     image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
                     Viewsheet.toggle()
@@ -90,7 +91,8 @@ struct showImage: View {
             
         })
         .overlay(alignment: .topLeading, content: {
-            let photo = Image(uiImage: read_image2(image_url: select_url!))
+            let photo = Image(uiImage: select_image!)
+            //print(photo)
             let filename = get_file_name(image_url: select_url!)
             ShareLink(item: photo,
                       preview: SharePreview(filename,image:photo),
