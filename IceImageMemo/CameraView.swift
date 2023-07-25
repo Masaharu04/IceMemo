@@ -227,7 +227,8 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
                 //capturedImage.write(to: capture_list)
                 print(variable2)
                 Task{
-                    await waitfunc(mode: variable2, uiimage: turnImage)
+                    let c_image = turnImage
+                    await waitfunc(mode: variable2, uiimage: c_image)
                 }
                  
                 //change_directory_and_save(mode: variable2, uiimage_data: turnImage)
