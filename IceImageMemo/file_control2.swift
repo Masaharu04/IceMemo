@@ -184,3 +184,7 @@ func read_text(text_url: URL) -> String{
     return text
 }
 
+func get_file_name(image_url: URL) -> String{
+    let file_name = image_url.lastPathComponent
+    return file_name
+}
