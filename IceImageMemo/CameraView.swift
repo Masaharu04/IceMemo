@@ -18,6 +18,8 @@ struct CameraView: View {
     @State var image_url:[URL]  = all_file_url(directory_url: change_name_to_url(image_name: ""))
     @State private var scale: CGFloat = 1.0
     @State private var focusPoint: CGPoint?
+    //View内ではこれで呼び出せる　配列格納は228行目いじって〜
+    //camera.capture_list
     
     var body: some View{
         ZStack{
@@ -149,6 +151,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
     @Published var capturedImage: UIImage?
     @Published var variable2: Int = 1
     @Published var is_button_invalid:Bool = false
+    @Published var capture_list :[UIImage]?
     private var device: AVCaptureDevice?
     //カメラの権限があるかCheck!
     func Check() {
@@ -222,6 +225,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
             self.capturedImage = capturedImage
             if let capturedImage = capturedImage {
                 let turnImage = turn_image(capturedImage)
+                //capturedImage.write(to: capture_list)
                 print(variable2)
                 change_directory_and_save(mode: variable2, uiimage_data: turnImage)
                 is_button_invalid = false
