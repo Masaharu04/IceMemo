@@ -254,6 +254,9 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
            let qrCodeString = metadataObj.stringValue {
             print("Detected QR Code: \(qrCodeString)")
             detectedQRCode = qrCodeString
+            DispatchQueue.main.async {
+                self.showQRCodeAlert(qrCodeString: qrCodeString)
+            }
         } else {
             detectedQRCode = nil
             print("No QR Code detected.")
@@ -287,6 +290,11 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
                 }
             }
         }
+    func showQRCodeAlert(qrCodeString: String) {
+        let alert = UIAlertController(title: "QRコードを読み取りました", message: qrCodeString, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
+    }
     
 }
 
