@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct GridView: View {
     @Binding var image_url: [URL]
@@ -17,6 +18,8 @@ struct GridView: View {
     @State var selected_image : UIImage?
     @State var selected_url : URL?
     //@State var image_url2:[URL]
+    
+    
     
     var body: some View {
         ScrollView{
@@ -41,6 +44,18 @@ struct GridView: View {
                                     selected_url = image_url[index]
                                     selected_image = read_image2(image_url: image_url[index])
                                 }
+                        }else if(judge_format(file_url: image_url[index]) == "txt"){
+                            Button(read_text(text_url: image_url[index])){
+                                @Environment(\.openURL) var openurl
+                                openurl(URL(string: read_text(text_url: image_url[index]))!)
+                            }
+                            .frame(width: 170, height: 200)
+                            .background(Color.black)
+                            .cornerRadius(20)
+                            .offset(y: self.Gshow ? 0 :UIScreen.main.bounds.height)
+                            .animation(Animation.spring().delay(Double(index) * 0.1), value: Gshow)
+                            .shadow(color: Color.black.opacity(0.2),radius: 10,x: 0,y: 10)
+                            .padding(.vertical)
                         }
                     }
                 }
