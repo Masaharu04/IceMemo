@@ -51,27 +51,6 @@ struct CameraView: View {
                         .fill(.clear)
                         .frame(width: 300, height: 500)
                 }
-                if camera.isShowingbutton {
-                    Button {
-                        //ここにurlを配列に格納するコード書く//
-                        //camera.save_detectedQRCode
-                        //String型で格納されている
-                        print(camera.save_detectedQRCode!)
-                        openURL(URL(string: camera.save_detectedQRCode!)!)
-
-                    }label: {
-                        if let qr_string = camera.save_detectedQRCode{
-                            Text(qr_string)
-                        }else{
-                            Text("")
-                        }
-                    }
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .offset(y: -50) // ボタンの位置を調整
-                }
                 Spacer()
                 //{}この中にカメラの処理を実装する
                 Button(action: { camera.takePic()
@@ -171,10 +150,6 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
     @Published var capturedImage: UIImage?
     @Published var variable2: Int = 1
     @Published var is_button_invalid:Bool = false
-    @Published var detectedQRCode: String?
-    @Published var isShowingbutton = false
-    @Published var save_detectedQRCode :String?
-    var timer:Timer?
 
     private var device: AVCaptureDevice?
     //カメラの権限があるかCheck!
@@ -217,17 +192,6 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
             
             if self.session.canAddOutput(self.output){
                 self.session.addOutput(self.output)
-            }
-            
-            //qr読む設定
-            let metadataOutput = AVCaptureMetadataOutput()
-            if session.canAddOutput(metadataOutput) {
-                session.addOutput(metadataOutput)
-
-                metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-                metadataOutput.metadataObjectTypes = [.qr]
-            } else {
-                print("Failed to add metadata output")
             }
             
             self.session.commitConfiguration()
@@ -274,30 +238,6 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
                         print("Captured image is nil")
                     }
         }
-    }
-    
-    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
-        if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
-           metadataObj.type == .qr,
-           let qrCodeString = metadataObj.stringValue {
-            print("Detected QR Code: \(qrCodeString)")
-            detectedQRCode = qrCodeString
-            save_detectedQRCode = detectedQRCode
-            isShowingbutton = true
-            //四隅のざひょう
-            //print(metadataObj.corners)
-        } else {
-            //print(save_detectedQRCode!)
-            timer?.invalidate()
-            timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
-                self.isShowingbutton = false
-                self.timer = nil
-            }
-            //isShowingbutton = false
-            detectedQRCode = nil
-            print("No QR Code detected.")
-        }
-
     }
     
     func setZoomFactor(zoomFactor: CGFloat) {
