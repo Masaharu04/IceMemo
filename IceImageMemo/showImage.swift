@@ -58,7 +58,7 @@ struct showImage: View {
             if let view_image = select_image{
                 Image(uiImage:view_image)
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .aspectRatio(3/4, contentMode: .fit)
                     .scaledToFill()
                     .cornerRadius(20)
                     .onTapGesture {
