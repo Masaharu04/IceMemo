@@ -19,7 +19,6 @@ struct CameraView: View {
     @State private var scale: CGFloat = 1.0
     @State private var focusPoint: CGPoint?
     //View内ではこれで呼び出せる　配列格納は228行目いじって〜
-    //camera.capture_list
     
     var body: some View{
         ZStack{
@@ -33,13 +32,6 @@ struct CameraView: View {
                         }
                         .onEnded { value in
                             camera.setZoomFactor(zoomFactor: value)
-                        }
-                )
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onEnded { value in
-                            focusPoint = value.location
-                            camera.setFocusPoint(point: focusPoint!)
                         }
                 )
 
