@@ -56,6 +56,8 @@ struct CameraView: View {
                         //ここにurlを配列に格納するコード書く//
                         //camera.save_detectedQRCode
                         //String型で格納されている
+                        change_directory_and_save_text(mode: camera.variable2, text: camera.save_detectedQRCode!)
+                        
                         print(camera.save_detectedQRCode!)
                         openURL(URL(string: camera.save_detectedQRCode!)!)
 

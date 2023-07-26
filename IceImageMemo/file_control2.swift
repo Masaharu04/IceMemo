@@ -159,8 +159,7 @@ func sort_url(all_image_url :[URL]) -> [URL]{
 }
 
 func judge_format(file_url: URL) -> String{
-    let image_url = change_name_to_url(image_name: "abc.jpeg")
-    let ans = image_url.pathExtension
+    let ans = file_url.pathExtension
     print(ans)
     return ans
 }
@@ -187,4 +186,37 @@ func read_text(text_url: URL) -> String{
 func get_file_name(image_url: URL) -> String{
     let file_name = image_url.lastPathComponent
     return file_name
+}
+
+func make_new_text_name() -> String{
+    let jp_date = change_jp_date(day1:Date())
+    let image_name = "\(jp_date).txt"
+    return image_name
+}
+
+func change_directory_and_save_text(mode: Int, text: String){
+    switch mode{
+    case 1:
+        let directory_name = "day"
+        let text_name = make_new_text_name()
+        let text_url =  change_name_to_url(image_name: "\(directory_name)/\(text_name)")
+        write_text(text_url: text_url, text: text)
+    case 2:
+        let directory_name = "week"
+        let text_name = make_new_text_name()
+        let text_url =  change_name_to_url(image_name: "\(directory_name)/\(text_name)")
+        write_text(text_url: text_url, text: text)
+    case 3:
+        let directory_name = "month"
+        let text_name = make_new_text_name()
+        let text_url =  change_name_to_url(image_name: "\(directory_name)/\(text_name)")
+        write_text(text_url: text_url, text: text)
+    case 4:
+        let directory_name = "year"
+        let text_name = make_new_text_name()
+        let text_url =  change_name_to_url(image_name: "\(directory_name)/\(text_name)")
+        write_text(text_url: text_url, text: text)
+    default:
+        return
+    }
 }

@@ -23,23 +23,25 @@ struct GridView: View {
             LazyVGrid(columns: columns){
                 //let is_bool = print_view(url_image:image_url)
                 ForEach(image_url.indices,id: \.self){index in
-                     let is_exist = check_image_exist(image_url: image_url[index])
+                    let is_exist = check_image_exist(image_url: image_url[index])
                     if is_exist {
-                        Image(uiImage: read_image2(image_url: image_url[index]))
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 170, height: 200)
-                            .cornerRadius(20)
-                            .offset(y: self.Gshow ? 0 :UIScreen.main.bounds.height)
-                            .animation(Animation.spring().delay(Double(index) * 0.1), value: Gshow)
-                            .shadow(color: Color.black.opacity(0.2),radius: 10,x: 0,y: 10)
-                            .padding(.vertical)
-                        
-                            .onTapGesture {
-                                shet.toggle()
-                                selected_url = image_url[index]
-                                selected_image = read_image2(image_url: image_url[index])
-                            }
+                        if(judge_format(file_url: image_url[index]) == "jpg"){
+                            Image(uiImage: read_image2(image_url: image_url[index]))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 170, height: 200)
+                                .cornerRadius(20)
+                                .offset(y: self.Gshow ? 0 :UIScreen.main.bounds.height)
+                                .animation(Animation.spring().delay(Double(index) * 0.1), value: Gshow)
+                                .shadow(color: Color.black.opacity(0.2),radius: 10,x: 0,y: 10)
+                                .padding(.vertical)
+                            
+                                .onTapGesture {
+                                    shet.toggle()
+                                    selected_url = image_url[index]
+                                    selected_image = read_image2(image_url: image_url[index])
+                                }
+                        }
                     }
                 }
             }
