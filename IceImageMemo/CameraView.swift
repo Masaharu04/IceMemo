@@ -286,6 +286,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
             detectedQRCode = qrCodeString
             save_detectedQRCode = detectedQRCode
             isShowingbutton = true
+            //write save_detectedQRCode -> image_url
             //四隅のざひょう
             print(metadataObj.corners)
         } else {
