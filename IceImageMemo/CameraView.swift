@@ -142,7 +142,7 @@ struct CameraView: View {
 }
 
 //CameraSetting
-class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
+class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCaptureMetadataOutputObjectsDelegate{
     @Published var isTaken = false
     @Published var session = AVCaptureSession()
     @Published var alert = false
@@ -151,6 +151,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
     @Published var capturedImage: UIImage?
     @Published var variable2: Int = 1
     @Published var is_button_invalid:Bool = false
+    @Published var detectedQRCode: String?
     private var device: AVCaptureDevice?
     //カメラの権限があるかCheck!
     func Check() {
@@ -183,7 +184,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
              device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
             
 
-            
+            //写真とる
             let input = try AVCaptureDeviceInput(device: device!)
             
             if self.session.canAddInput(input){
@@ -192,6 +193,17 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
             
             if self.session.canAddOutput(self.output){
                 self.session.addOutput(self.output)
+            }
+            
+            //qr読む
+            let metadataOutput = AVCaptureMetadataOutput()
+            if session.canAddOutput(metadataOutput) {
+                session.addOutput(metadataOutput)
+
+                metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+                metadataOutput.metadataObjectTypes = [.qr]
+            } else {
+                print("Failed to add metadata output")
             }
             
             self.session.commitConfiguration()
@@ -237,6 +249,18 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate{
                     } else {
                         print("Captured image is nil")
                     }
+        }
+    }
+    
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
+           metadataObj.type == .qr,
+           let qrCodeString = metadataObj.stringValue {
+            print("Detected QR Code: \(qrCodeString)")
+            detectedQRCode = qrCodeString
+        } else {
+            detectedQRCode = nil
+            print("No QR Code detected.")
         }
     }
     
