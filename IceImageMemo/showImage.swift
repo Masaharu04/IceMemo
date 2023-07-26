@@ -59,7 +59,7 @@ struct showImage: View {
             if let view_image = select_image{
                 Image(uiImage:view_image)
                     .resizable()
-                    .aspectRatio(3024/4032, contentMode: .fit)
+                    .aspectRatio(contentMode: .fit)
                     .scaledToFill()
                     .cornerRadius(20)
                     .onTapGesture {
@@ -67,7 +67,7 @@ struct showImage: View {
                             self.show.toggle()
                         }
                     }
-                    .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  500 : 470)
+                    .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  450 : 360)
                     .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             }else{
                 Image("m4")
