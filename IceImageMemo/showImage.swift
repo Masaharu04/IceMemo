@@ -22,7 +22,8 @@ struct showImage: View {
                         //削除ボタンの処理
                         if let view_imageURL = select_url{
                             remove_image(image_url:view_imageURL)
-                            image_url.removeAll(where:{$0 == view_imageURL})
+                          //  image_url.removeAll(where:{$0 == view_imageURL})
+                            image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
                             auto_remove_image(all_image_url: image_url)
                             image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
                             print(image_url)
