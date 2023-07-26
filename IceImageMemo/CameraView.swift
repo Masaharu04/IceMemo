@@ -10,7 +10,7 @@ import AVFoundation
 
 //CameraView
 struct CameraView: View {
-    
+    @Environment(\.openURL) var openURL
     //@StateObject var camera : CameraModel
     @StateObject var camera = CameraModel()
     @State var show = false
@@ -43,6 +43,7 @@ struct CameraView: View {
                         }
                 )
 
+
             VStack{
                 Button{
                     image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
@@ -54,6 +55,24 @@ struct CameraView: View {
                     Rectangle()
                         .fill(.clear)
                         .frame(width: 300, height: 500)
+                }
+                if camera.isShowingbutton {
+                    Button {
+                        print(camera.isShowingbutton)
+                        openURL(URL(string: camera.detectedQRCode!)!)
+
+                    }label: {
+                        if let qr_string = camera.detectedQRCode{
+                            Text(qr_string)
+                        }else{
+                            Text("")
+                        }
+                    }
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .offset(y: -50) // ボタンの位置を調整
                 }
                 Spacer()
                 //{}この中にカメラの処理を実装する
@@ -135,6 +154,9 @@ struct CameraView: View {
             
             
         }
+//        .alert(isPresented: $camera.isShowingAlert) {
+//            Alert(title: Text("QRコードを読み取りました"), message: Text(camera.alertMessage), dismissButton: .default(Text("OK")))
+//        }
         .onAppear(perform:{
             camera.Check()
         })
@@ -152,6 +174,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
     @Published var variable2: Int = 1
     @Published var is_button_invalid:Bool = false
     @Published var detectedQRCode: String?
+    @Published var isShowingbutton = false
     private var device: AVCaptureDevice?
     //カメラの権限があるかCheck!
     func Check() {
@@ -258,13 +281,15 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
            let qrCodeString = metadataObj.stringValue {
             print("Detected QR Code: \(qrCodeString)")
             detectedQRCode = qrCodeString
-            DispatchQueue.main.async {
-                self.showQRCodeAlert(qrCodeString: qrCodeString)
-            }
+            isShowingbutton = true
+            //四隅のざひょう
+            print(metadataObj.corners)
         } else {
+            isShowingbutton = false
             detectedQRCode = nil
             print("No QR Code detected.")
         }
+
     }
     
     func setZoomFactor(zoomFactor: CGFloat) {
@@ -294,11 +319,6 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
                 }
             }
         }
-    func showQRCodeAlert(qrCodeString: String) {
-        let alert = UIAlertController(title: "QRコードを読み取りました", message: qrCodeString, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
-    }
     
 }
 
