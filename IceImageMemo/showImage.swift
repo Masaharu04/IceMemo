@@ -34,11 +34,12 @@ struct showImage: View {
                     }, label: {
                         
                         ZStack{
-                            Spacer()
+                            
                             Image(systemName: "trash.circle")
                                 .font(.system(size: 80))
                                 .foregroundColor(.red)
-                                .padding(40)
+                                .padding(.bottom, 20)
+                                .padding(.top, 50)
                         }
                         
                     })
@@ -46,8 +47,8 @@ struct showImage: View {
                     Label("あと\(remaining_days(image_url: select_url!))秒", systemImage: "")
                                .font(.largeTitle)
                                .foregroundColor(.red)
-                               .padding()
-                    Spacer()
+                               .padding(.bottom, 60)
+                    
                 }
             
             .padding(30)
@@ -65,7 +66,7 @@ struct showImage: View {
                             self.show.toggle()
                         }
                     }
-                    .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  450 : 360)
+                    .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  500 : 470)
                     .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             }else{
                 Image("m4")
