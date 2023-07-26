@@ -39,8 +39,8 @@ struct showImage: View {
                             Image(systemName: "trash.circle")
                                 .font(.system(size: 80))
                                 .foregroundColor(.red)
-                                .padding(.bottom, 20)
-                                .padding(.top, 50)
+                                .padding(.bottom)
+                                .padding(.top)
                         }
                         
                     })
@@ -48,13 +48,13 @@ struct showImage: View {
                     Label("あと\(remaining_days(image_url: select_url!))日", systemImage: "")
                                .font(.largeTitle)
                                .foregroundColor(.red)
-                               .padding(.bottom, 60)
+                               .padding(.bottom)
                     
                 }
             
             .padding(30)
             .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 60,maxHeight:show ? .infinity : 260, alignment: .top)
-            .offset(y: show ? 450 : 0)
+            .offset(y: show ? 450 : 40)
             //Image(uiImage: select_image)
             if let view_image = select_image{
                 Image(uiImage:view_image)
@@ -67,7 +67,7 @@ struct showImage: View {
                             self.show.toggle()
                         }
                     }
-                    .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  450 : 360)
+                    .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  450 : 460)
                     .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             }else{
                 Image("m4")
@@ -79,7 +79,7 @@ struct showImage: View {
                             self.show.toggle()
                         }
                     }
-                    .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  450 : 360)
+                    .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  450 : 460)
                     .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             }
         }
