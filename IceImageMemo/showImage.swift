@@ -32,7 +32,9 @@ struct showImage: View {
                         }
                         Viewsheet.toggle()
                     }, label: {
+                        
                         ZStack{
+                            Spacer()
                             Image(systemName: "trash.circle")
                                 .font(.system(size: 80))
                                 .foregroundColor(.red)
@@ -45,6 +47,7 @@ struct showImage: View {
                                .font(.largeTitle)
                                .foregroundColor(.red)
                                .padding()
+                    Spacer()
                 }
             
             .padding(30)
