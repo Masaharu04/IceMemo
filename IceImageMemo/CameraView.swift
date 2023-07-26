@@ -59,10 +59,10 @@ struct CameraView: View {
                 if camera.isShowingbutton {
                     Button {
                         print(camera.isShowingbutton)
-                        openURL(URL(string: camera.detectedQRCode!)!)
+                        openURL(URL(string: camera.save_detectedQRCode!)!)
 
                     }label: {
-                        if let qr_string = camera.detectedQRCode{
+                        if let qr_string = camera.save_detectedQRCode{
                             Text(qr_string)
                         }else{
                             Text("")
@@ -175,6 +175,9 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
     @Published var is_button_invalid:Bool = false
     @Published var detectedQRCode: String?
     @Published var isShowingbutton = false
+    @Published var save_detectedQRCode :String?
+    var timer:Timer?
+
     private var device: AVCaptureDevice?
     //カメラの権限があるかCheck!
     func Check() {
@@ -281,11 +284,17 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
            let qrCodeString = metadataObj.stringValue {
             print("Detected QR Code: \(qrCodeString)")
             detectedQRCode = qrCodeString
+            save_detectedQRCode = detectedQRCode
             isShowingbutton = true
             //四隅のざひょう
             print(metadataObj.corners)
         } else {
-            isShowingbutton = false
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
+                self.isShowingbutton = false
+                self.timer = nil
+            }
+            //isShowingbutton = false
             detectedQRCode = nil
             print("No QR Code detected.")
         }
