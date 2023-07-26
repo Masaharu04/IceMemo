@@ -151,7 +151,6 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
     @Published var capturedImage: UIImage?
     @Published var variable2: Int = 1
     @Published var is_button_invalid:Bool = false
-    @Published var capture_list :[UIImage]?
     @Published var detectedQRCode: String?
     private var device: AVCaptureDevice?
     //カメラの権限があるかCheck!
@@ -239,7 +238,12 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
                 let turnImage = turn_image(capturedImage)
                 //capturedImage.write(to: capture_list)
                 print(variable2)
-                change_directory_and_save(mode: variable2, uiimage_data: turnImage)
+                Task{
+                    let c_image = turnImage
+                    await waitfunc(mode: variable2, uiimage: c_image)
+                }
+                 
+                //change_directory_and_save(mode: variable2, uiimage_data: turnImage)
                 is_button_invalid = false
                     
                     } else {
@@ -306,4 +310,8 @@ struct CameraPreview: UIViewRepresentable {
     func updateUIView(_ uiView: UIViewType, context: Context) {
         
     }
+}
+
+func waitfunc(mode: Int, uiimage: UIImage) async {
+    change_directory_and_save(mode: mode, uiimage_data: uiimage)
 }
