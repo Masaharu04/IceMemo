@@ -18,6 +18,9 @@ struct CameraView: View {
     @State var image_url:[URL]  = all_file_url(directory_url: change_name_to_url(image_name: ""))
     @State private var scale: CGFloat = 1.0
     @State private var focusPoint: CGPoint?
+    
+    @State private var isShowingAlert = false
+    @State private var alertMessage = ""
     //View内ではこれで呼び出せる　配列格納は228行目いじって〜
     
     var body: some View{
