@@ -50,7 +50,10 @@ struct CameraView: View {
                 }
                 if camera.isShowingbutton {
                     Button {
-                        print(camera.isShowingbutton)
+                        //ここにurlを配列に格納するコード書く//
+                        //camera.save_detectedQRCode
+                        //String型で格納されている
+                        print(camera.save_detectedQRCode!)
                         openURL(URL(string: camera.save_detectedQRCode!)!)
 
                     }label: {
@@ -202,7 +205,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
              device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
             
 
-            //写真とる
+            //写真とる設定
             let input = try AVCaptureDeviceInput(device: device!)
             
             if self.session.canAddInput(input){
@@ -213,7 +216,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
                 self.session.addOutput(self.output)
             }
             
-            //qr読む
+            //qr読む設定
             let metadataOutput = AVCaptureMetadataOutput()
             if session.canAddOutput(metadataOutput) {
                 session.addOutput(metadataOutput)
@@ -280,8 +283,9 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
             isShowingbutton = true
             //write save_detectedQRCode -> image_url
             //四隅のざひょう
-            print(metadataObj.corners)
+            //print(metadataObj.corners)
         } else {
+            //print(save_detectedQRCode!)
             timer?.invalidate()
             timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
                 self.isShowingbutton = false
