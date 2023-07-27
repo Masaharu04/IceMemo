@@ -13,16 +13,14 @@ struct showImage: View {
     @Binding var select_url :URL?
     @Binding var image_url :[URL]
     @Binding var select_image :UIImage?
-    @State var lastScale: CGFloat = 1.0
-    @State var scale_image: CGFloat = 1.0
     
-    @State var scale: CGFloat = 1.0
-    @State var focusPoint: CGPoint?
-    @State var tapLocation: CGPoint = .zero
-    @GestureState var dragOffset: CGSize = .zero
-    @State var totalDragOffset: CGSize = .zero
-    @State var minScale: CGFloat = 1.0
-    @State var maxScale: CGFloat = 3.0
+    @GestureState private var gestureScale: CGFloat = 1.0
+    // 画像移動の位置を保持する変数
+    @GestureState private var gesturePosition: CGSize = .zero
+    @State var scale :CGFloat = 1.0
+    @State var position :CGSize = .zero
+    
+
     var body: some View {
         ZStack(alignment: .top){
                 VStack{
@@ -31,7 +29,7 @@ struct showImage: View {
                         //削除ボタンの処理
                         if let view_imageURL = select_url{
                             remove_image(image_url:view_imageURL)
-                          //  image_url.removeAll(where:{$0 == view_imageURL})
+                            //  image_url.removeAll(where:{$0 == view_imageURL})
                             image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
                             auto_remove_image(all_image_url: image_url)
                             image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
@@ -55,108 +53,98 @@ struct showImage: View {
                     })
                     
                     Label("あと\(remaining_days(image_url: select_url!))秒", systemImage: "")
-                               .font(.largeTitle)
-                               .foregroundColor(.red)
-                               .padding(.bottom, 60)
+                        .font(.largeTitle)
+                        .foregroundColor(.red)
+                        .padding(.bottom, 60)
                     
                 }
-            
-            .padding(30)
-            .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 60,maxHeight:show ? .infinity : 260, alignment: .top)
-            .offset(y: show ? 450 : 0)
-            //Image(uiImage: select_image)
-            if let view_image = select_image{
-                Image(uiImage:view_image)
-                    .resizable()
-                    .aspectRatio(3024.0/4032.0, contentMode: .fit)
-                    .scaledToFill()
-                    .cornerRadius(20)
-                    .scaleEffect(scale)
-                    .offset(x: totalDragOffset.width + dragOffset.width, y: totalDragOffset.height + dragOffset.height)
-                    .onTapGesture {
-                        withAnimation(.spring(response: 0.4,dampingFraction: 0.6)){
-                            self.show.toggle()
+                
+                .padding(30)
+                .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 60,maxHeight:show ? .infinity : 260, alignment: .top)
+                .offset(y: show ? 450 : 0)
+                //Image(uiImage: select_image)
+                if let view_image = select_image{
+                    Image(uiImage:view_image)
+                        .resizable()
+                        .aspectRatio(3024.0/4032.0, contentMode: .fit)
+                        .scaledToFill()
+                        .cornerRadius(20)
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.4,dampingFraction: 0.6)){
+                                self.show.toggle()
+                            }
                         }
-                    }
-//                    .gesture(MagnificationGesture()
-//                                    .onChanged { value in
-//                                        self.scale_image = value.magnitude
-//                                    }
-//                        )
-                    .gesture(
-                         DragGesture()
-                             .updating($dragOffset) { value, state, _ in
-                                 state = value.translation
-                             }
-                             .onEnded { value in
-                                 let widthOffset = totalDragOffset.width + value.translation.width / scale
-                                 let heightOffset = totalDragOffset.height + value.translation.height / scale
-                                 let maxWidthOffset = UIScreen.main.bounds.width - (view_image.size.width * scale / 2)
-                                 let maxHeightOffset = UIScreen.main.bounds.height - (view_image.size.height * scale / 2)
-                                 totalDragOffset.width = min(max(widthOffset, -maxWidthOffset), maxWidthOffset)
-                                 totalDragOffset.height = min(max(heightOffset, -maxHeightOffset), maxHeightOffset)
-                                 
-                             }
-                     )
-                   
-                    .gesture(
-                        MagnificationGesture()
-                            .onChanged { value in
-                                let deltaScale = value / self.lastScale
-                                self.scale *= deltaScale
-                                self.scale = min(max(scale, minScale), maxScale)
-                                self.lastScale = value
-                            }
-                            .onEnded { value in
-                                self.lastScale = 1.0
-                            }
+                        .gesture(
+                            MagnificationGesture()
+                                .updating($gestureScale) { value, scale, _ in
+                                    // ピンチイン・アウトによるスケール値を更新
+                                    scale = value
+                                }
+                                .onEnded { scaleValue in
+                                    // スケール値の上限と下限を制限
+                                    self.scale *= scaleValue
+                                    self.scale = max(min(self.scale, 3.0), 1.0)
+                                }
                         )
+                        .gesture(
+                            DragGesture()
+                                .updating($gesturePosition) { value, position, _ in
+                                    // 画像移動の位置を更新
+                                    position = value.translation
+                                }
+                                .onEnded { dragValue in
+                                    // 画像移動の位置を確定
+                                    self.position.width += dragValue.translation.width
+                                    self.position.height += dragValue.translation.height
+                                }
+                        )
+                        .offset(x: position.width, y: position.height)
+                        .scaleEffect(scale)
 
-
-                    .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  500 : 470)
-                    .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
-
-            }else{
-                Image("m4")
-                    .resizable()
-                    .scaledToFill()
-                    .cornerRadius(20)
-                    .onTapGesture {
-                        withAnimation(.spring(response: 0.4,dampingFraction: 0.6)){
-                            self.show.toggle()
+                        .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  500 : 470)
+                        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                    
+                }else{
+                    Image("m4")
+                        .resizable()
+                        .scaledToFill()
+                        .cornerRadius(20)
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.4,dampingFraction: 0.6)){
+                                self.show.toggle()
+                            }
                         }
-                    }
-                    .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  450 : 360)
-                    .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
-            }
-        }
-        .overlay(alignment: .topTrailing, content: {
-            Image(systemName: "xmark.circle")
-                .font(.largeTitle)
-                .foregroundColor(.white)
-                .padding(show ? 30 : 20)
-                .onTapGesture {
-                    image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
-                    auto_remove_image(all_image_url: image_url)
-                    image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
-                    image_url = sort_url(all_image_url :image_url)
-                    Viewsheet.toggle()
+                        .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  450 : 360)
+                        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
                 }
-            
-        })
-        .overlay(alignment: .topLeading, content: {
-            let photo = Image(uiImage: select_image!)
-            //print(photo)
-            let filename = get_file_name(image_url: select_url!)
-            ShareLink(item: photo,
-                      preview: SharePreview(filename,image:photo),
-                      label: { Image(systemName: "square.and.arrow.up")
+            }
+            .overlay(alignment: .topTrailing, content: {
+                Image(systemName: "xmark.circle")
                     .font(.largeTitle)
                     .foregroundColor(.white)
-                    .padding(show ? 30 : 17)
+                    .padding(show ? 30 : 20)
+                    .onTapGesture {
+                        image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
+                        auto_remove_image(all_image_url: image_url)
+                        image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
+                        image_url = sort_url(all_image_url :image_url)
+                        Viewsheet.toggle()
+                    }
+                
             })
-        })
-        .edgesIgnoringSafeArea(.all)
+            .overlay(alignment: .topLeading, content: {
+                let photo = Image(uiImage: select_image!)
+                //print(photo)
+                let filename = get_file_name(image_url: select_url!)
+                ShareLink(item: photo,
+                          preview: SharePreview(filename,image:photo),
+                          label: { Image(systemName: "square.and.arrow.up")
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                        .padding(show ? 30 : 17)
+                })
+            })
+            .edgesIgnoringSafeArea(.all)
     }
 }
 struct Photo: Identifiable {
