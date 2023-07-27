@@ -26,6 +26,7 @@ struct showImage: View {
                             image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
                             auto_remove_image(all_image_url: image_url)
                             image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
+                            image_url = sort_url(all_image_url :image_url)
                             print(image_url)
                         }else{
                             
@@ -91,6 +92,7 @@ struct showImage: View {
                     image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
                     auto_remove_image(all_image_url: image_url)
                     image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
+                    image_url = sort_url(all_image_url :image_url)
                     Viewsheet.toggle()
                 }
             
