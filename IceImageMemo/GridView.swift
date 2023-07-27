@@ -47,7 +47,13 @@ struct GridView: View {
                         }else if(judge_format(file_url: image_url[index]) == "txt"){
                             Button(read_text(text_url: image_url[index])){
                                 @Environment(\.openURL) var openurl
-                                openurl(URL(string: read_text(text_url: image_url[index]))!)
+                                if(can_openURL(url_string: read_text(text_url: image_url[index]))){
+                                    openurl(URL(string: read_text(text_url: image_url[index]))!)
+                                }else{
+                                    let google_url = jump_google_Search(word: read_text(text_url: image_url[index]))
+                                    openurl(google_url!)
+                                    
+                                }
                             }
                             .frame(width: 170, height: 200)
                             .background(Color.black)
