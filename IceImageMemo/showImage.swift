@@ -13,6 +13,8 @@ struct showImage: View {
     @Binding var select_url :URL?
     @Binding var image_url :[URL]
     @Binding var select_image :UIImage?
+    //@State var lastValue: CGFloat = 1.0
+    @State var scale_image: CGFloat = 1.0
     
     var body: some View {
         ZStack(alignment: .top){
@@ -58,16 +60,23 @@ struct showImage: View {
             if let view_image = select_image{
                 Image(uiImage:view_image)
                     .resizable()
-                    .aspectRatio(3024/4032, contentMode: .fit)
+                    .aspectRatio(3024.0/4032.0, contentMode: .fit)
                     .scaledToFill()
                     .cornerRadius(20)
+                    .scaleEffect(scale_image)
                     .onTapGesture {
                         withAnimation(.spring(response: 0.4,dampingFraction: 0.6)){
                             self.show.toggle()
                         }
                     }
+                    .gesture(MagnificationGesture()
+                                    .onChanged { value in
+                                        self.scale_image = value.magnitude
+                                    }
+                        )
                     .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  500 : 470)
                     .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+
             }else{
                 Image("m4")
                     .resizable()
