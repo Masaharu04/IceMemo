@@ -45,6 +45,7 @@ struct showImage: View {
                         
                     })
                     
+                    
                     Label("あと\(remaining_days(image_url: select_url!))日", systemImage: "")
                                .font(.largeTitle)
                                .foregroundColor(.red)
