@@ -22,8 +22,10 @@ struct CameraView: View {
     @State private var isShowingAlert = false
     @State private var alertMessage = ""
     //View内ではこれで呼び出せる　配列格納は228行目いじって〜
+    @Environment(\.scenePhase) var scenephase
     
     var body: some View{
+        let _ = CameraView._printChanges()
         ZStack{
             //let cameraModel = CameraModel(variable2: $variable2)
             CameraPreview(camera: camera)
@@ -160,6 +162,19 @@ struct CameraView: View {
         .onAppear(perform:{
             camera.Check()
         })
+        .onChange(of: scenephase){phase in
+            switch phase{
+            case .active:
+                print("act")
+                camera.isShowingbutton = false
+            case .inactive:
+                print("inact")
+            case .background:
+                print("back")
+            default:
+                print("...")
+            }
+        }
     }
 }
 
