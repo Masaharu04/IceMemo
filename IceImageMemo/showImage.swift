@@ -17,6 +17,7 @@ struct showImage: View {
     var body: some View {
         ZStack(alignment: .top){
                 VStack{
+                   
                     Button(action: {
                         print("remove")
                         //削除ボタンの処理
@@ -35,12 +36,14 @@ struct showImage: View {
                     }, label: {
                         
                         ZStack{
-                            
+                        
                             Image(systemName: "trash.circle")
                                 .font(.system(size: 80))
                                 .foregroundColor(.red)
                                 .padding(.bottom)
                                 .padding(.top)
+                        
+                               
                         }
                         
                     })
@@ -51,6 +54,8 @@ struct showImage: View {
                                .foregroundColor(.red)
                                .padding(.bottom)
                     
+                          
+                    
                 }
             
             .padding(30)
@@ -60,7 +65,7 @@ struct showImage: View {
             if let view_image = select_image{
                 Image(uiImage:view_image)
                     .resizable()
-                    .aspectRatio(3/4,contentMode: .fit)
+                    .aspectRatio(2.5/4,contentMode: .fit)
                     .scaledToFill()
                     .cornerRadius(20)
                     .onTapGesture {
@@ -70,6 +75,8 @@ struct showImage: View {
                     }
                     .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  450 : 460)
                     .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                
+                   
             }else{
                 Image("m4")
                     .resizable()
@@ -111,6 +118,7 @@ struct showImage: View {
             })
         })
         .edgesIgnoringSafeArea(.all)
+ 
     }
 }
 struct Photo: Identifiable {
