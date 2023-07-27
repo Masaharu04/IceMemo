@@ -53,6 +53,7 @@ struct CameraView: View {
                         .fill(.clear)
                         .frame(width: 300, height: 500)
                 }
+                .disabled(camera.is_button_invalid)
                 if camera.isShowingbutton {
                     Button {
                         //ここにurlを配列に格納するコード書く//
@@ -315,17 +316,18 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
                 let turnImage = turn_image(capturedImage)
                 //capturedImage.write(to: capture_list)
                 print(variable2)
+                change_directory_and_save(mode: variable2, uiimage_data: turnImage)
+                /*
                 Task{
                     let c_image = turnImage
                     await waitfunc(mode: variable2, uiimage: c_image)
                 }
-                 
+                */
                 //change_directory_and_save(mode: variable2, uiimage_data: turnImage)
                 is_button_invalid = false
-                    
-                    } else {
-                        print("Captured image is nil")
-                    }
+            } else {
+                print("Captured image is nil")
+            }
         }
     }
     
