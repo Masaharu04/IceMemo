@@ -10,7 +10,7 @@ import AVFoundation
 
 //CameraView
 struct CameraView: View {
-    @Environment(\.openURL) var openURL
+    @Environment(\.openURL) var openurl
     //@StateObject var camera : CameraModel
     @StateObject var camera = CameraModel()
     @State var show = false
@@ -61,7 +61,14 @@ struct CameraView: View {
                         change_directory_and_save_text(mode: camera.variable2, text: camera.save_detectedQRCode!)
                         
                         print(camera.save_detectedQRCode!)
-                        openURL(URL(string: camera.save_detectedQRCode!)!)
+                        if(can_openURL(url_string: camera.save_detectedQRCode!)){
+                            openurl(URL(string: camera.save_detectedQRCode!)!)
+                        }else{
+                            let google_url = jump_google_Search(word: camera.save_detectedQRCode!)
+                            print(google_url!)
+                            openurl(google_url!)
+                        }
+                        //openURL(URL(string: camera.save_detectedQRCode!)!)
 
                     }label: {
                         if let qr_string = camera.save_detectedQRCode{

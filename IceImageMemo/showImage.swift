@@ -13,7 +13,16 @@ struct showImage: View {
     @Binding var select_url :URL?
     @Binding var image_url :[URL]
     @Binding var select_image :UIImage?
+    @State var lastScale: CGFloat = 1.0
+    @State var scale_image: CGFloat = 1.0
     
+    @State var scale: CGFloat = 1.0
+    @State var focusPoint: CGPoint?
+    @State var tapLocation: CGPoint = .zero
+    @GestureState var dragOffset: CGSize = .zero
+    @State var totalDragOffset: CGSize = .zero
+    @State var minScale: CGFloat = 1.0
+    @State var maxScale: CGFloat = 3.0
     var body: some View {
         ZStack(alignment: .top){
                 VStack{
@@ -59,16 +68,54 @@ struct showImage: View {
             if let view_image = select_image{
                 Image(uiImage:view_image)
                     .resizable()
-                    .aspectRatio(3024/4032, contentMode: .fit)
+                    .aspectRatio(3024.0/4032.0, contentMode: .fit)
                     .scaledToFill()
                     .cornerRadius(20)
+                    .scaleEffect(scale)
+                    .offset(x: totalDragOffset.width + dragOffset.width, y: totalDragOffset.height + dragOffset.height)
                     .onTapGesture {
                         withAnimation(.spring(response: 0.4,dampingFraction: 0.6)){
                             self.show.toggle()
                         }
                     }
+//                    .gesture(MagnificationGesture()
+//                                    .onChanged { value in
+//                                        self.scale_image = value.magnitude
+//                                    }
+//                        )
+                    .gesture(
+                         DragGesture()
+                             .updating($dragOffset) { value, state, _ in
+                                 state = value.translation
+                             }
+                             .onEnded { value in
+                                 let widthOffset = totalDragOffset.width + value.translation.width / scale
+                                 let heightOffset = totalDragOffset.height + value.translation.height / scale
+                                 let maxWidthOffset = UIScreen.main.bounds.width - (view_image.size.width * scale / 2)
+                                 let maxHeightOffset = UIScreen.main.bounds.height - (view_image.size.height * scale / 2)
+                                 totalDragOffset.width = min(max(widthOffset, -maxWidthOffset), maxWidthOffset)
+                                 totalDragOffset.height = min(max(heightOffset, -maxHeightOffset), maxHeightOffset)
+                                 
+                             }
+                     )
+                   
+                    .gesture(
+                        MagnificationGesture()
+                            .onChanged { value in
+                                let deltaScale = value / self.lastScale
+                                self.scale *= deltaScale
+                                self.scale = min(max(scale, minScale), maxScale)
+                                self.lastScale = value
+                            }
+                            .onEnded { value in
+                                self.lastScale = 1.0
+                            }
+                        )
+
+
                     .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  500 : 470)
                     .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+
             }else{
                 Image("m4")
                     .resizable()
