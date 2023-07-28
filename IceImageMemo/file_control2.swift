@@ -26,13 +26,13 @@ func auto_remove_image(all_image_url: [URL]){
         let parent_url = delete_url_last_component(image_url: image_url)
         switch parent_url{
         case day_directory:
-            remove_image_judge_by_time(image_url: image_url, remove_time: 10)
+            remove_image_judge_by_time(image_url: image_url, remove_time: 1*60*60*24)
         case week_directory:
-            remove_image_judge_by_time(image_url: image_url, remove_time: 20)
+            remove_image_judge_by_time(image_url: image_url, remove_time: 7*60*60*24)
         case month_directory:
-            remove_image_judge_by_time(image_url: image_url, remove_time: 40)
+            remove_image_judge_by_time(image_url: image_url, remove_time: 30*60*60*24)
         case year_directory:
-            remove_image_judge_by_time(image_url: image_url, remove_time: 60)
+            remove_image_judge_by_time(image_url: image_url, remove_time: 365*60*60*24)
         default:
             continue
         }
@@ -152,7 +152,7 @@ func sort_url(all_image_url :[URL]) -> [URL]{
         let image_name = delete_extension.lastPathComponent
         url_and_path_array.append(url_and_path(image_url: image_url, image_path: image_name))
     }
-    url_and_path_array.sort(by: {$0.image_path < $1.image_path})
+    url_and_path_array.sort(by: {$0.image_path > $1.image_path})
     let result_urls = url_and_path_array.map({(url_and_path) -> URL in return url_and_path.image_url})
     print("----------------------------\n\(result_urls)\n-----------------------------")
     return result_urls
