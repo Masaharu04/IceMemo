@@ -26,7 +26,7 @@ func change_png(uiimage_data: UIImage) -> Data{
 }
 
 func change_jpg(uiimage_data: UIImage) -> Data{
-    guard let jpgimage_data = uiimage_data.jpegData(compressionQuality: 0.5)else {
+    guard let jpgimage_data = uiimage_data.jpegData(compressionQuality: 0.0)else {
         fatalError("変換失敗")
     }
     return jpgimage_data
