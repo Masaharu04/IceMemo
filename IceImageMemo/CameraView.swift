@@ -25,7 +25,7 @@ struct CameraView: View {
     @Environment(\.scenePhase) var scenephase
     
     var body: some View{
-        let _ = CameraView._printChanges()
+        //let _ = CameraView._printChanges()
         ZStack{
             //let cameraModel = CameraModel(variable2: $variable2)
             CameraPreview(camera: camera)
@@ -42,6 +42,7 @@ struct CameraView: View {
 
 
             VStack{
+                Toggle("",isOn: $camera.is_binary)
                 Button{
                     image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
                     auto_remove_image(all_image_url: image_url)
@@ -199,6 +200,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
     @Published var detectedQRCode: String?
     @Published var isShowingbutton = false
     @Published var save_detectedQRCode :String?
+    @Published var is_binary:Bool = true
     var timer:Timer?
 
     private var device: AVCaptureDevice?
@@ -285,11 +287,18 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
             if let capturedImage = capturedImage {
                 let turnImage = turn_image(capturedImage)
                 //capturedImage.write(to: capture_list)
-                let greyImage=make_greyscale(image: turnImage)
-                let binary = make_binary(image: greyImage)
-                let uiimage = convert_CtoU(image: binary)
+                if is_binary{
+                    change_directory_and_save(mode: variable2, uiimage_data: turnImage)
+                }else{
+                    let greyImage=make_greyscale(image: turnImage)
+                    let binary = make_binary(image: greyImage)
+                    let uiimage = convert_CtoU(image: binary)
+                    change_directory_and_save(mode: variable2, uiimage_data: uiimage)
+                   
+                }
+
                 print(variable2)
-                change_directory_and_save(mode: variable2, uiimage_data: uiimage)
+                
                 /*
                 Task{
                     let c_image = turnImage
