@@ -285,8 +285,11 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
             if let capturedImage = capturedImage {
                 let turnImage = turn_image(capturedImage)
                 //capturedImage.write(to: capture_list)
+                let greyImage=make_greyscale(image: turnImage)
+                let binary = make_binary(image: greyImage)
+                let uiimage = convert_CtoU(image: binary)
                 print(variable2)
-                change_directory_and_save(mode: variable2, uiimage_data: turnImage)
+                change_directory_and_save(mode: variable2, uiimage_data: uiimage)
                 /*
                 Task{
                     let c_image = turnImage
