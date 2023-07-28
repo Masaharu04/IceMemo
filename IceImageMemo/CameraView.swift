@@ -10,7 +10,7 @@ import AVFoundation
 
 //CameraView
 struct CameraView: View {
-    
+    @Environment(\.openURL) var openurl
     //@StateObject var camera : CameraModel
     @StateObject var camera = CameraModel()
     @State var show = false
@@ -22,9 +22,10 @@ struct CameraView: View {
     @State private var isShowingAlert = false
     @State private var alertMessage = ""
     //View内ではこれで呼び出せる　配列格納は228行目いじって〜
-    //camera.capture_list
+    @Environment(\.scenePhase) var scenephase
     
     var body: some View{
+        let _ = CameraView._printChanges()
         ZStack{
             //let cameraModel = CameraModel(variable2: $variable2)
             CameraPreview(camera: camera)
@@ -38,13 +39,7 @@ struct CameraView: View {
                             camera.setZoomFactor(zoomFactor: value)
                         }
                 )
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onEnded { value in
-                            focusPoint = value.location
-                            camera.setFocusPoint(point: focusPoint!)
-                        }
-                )
+
 
             VStack{
                 Button{
@@ -57,6 +52,37 @@ struct CameraView: View {
                     Rectangle()
                         .fill(.clear)
                         .frame(width: 300, height: 500)
+                }
+                .disabled(camera.is_button_invalid)
+                if camera.isShowingbutton {
+                    Button {
+                        //ここにurlを配列に格納するコード書く//
+                        //camera.save_detectedQRCode
+                        //String型で格納されている
+                        change_directory_and_save_text(mode: camera.variable2, text: camera.save_detectedQRCode!)
+                        
+                        print(camera.save_detectedQRCode!)
+                        if(can_openURL(url_string: camera.save_detectedQRCode!)){
+                            openurl(URL(string: camera.save_detectedQRCode!)!)
+                        }else{
+                            let google_url = jump_google_Search(word: camera.save_detectedQRCode!)
+                            print(google_url!)
+                            openurl(google_url!)
+                        }
+                        //openURL(URL(string: camera.save_detectedQRCode!)!)
+
+                    }label: {
+                        if let qr_string = camera.save_detectedQRCode{
+                            Text(qr_string)
+                        }else{
+                            Text("")
+                        }
+                    }
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .offset(y: -50) // ボタンの位置を調整
                 }
                 Spacer()
                 //{}この中にカメラの処理を実装する
@@ -138,9 +164,25 @@ struct CameraView: View {
             
             
         }
+//        .alert(isPresented: $camera.isShowingAlert) {
+//            Alert(title: Text("QRコードを読み取りました"), message: Text(camera.alertMessage), dismissButton: .default(Text("OK")))
+//        }
         .onAppear(perform:{
             camera.Check()
         })
+        .onChange(of: scenephase){phase in
+            switch phase{
+            case .active:
+                print("act")
+                camera.isShowingbutton = false
+            case .inactive:
+                print("inact")
+            case .background:
+                print("back")
+            default:
+                print("...")
+            }
+        }
     }
 }
 
@@ -155,6 +197,10 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
     @Published var variable2: Int = 1
     @Published var is_button_invalid:Bool = false
     @Published var detectedQRCode: String?
+    @Published var isShowingbutton = false
+    @Published var save_detectedQRCode :String?
+    var timer:Timer?
+
     private var device: AVCaptureDevice?
     //カメラの権限があるかCheck!
     func Check() {
@@ -187,7 +233,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
              device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
             
 
-            //写真とる
+            //写真とる設定
             let input = try AVCaptureDeviceInput(device: device!)
             
             if self.session.canAddInput(input){
@@ -198,7 +244,7 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
                 self.session.addOutput(self.output)
             }
             
-            //qr読む
+            //qr読む設定
             let metadataOutput = AVCaptureMetadataOutput()
             if session.canAddOutput(metadataOutput) {
                 session.addOutput(metadataOutput)
@@ -216,7 +262,6 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
             print(error.localizedDescription)
         }
     }
-    
     func takePic() {
         let photoOutput = output
         let photoSettings = AVCapturePhotoSettings()
@@ -241,17 +286,18 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
                 let turnImage = turn_image(capturedImage)
                 //capturedImage.write(to: capture_list)
                 print(variable2)
+                change_directory_and_save(mode: variable2, uiimage_data: turnImage)
+                /*
                 Task{
                     let c_image = turnImage
                     await waitfunc(mode: variable2, uiimage: c_image)
                 }
-                 
+                */
                 //change_directory_and_save(mode: variable2, uiimage_data: turnImage)
                 is_button_invalid = false
-                    
-                    } else {
-                        print("Captured image is nil")
-                    }
+            } else {
+                print("Captured image is nil")
+            }
         }
     }
     
@@ -261,10 +307,22 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
            let qrCodeString = metadataObj.stringValue {
             print("Detected QR Code: \(qrCodeString)")
             detectedQRCode = qrCodeString
+            save_detectedQRCode = detectedQRCode
+            isShowingbutton = true
+            //四隅のざひょう
+            //print(metadataObj.corners)
         } else {
+            //print(save_detectedQRCode!)
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
+                self.isShowingbutton = false
+                self.timer = nil
+            }
+            //isShowingbutton = false
             detectedQRCode = nil
             print("No QR Code detected.")
         }
+
     }
     
     func setZoomFactor(zoomFactor: CGFloat) {
