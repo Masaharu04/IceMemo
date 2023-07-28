@@ -26,7 +26,7 @@
 		72E9D45B2A7216550068A901 /* url_control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = url_control.swift; sourceTree = "<group>"; };
 		72E9D45D2A7343A50068A901 /* zoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = zoom.swift; sourceTree = "<group>"; };
 		944E089C2A6FAFA100163123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		D099643E2A6EA0B700B41CE3 /* FedeMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FedeMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D099643E2A6EA0B700B41CE3 /* FadeMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FadeMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D09964412A6EA0B700B41CE3 /* IceImageMemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceImageMemoApp.swift; sourceTree = "<group>"; };
 		D09964432A6EA0B700B41CE3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D09964452A6EA0B900B41CE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 		D099643F2A6EA0B700B41CE3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D099643E2A6EA0B700B41CE3 /* FedeMemo.app */,
+				D099643E2A6EA0B700B41CE3 /* FadeMemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,9 +99,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D099643D2A6EA0B700B41CE3 /* FedeMemo */ = {
+		D099643D2A6EA0B700B41CE3 /* FadeMemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D099644C2A6EA0B900B41CE3 /* Build configuration list for PBXNativeTarget "FedeMemo" */;
+			buildConfigurationList = D099644C2A6EA0B900B41CE3 /* Build configuration list for PBXNativeTarget "FadeMemo" */;
 			buildPhases = (
 				D099643A2A6EA0B700B41CE3 /* Sources */,
 				D099643B2A6EA0B700B41CE3 /* Frameworks */,
@@ -111,9 +111,9 @@
 			);
 			dependencies = (
 			);
-			name = FedeMemo;
+			name = FadeMemo;
 			productName = IceImageMemo;
-			productReference = D099643E2A6EA0B700B41CE3 /* FedeMemo.app */;
+			productReference = D099643E2A6EA0B700B41CE3 /* FadeMemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -144,7 +144,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D099643D2A6EA0B700B41CE3 /* FedeMemo */,
+				D099643D2A6EA0B700B41CE3 /* FadeMemo */,
 			);
 		};
 /* End PBXProject section */
@@ -305,7 +305,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IceImageMemo/Preview Content\"";
-				DEVELOPMENT_TEAM = X492QDP79L;
+				DEVELOPMENT_TEAM = T2SK837QN7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IceImageMemo/Info.plist;
@@ -320,7 +320,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = app.masaharu.misaki.FedeMemo;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.yaaru.ice-memo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -377,7 +377,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D099644C2A6EA0B900B41CE3 /* Build configuration list for PBXNativeTarget "FedeMemo" */ = {
+		D099644C2A6EA0B900B41CE3 /* Build configuration list for PBXNativeTarget "FadeMemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D099644D2A6EA0B900B41CE3 /* Debug */,
