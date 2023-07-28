@@ -244,17 +244,6 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
                 self.session.addOutput(self.output)
             }
             
-            // カメラのアスペクト比を設定
-            if let format = bestFormat(for: device!) {
-                do {
-                    try device!.lockForConfiguration()
-                    device!.activeFormat = format
-                    device!.unlockForConfiguration()
-                } catch {
-                    print("Error setting aspect ratio: \(error.localizedDescription)")
-                }
-            }
-            
             //qr読む設定
             let metadataOutput = AVCaptureMetadataOutput()
             if session.canAddOutput(metadataOutput) {
@@ -273,25 +262,6 @@ class CameraModel: NSObject,ObservableObject,AVCapturePhotoCaptureDelegate,AVCap
             print(error.localizedDescription)
         }
     }
-    
-    func bestFormat(for device: AVCaptureDevice) -> AVCaptureDevice.Format? {
-        var bestFormat: AVCaptureDevice.Format? = nil
-        var maxPixelCount: Int64 = 0
-        
-        for format in device.formats {
-            let dimensions = CMVideoFormatDescriptionGetDimensions(format.formatDescription)
-            let pixelCount = Int64(dimensions.width) * Int64(dimensions.height)
-            
-            // 解像度が現在の最大値よりも大きい場合にのみ更新
-            if pixelCount > maxPixelCount {
-                maxPixelCount = pixelCount
-                bestFormat = format
-            }
-        }
-        
-        return bestFormat
-    }
-    
     func takePic() {
         let photoOutput = output
         let photoSettings = AVCapturePhotoSettings()
