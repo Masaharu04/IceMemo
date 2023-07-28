@@ -18,57 +18,56 @@ struct showImage: View {
     @State var lastOffset: CGSize = .zero // hold last drag value
     @State var scale:CGFloat = 1.0 // pinch scale value
     @State var lastScale: CGFloat = 1.0 // hold last scale value
-    let imageWidth:CGFloat  = 100
-    let imageHeight:CGFloat = 400 // object height for initial placement
+    let imageWidth:CGFloat  = UIScreen.main.bounds.width - 40
+    let imageHeight:CGFloat = 470 // object height for initial placement
     
     var dragGesture: some Gesture {
-        DragGesture()
-            .onChanged {
-                offset = CGSize(width: lastOffset.width + $0.translation.width/lastScale, height: lastOffset.height + $0.translation.height/lastScale)
-                print(offset)
-                print(lastScale)
-                if(offset.width > imageWidth-(imageWidth/2-imageWidth/2/lastScale)){
-                    offset.width = imageWidth-(imageWidth/2-imageWidth/2/lastScale)
+            DragGesture()
+                .onChanged {
+                    offset = CGSize(width: lastOffset.width + $0.translation.width/lastScale, height: lastOffset.height + $0.translation.height/lastScale)
+                    print(offset)
+                    print(lastScale)
+                    if(offset.width > (imageWidth/2-imageWidth/2/lastScale)){
+                        offset.width = (imageWidth/2-imageWidth/2/lastScale)
+                    }
+                    if(offset.width < -(imageWidth/2-imageWidth/2/lastScale)){
+                        offset.width = -(imageWidth/2-imageWidth/2/lastScale)
+                    }
+                    if(offset.height > (imageHeight/2-imageHeight/2/lastScale)){
+                        offset.height = (imageHeight/2-imageHeight/2/lastScale)
+                    }
+                    if(offset.height < -(imageHeight/2-imageHeight/2/lastScale)){
+                        offset.height = -(imageHeight/2-imageHeight/2/lastScale)
+                    }
                 }
-                if(offset.width < -imageWidth+(imageWidth/2-imageWidth/2/lastScale)){
-                    offset.width = -imageWidth+(imageWidth/2-imageWidth/2/lastScale)
+                .onEnded{ _ in
+                    lastOffset = offset
                 }
-                if(offset.height > imageHeight-(imageHeight/2-imageHeight/2/lastScale)){
-                    offset.height = imageHeight-(imageHeight/2-imageHeight/2/lastScale)
-                }
-                if(offset.height < -imageHeight+(imageHeight/2-imageHeight/2/lastScale)){
-                    offset.height = -imageHeight+(imageHeight/2-imageHeight/2/lastScale)
-                }
-            }
-            .onEnded{ _ in
-                lastOffset = offset
-            }
-    }
+        }
 
     var scaleGuesture: some Gesture {
-        MagnificationGesture()
-            .onChanged {
-                scale = $0 * lastScale
-                offset = CGSize(width: lastOffset.width, height: lastOffset.height)
-                if(offset.width > imageWidth-(imageWidth/2-imageWidth/2/scale)){
-                    offset.width = imageWidth-(imageWidth/2-imageWidth/2/scale)
+            MagnificationGesture()
+                .onChanged {
+                    scale = $0 * lastScale
+                    offset = CGSize(width: lastOffset.width, height: lastOffset.height)
+                    if(offset.width > (imageWidth/2-imageWidth/2/scale)){
+                        offset.width = (imageWidth/2-imageWidth/2/scale)
+                    }
+                    if(offset.width < -(imageWidth/2-imageWidth/2/scale)){
+                        offset.width = -(imageWidth/2-imageWidth/2/scale)
+                    }
+                    if(offset.height > (imageHeight/2-imageHeight/2/scale)){
+                        offset.height = (imageHeight/2-imageHeight/2/scale)
+                    }
+                    if(offset.height < -(imageHeight/2-imageHeight/2/scale)){
+                        offset.height = -(imageHeight/2-imageHeight/2/scale)
+                    }
                 }
-                if(offset.width < -imageWidth+(imageWidth/2-imageWidth/2/scale)){
-                    offset.width = -imageWidth+(imageWidth/2-imageWidth/2/scale)
+                .onEnded{ _ in
+                    lastScale = scale
+                    lastOffset = offset
                 }
-                if(offset.height > imageHeight-(imageHeight/2-imageHeight/2/scale)){
-                    offset.height = imageHeight-(imageHeight/2-imageHeight/2/scale)
-                }
-                if(offset.height < -imageHeight+(imageHeight/2-imageHeight/2/scale)){
-                    offset.height = -imageHeight+(imageHeight/2-imageHeight/2/scale)
-                }
-            }
-            .onEnded{ _ in
-                lastScale = scale
-                lastOffset = offset
-            }
-    }
-    
+        }
 
     var body: some View {
         ZStack(alignment: .top){
@@ -118,7 +117,6 @@ struct showImage: View {
                         .aspectRatio(2.5/4,contentMode: .fit)
                         .scaledToFill()
                         .cornerRadius(20)
-                    
                         .onTapGesture {
                             withAnimation(.spring(response: 0.4,dampingFraction: 0.6)){
                                 self.show.toggle()
