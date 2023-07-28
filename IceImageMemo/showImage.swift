@@ -14,14 +14,13 @@ struct showImage: View {
     @Binding var image_url :[URL]
     @Binding var select_image :UIImage?
     
-    @GestureState private var gestureScale: CGFloat = 1.0
-    // 画像移動の位置を保持する変数
-    @GestureState private var gesturePosition: CGSize = .zero
-    @State var scale :CGFloat = 1.0
-    @State var position :CGSize = .zero
-    
+    @State private var scale: CGFloat = 1.0
+    @State private var offset: CGSize = .zero
+    @State private var totalOffset: CGSize = .zero
+
 
     var body: some View {
+        let zoomed = scale > 1.0
         ZStack(alignment: .top){
                 VStack{
                     Button(action: {
@@ -64,46 +63,129 @@ struct showImage: View {
                 .offset(y: show ? 450 : 0)
                 //Image(uiImage: select_image)
                 if let view_image = select_image{
-                    Image(uiImage:view_image)
+                    let magnification = MagnificationGesture()
+                        .onChanged { value in
+                            self.scale = value.magnitude
+                        }
+                        .onEnded { scale in
+                            withAnimation(.spring()) {
+                                self.scale = max(self.scale, 1.0)
+                            }
+                        }
+
+                    let drag = DragGesture()
+                        .onChanged { value in
+                            if self.scale > 1.0 {
+                                self.offset = value.translation
+                            }
+                        }
+                        .onEnded { value in
+                            if self.scale > 1.0 {
+                                let translation = value.translation
+                                let scaledWidth = UIScreen.main.bounds.width * self.scale
+                                let scaledHeight = UIScreen.main.bounds.height * self.scale
+
+                                let frameWidth: CGFloat = show ? UIScreen.main.bounds.width - 40 : UIScreen.main.bounds.width - 40
+                                let frameHeight: CGFloat = show ? 450 : 360
+
+                                let minX = (scaledWidth - frameWidth) / 2
+                                let maxX = frameWidth / 2 - (scaledWidth - frameWidth) / 2
+                                let minY = (scaledHeight - frameHeight) / 2
+                                let maxY = frameHeight / 2 - (scaledHeight - frameHeight) / 2
+
+                                let newX = min(max(self.totalOffset.width + translation.width, -minX), maxX)
+                                let newY = min(max(self.totalOffset.height + translation.height, -minY), maxY)
+
+                                withAnimation(.spring()) {
+                                    self.totalOffset = CGSize(width: newX, height: newY)
+                                    self.offset = .zero
+                                }
+                            }
+                        }
+                    Image(uiImage:view_image) // 画像を表示する部分に実際の画像を指定してください
                         .resizable()
-                        .aspectRatio(3024.0/4032.0, contentMode: .fit)
-                        .scaledToFill()
+                        .scaledToFit()
                         .cornerRadius(20)
+                        .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  450 : 360)
+                        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
+                        .scaleEffect(scale)
+                        .offset(x: offset.width + totalOffset.width, y: offset.height + totalOffset.height)
+                        .gesture(
+                            SimultaneousGesture(magnification, drag)
+                        )
                         .onTapGesture {
                             withAnimation(.spring(response: 0.4,dampingFraction: 0.6)){
                                 self.show.toggle()
                             }
                         }
-                        .gesture(
-                            MagnificationGesture()
-                                .updating($gestureScale) { value, scale, _ in
-                                    // ピンチイン・アウトによるスケール値を更新
-                                    scale = value
-                                }
-                                .onEnded { scaleValue in
-                                    // スケール値の上限と下限を制限
-                                    self.scale *= scaleValue
-                                    self.scale = max(min(self.scale, 3.0), 1.0)
-                                }
-                        )
-                        .gesture(
-                            DragGesture()
-                                .updating($gesturePosition) { value, position, _ in
-                                    // 画像移動の位置を更新
-                                    position = value.translation
-                                }
-                                .onEnded { dragValue in
-                                    // 画像移動の位置を確定
-                                    self.position.width += dragValue.translation.width
-                                    self.position.height += dragValue.translation.height
-                                }
-                        )
-                        .offset(x: position.width, y: position.height)
-                        .scaleEffect(scale)
+                        //.animation(.spring())
+                
 
-                        .frame(maxWidth: show ? .infinity : UIScreen.main.bounds.width - 40,maxHeight:show ?  500 : 470)
-                        .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
-                    
+//                        Image(uiImage:view_image)
+//                            .resizable()
+//                            .aspectRatio(3024.0/4032.0, contentMode: .fit)
+//                            .scaledToFill()
+//                            .cornerRadius(20)
+//                            .onTapGesture {
+//                                withAnimation(.spring(response: 0.4,dampingFraction: 0.6)){
+//                                    self.show.toggle()
+//                                }
+//                            }
+//                            .scaleEffect(scale)
+//                            .offset(x: offset.width + totalOffset.width, y: offset.height + totalOffset.height)
+//                            .gesture(
+//                                MagnificationGesture()
+//                                    .onChanged { value in
+//                                        self.scale = value.magnitude
+//                                    }
+//                                    .onEnded { scale in
+//                                        withAnimation(.spring()) {
+//                                            self.scale = 1.0
+//                                            self.totalOffset = .zero
+//                                        }
+//                                    }
+//                            )
+//                            .gesture(
+//                                DragGesture()
+//                                    .onChanged { value in
+//                                        if self.scale > 1.0 {
+//                                            self.offset = value.translation
+//                                        }
+//                                    }
+//                                    .onEnded { value in
+//                                        if self.scale > 1.0 {
+//                                            let translation = value.translation
+//                                            let scaledWidth = UIScreen.main.bounds.width * self.scale
+//                                            let scaledHeight = UIScreen.main.bounds.height * self.scale
+//
+//                                            let minX = (scaledWidth - UIScreen.main.bounds.width) / 2
+//                                            let maxX = UIScreen.main.bounds.width / 2 - (scaledWidth - UIScreen.main.bounds.width) / 2
+//                                            let minY = (scaledHeight - UIScreen.main.bounds.height) / 2
+//                                            let maxY = UIScreen.main.bounds.height / 2 - (scaledHeight - UIScreen.main.bounds.height) / 2
+//
+//                                            let newX = min(max(self.totalOffset.width + translation.width, -minX), maxX)
+//                                            let newY = min(max(self.totalOffset.height + translation.height, -minY), maxY)
+//
+//                                            withAnimation(.spring()) {
+//                                                self.totalOffset = CGSize(width: newX, height: newY)
+//                                                self.offset = .zero
+//                                            }
+//                                        }
+//                                    }
+//                            )
+//                            .simultaneousGesture(
+//                                TapGesture(count: 2)
+//                                    .onEnded {
+//                                        withAnimation(.spring()) {
+//                                            if self.scale > 1.0 {
+//                                                self.scale = 1.0
+//                                                self.totalOffset = .zero
+//                                            } else {
+//                                                self.scale = 2.0
+//                                            }
+//                                        }
+//                                    }
+//                            )
                 }else{
                     Image("m4")
                         .resizable()
@@ -165,3 +247,6 @@ struct showImage_Previews: PreviewProvider {
         showImage(Viewsheet: .constant(false),select_url: .constant(change_name_to_url(image_name: "")), image_url: .constant([change_name_to_url(image_name: "")]), select_image: .constant(read_image2(image_url: change_name_to_url(image_name: ""))))
     }
 }
+
+
+
