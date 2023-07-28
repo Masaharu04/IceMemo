@@ -60,9 +60,11 @@ struct showImage: View {
                 if let view_image = select_image{
                     Image(uiImage:view_image)
                         .resizable()
-                        .aspectRatio(3024.0/4032.0, contentMode: .fit)
+                        .aspectRatio(2.5/4,contentMode: .fit)
                         .scaledToFill()
                         .cornerRadius(20)
+                        .position(location)
+                    
                         .onTapGesture {
                             withAnimation(.spring(response: 0.4,dampingFraction: 0.6)){
                                 self.show.toggle()
