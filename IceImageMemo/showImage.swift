@@ -49,6 +49,9 @@ struct showImage: View {
             MagnificationGesture()
                 .onChanged {
                     scale = $0 * lastScale
+                    if scale < 1.0 {
+                        scale = 1.0
+                    }
                     offset = CGSize(width: lastOffset.width, height: lastOffset.height)
                     if(offset.width > (imageWidth/2-imageWidth/2/scale)){
                         offset.width = (imageWidth/2-imageWidth/2/scale)
