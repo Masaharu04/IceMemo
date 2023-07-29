@@ -42,7 +42,7 @@ struct CameraView: View {
 
 
             VStack{
-                Toggle("",isOn: $camera.is_binary)
+//                Toggle("",isOn: $camera.is_binary)
                 Button{
                     image_url = all_file_url(directory_url: change_name_to_url(image_name: ""))
                     auto_remove_image(all_image_url: image_url)
