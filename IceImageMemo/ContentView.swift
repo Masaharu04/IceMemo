@@ -27,6 +27,7 @@ enum Tap :String{
     case month
     case year
 }
+var is_first:Bool = true
 
 
 struct ContentView: View{
@@ -34,9 +35,12 @@ struct ContentView: View{
         make_directory_2()
     }
     var body: some View{
-        CameraView()
+        if is_first == true{
+            tutroial_View()
+        }else{
+            CameraView()
+        }
     }
-    
 }
 
 struct ContentView_Preiews: PreviewProvider{

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72E7CEFE2A9F0E3600A694FA /* tutroial_View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E7CEFD2A9F0E3600A694FA /* tutroial_View.swift */; };
 		72E9D45C2A7216550068A901 /* url_control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E9D45B2A7216550068A901 /* url_control.swift */; };
 		72E9D45E2A7343A50068A901 /* convert_image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E9D45D2A7343A50068A901 /* convert_image.swift */; };
 		D09964422A6EA0B700B41CE3 /* IceImageMemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09964412A6EA0B700B41CE3 /* IceImageMemoApp.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		72E7CEFD2A9F0E3600A694FA /* tutroial_View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tutroial_View.swift; sourceTree = "<group>"; };
 		72E9D45B2A7216550068A901 /* url_control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = url_control.swift; sourceTree = "<group>"; };
 		72E9D45D2A7343A50068A901 /* convert_image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = convert_image.swift; sourceTree = "<group>"; };
 		944E089C2A6FAFA100163123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -72,11 +74,12 @@
 			children = (
 				944E089C2A6FAFA100163123 /* Info.plist */,
 				D09964412A6EA0B700B41CE3 /* IceImageMemoApp.swift */,
+				72E7CEFD2A9F0E3600A694FA /* tutroial_View.swift */,
+				D09964572A6EED0500B41CE3 /* file_control.swift */,
 				D09964432A6EA0B700B41CE3 /* ContentView.swift */,
 				D09964512A6EE74800B41CE3 /* GridView.swift */,
 				D09964532A6EE76A00B41CE3 /* showImage.swift */,
 				D09964552A6EE82800B41CE3 /* CameraView.swift */,
-				D09964572A6EED0500B41CE3 /* file_control.swift */,
 				D09964592A6EED1900B41CE3 /* file_control2.swift */,
 				D099645B2A6EED3000B41CE3 /* date_control.swift */,
 				D099645D2A6EED6000B41CE3 /* exif_control.swift */,
@@ -174,6 +177,7 @@
 				D09964542A6EE76B00B41CE3 /* showImage.swift in Sources */,
 				D09964582A6EED0500B41CE3 /* file_control.swift in Sources */,
 				D099645E2A6EED6000B41CE3 /* exif_control.swift in Sources */,
+				72E7CEFE2A9F0E3600A694FA /* tutroial_View.swift in Sources */,
 				D09964562A6EE82800B41CE3 /* CameraView.swift in Sources */,
 				D09964422A6EA0B700B41CE3 /* IceImageMemoApp.swift in Sources */,
 				72E9D45C2A7216550068A901 /* url_control.swift in Sources */,
