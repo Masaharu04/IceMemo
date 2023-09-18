@@ -24,7 +24,6 @@ struct GridView: View {
     
     var body: some View {
         ZStack{
-
             ScrollView{
                 
                 LazyVGrid(columns: columns){
@@ -71,14 +70,29 @@ struct GridView: View {
                             }
                         }
                     }
+                    
                 }
+                .background(GeometryReader {
+                        Color.clear.preference(
+                            key: OffsetPreferenceKey.self,
+                            value: $0.frame(in: .global).origin.y
+                        )
+                    })
+                .onPreferenceChange(OffsetPreferenceKey.self) { offset in
+                    let offset_prev = offset
+                    if offset_prev == offset{
+                        manger.reset()
+                        manger.start()
+                    }
+                }
+                
+                
                 .padding(.horizontal,12)
                 .padding(.top,60)
-                
                 .fullScreenCover(isPresented: $shet, onDismiss:{
                     manger.start()
                 },
-                content:{
+                                    content:{
                     showImage(Viewsheet: $shet,select_url: $selected_url, image_url: $image_url, select_image: $selected_image)
                     
                 })
@@ -98,7 +112,6 @@ struct GridView: View {
                     }
                 }
                 .onEnded({value in
-                    
                     if viewstate.width < -50{
                         show = false
                     }
@@ -195,3 +208,11 @@ class ManagerClass: ObservableObject {
     }
     
 }
+
+struct OffsetPreferenceKey: PreferenceKey {
+    static var defaultValue = CGFloat.zero
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value += nextValue()
+    }
+}
+
