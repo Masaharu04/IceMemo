@@ -27,7 +27,7 @@ enum Tap :String{
     case month
     case year
 }
-var is_first:Bool = true
+var is_first:Bool = false
 
 
 struct ContentView: View{
