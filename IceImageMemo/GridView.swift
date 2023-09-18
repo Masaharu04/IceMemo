@@ -142,15 +142,19 @@ struct arrow: View {
             Spacer()
             HStack{
                 Spacer()
+                    Text("スワイプでホームヘ戻る")
+                    .font(.system(size: 20))
                     Image(systemName: "arrowshape.left.fill")
-                        .font(.system(size: 75))
-                        .offset(x:is_move ? 0:20,y:0)
-                        .animation(Animation.easeInOut(duration: 1.0)
-                            .delay(1.0)
-                            .repeatForever(autoreverses: true),value:is_anime)
-                        .opacity(is_fade ? 1.0 : 0.0)
-                        .animation(Animation.linear, value: is_fade)
+                    .font(.system(size: 75))
             }
+            .foregroundColor(Color.black.opacity(0.8))
+            .offset(x:is_move ? 0:20,y:0)
+            .animation(Animation.easeInOut(duration: 1.0)
+                .delay(1.0)
+                .repeatForever(autoreverses: true),value:is_anime)
+            .opacity(is_fade ? 1.0 : 0.0)
+            .animation(Animation.linear, value: is_fade)
+
         }
     }
 }
