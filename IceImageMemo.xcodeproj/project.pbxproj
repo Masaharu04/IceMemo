@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72085CF42E65C26F0056926B /* MainCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72085CF32E65C2620056926B /* MainCameraView.swift */; };
+		72085CF82E65C6A50056926B /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72085CF72E65C6920056926B /* CameraService.swift */; };
 		727320562AA7521A0003BEB2 /* showImage_tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727320552AA7521A0003BEB2 /* showImage_tutorial.swift */; };
+		72DCA1A22E6C0C0C00A9E2CE /* MainCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA1A12E6C0C0300A9E2CE /* MainCameraViewModel.swift */; };
 		72E7CEFE2A9F0E3600A694FA /* tutroial_View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E7CEFD2A9F0E3600A694FA /* tutroial_View.swift */; };
 		72E9D45C2A7216550068A901 /* url_control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E9D45B2A7216550068A901 /* url_control.swift */; };
 		72E9D45E2A7343A50068A901 /* convert_image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E9D45D2A7343A50068A901 /* convert_image.swift */; };
@@ -25,7 +28,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		72085CF32E65C2620056926B /* MainCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCameraView.swift; sourceTree = "<group>"; };
+		72085CF72E65C6920056926B /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		727320552AA7521A0003BEB2 /* showImage_tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = showImage_tutorial.swift; sourceTree = "<group>"; };
+		72DCA1A12E6C0C0300A9E2CE /* MainCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCameraViewModel.swift; sourceTree = "<group>"; };
 		72E7CEFD2A9F0E3600A694FA /* tutroial_View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tutroial_View.swift; sourceTree = "<group>"; };
 		72E9D45B2A7216550068A901 /* url_control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = url_control.swift; sourceTree = "<group>"; };
 		72E9D45D2A7343A50068A901 /* convert_image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = convert_image.swift; sourceTree = "<group>"; };
@@ -82,6 +88,9 @@
 				D09964512A6EE74800B41CE3 /* GridView.swift */,
 				D09964532A6EE76A00B41CE3 /* showImage.swift */,
 				D09964552A6EE82800B41CE3 /* CameraView.swift */,
+				72085CF32E65C2620056926B /* MainCameraView.swift */,
+				72DCA1A12E6C0C0300A9E2CE /* MainCameraViewModel.swift */,
+				72085CF72E65C6920056926B /* CameraService.swift */,
 				D09964572A6EED0500B41CE3 /* file_control.swift */,
 				D09964592A6EED1900B41CE3 /* file_control2.swift */,
 				D099645B2A6EED3000B41CE3 /* date_control.swift */,
@@ -179,11 +188,14 @@
 				D099645C2A6EED3000B41CE3 /* date_control.swift in Sources */,
 				D09964542A6EE76B00B41CE3 /* showImage.swift in Sources */,
 				D09964582A6EED0500B41CE3 /* file_control.swift in Sources */,
+				72085CF82E65C6A50056926B /* CameraService.swift in Sources */,
 				D099645E2A6EED6000B41CE3 /* exif_control.swift in Sources */,
+				72085CF42E65C26F0056926B /* MainCameraView.swift in Sources */,
 				72E7CEFE2A9F0E3600A694FA /* tutroial_View.swift in Sources */,
 				D09964562A6EE82800B41CE3 /* CameraView.swift in Sources */,
 				D09964422A6EA0B700B41CE3 /* IceImageMemoApp.swift in Sources */,
 				727320562AA7521A0003BEB2 /* showImage_tutorial.swift in Sources */,
+				72DCA1A22E6C0C0C00A9E2CE /* MainCameraViewModel.swift in Sources */,
 				72E9D45C2A7216550068A901 /* url_control.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -317,7 +329,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IceImageMemo/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "メモの対象となる写真を取るために使用";
+				INFOPLIST_KEY_NSCameraUsageDescription = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -351,7 +363,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IceImageMemo/Info.plist;
-				INFOPLIST_KEY_NSCameraUsageDescription = "メモの対象となる写真を取るために使用";
+				INFOPLIST_KEY_NSCameraUsageDescription = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

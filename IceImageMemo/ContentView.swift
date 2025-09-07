@@ -29,8 +29,8 @@ enum Tap :String{
 }
 var is_first:Bool = false
 
-
 struct ContentView: View{
+    @StateObject private var vm = MainCameraViewModelImpl(service: CameraServiceImpl())
     init(){
         make_directory_2()
     }
@@ -38,7 +38,8 @@ struct ContentView: View{
         if is_first == true{
             tutroial_View()
         }else{
-            CameraView()
+//            CameraView()
+            MainCameraView(vm: vm)
         }
     }
 }
