@@ -27,9 +27,7 @@ struct MainCameraView<VM: MainCameraViewModelImpl>: View {
                             .clipped()
                             .cornerRadius(10)
                     }
-        
                     Spacer()
-                    
                     Button(
                         action: vm.onTakePhoto
                     ){
@@ -43,7 +41,6 @@ struct MainCameraView<VM: MainCameraViewModelImpl>: View {
                         }
                     }
                     Spacer()
-                    
                     expirationDateButton(selection: $vm.expirationDate)
                         .frame(width: 80, height: 64)
                 }

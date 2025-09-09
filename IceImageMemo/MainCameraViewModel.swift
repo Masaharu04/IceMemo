@@ -36,6 +36,9 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
                 self?.capturedImage = image
+                if let expiration = self?.expirationDate {
+                    self?.storePhoto(expiration: expiration, image: image)
+                }
             }
             .store(in: &bag)
     }
@@ -73,3 +76,35 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     }
     
 }
+extension MainCameraViewModelImpl {
+    
+    func storePhoto(expiration: Expiration, image: UIImage) {
+        let saveUrl = makeUrl(expiration: expiration)
+        guard let imageJpg = image.jpegData(compressionQuality: 0.0) else {
+            return
+        }
+        do {
+            try imageJpg.write(to: saveUrl)
+        } catch {
+            return
+        }
+    }
+    
+    private func makeUrl(expiration: Expiration) -> URL {
+        let formatter = DateFormatter()
+        formatter.calendar = .init(identifier: .gregorian)
+        formatter.timeZone = .current
+        formatter.locale = .current
+        formatter.dateFormat = "yyyyMMddHHmmss"
+        
+        let timestamp = formatter.string(from: Date())
+        let filename = "\(expiration.rawValue)/\(timestamp).jpg"
+        
+        guard let documentsURL = FileManager.default.urls(for: .documentDirectory,
+                                                          in: .userDomainMask).first else {
+            fatalError("ドキュメントディレクトリのURL取得に失敗しました")
+        }
+        return documentsURL.appendingPathComponent(filename)
+    }
+}
+
