@@ -20,6 +20,9 @@ struct MainCameraView<VM: MainCameraViewModelImpl>: View {
                             .frame(width: 72, height: 72)
                             .clipped()
                             .cornerRadius(10)
+                            .onTapGesture {
+                                vm.onTapAlbumButton()
+                            }
                     }else{
                         Rectangle()
                             .frame(width: 72, height: 72)
@@ -41,7 +44,7 @@ struct MainCameraView<VM: MainCameraViewModelImpl>: View {
                         }
                     }
                     Spacer()
-                    expirationDateButton(selection: $vm.expirationDate)
+                    expirationDateButton(selection: $vm.expirationType)
                         .frame(width: 80, height: 64)
                 }
             }
@@ -53,15 +56,15 @@ struct MainCameraView<VM: MainCameraViewModelImpl>: View {
         }
         .onDisappear {
             vm.onDisappear()
-        } 
+        }
     }
 }
 
 enum Expiration: String, CaseIterable, Identifiable {
-    case day = "Day"
-    case week = "Week"
-    case month = "Month"
-    case year = "Year"
+    case day = "day"
+    case week = "week"
+    case month = "month"
+    case year = "year"
     var id: Self { self }
 
     var next: Expiration {

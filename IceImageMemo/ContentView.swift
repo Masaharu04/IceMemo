@@ -30,9 +30,18 @@ enum Tap :String{
 var is_first:Bool = false
 
 struct ContentView: View{
-    @StateObject private var vm = MainCameraViewModelImpl(service: CameraServiceImpl())
-    init(){
-        make_directory_2()
+    @StateObject private var coordinator: AppCoordinator
+    let vm: MainCameraViewModelImpl
+
+    init() {
+        let container = AppContainer(
+            makePhotoUseCase: { photoUseCaseImpl() }
+        )
+        let coordinator = AppCoordinator(container: container)
+        _coordinator = StateObject(wrappedValue: coordinator)
+        let service = CameraServiceImpl()
+        self.vm = MainCameraViewModelImpl(service: service, coordinator: coordinator)
+        vm.viewdidLoad()
     }
     var body: some View{
         if is_first == true{
@@ -40,6 +49,9 @@ struct ContentView: View{
         }else{
 //            CameraView()
             MainCameraView(vm: vm)
+                .fullScreenCover(item: $coordinator.presentedRoute) { route in
+                    coordinator.destinationView(for: route)
+                }
         }
     }
 }

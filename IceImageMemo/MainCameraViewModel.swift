@@ -6,7 +6,9 @@ import AVFoundation
 protocol MainCameraViewModel: ObservableObject {
     var capturedImage: UIImage? { get }
     var session: AVCaptureSession { get }
-    var expirationDate: Expiration { get set }
+    var isPresented: Bool { get }
+    var expirationType: Expiration { get set }
+    func presentSheet()
     func onAppear()
     func viewdidLoad()
     func onTakePhoto()
@@ -17,26 +19,30 @@ protocol MainCameraViewModel: ObservableObject {
 
 final class MainCameraViewModelImpl: MainCameraViewModel {
     @Published var capturedImage: UIImage?
-    @Published var expirationDate: Expiration = .day {
+    @Published var expirationType: Expiration = .day {
         didSet {
-            print("選択肢が変更されました: \(expirationDate.rawValue)")
+            print("選択肢が変更されました: \(expirationType.rawValue)")
         }
     }
+    @Published var isPresented: Bool = false
     private let service: CameraService
     private var bag = Set<AnyCancellable>()
     var session: AVCaptureSession{
         service.session
     }
+    private weak var coordinator: AppCoordinator?
     init(
         service: CameraService,
+        coordinator: AppCoordinator
     ) {
         self.service = service
+        self.coordinator = coordinator
         service.photoPublisher
             .compactMap { UIImage(data: $0) }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
                 self?.capturedImage = image
-                if let expiration = self?.expirationDate {
+                if let expiration = self?.expirationType {
                     self?.storePhoto(expiration: expiration, image: image)
                 }
             }
@@ -55,8 +61,12 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
         service.stopRunning()
     }
     
+    func presentSheet() {
+        isPresented = true
+    }
+    
     func viewdidLoad() {
-        //TODO: ロードした時
+        makeDirectories()
     }
     
     func zoomIn() {
@@ -72,7 +82,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     }
     
     func onTapAlbumButton() {
-        //TODO: 画面遷移できればcordinatorパターンを使用したい
+        coordinator?.present(.album)
     }
     
 }
@@ -105,6 +115,28 @@ extension MainCameraViewModelImpl {
             fatalError("ドキュメントディレクトリのURL取得に失敗しました")
         }
         return documentsURL.appendingPathComponent(filename)
+    }
+    
+    private func makeDirectories() {
+        guard let docURL = FileManager.default.urls(for: .documentDirectory,
+                                                    in: .userDomainMask).first else {
+            fatalError("ドキュメントディレクトリのURL取得に失敗")
+        }
+        
+        let subfolders = ["day", "week", "month", "year"]
+        let fileManager = FileManager.default
+        
+        for name in subfolders {
+            let dirURL = docURL.appendingPathComponent(name)
+            if !fileManager.fileExists(atPath: dirURL.path) {
+                do {
+                    try fileManager.createDirectory(at: dirURL,
+                                                    withIntermediateDirectories: false)
+                } catch {
+                    print("ディレクトリ作成に失敗: \(name), error: \(error)")
+                }
+            }
+        }
     }
 }
 
