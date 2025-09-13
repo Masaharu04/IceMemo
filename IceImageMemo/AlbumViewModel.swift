@@ -3,7 +3,7 @@ import Foundation
 protocol AlbumViewModel: ObservableObject {
     var photoUrls: [URL] { get }
     func fetch() async -> [URL]
-    func onAppear() async
+    func onAppear()
 }
 
 
@@ -20,7 +20,7 @@ final class AlbumViewModelImpl: AlbumViewModel {
         self.photoUseCase.fetch()
     }
     
-    func onAppear() async {
+    func onAppear() {
         let urls = fetch()
         self.photoUrls = urls
     }

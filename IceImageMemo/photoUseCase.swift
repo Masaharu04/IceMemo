@@ -36,6 +36,13 @@ final class photoUseCaseImpl: PhotoUseCase {
                 print("一覧取得失敗: \(dir.lastPathComponent) \(error)")
             }
         }
+        
+        imageURLs.sort {
+            let a = (try? $0.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate) ?? .distantPast
+            let b = (try? $1.resourceValues(forKeys: [.contentModificationDateKey]).contentModificationDate) ?? .distantPast
+            return a > b
+        }
+        
         return imageURLs
     }
 }

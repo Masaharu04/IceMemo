@@ -15,7 +15,6 @@ struct AlbumView<VM: AlbumViewModelImpl>: View {
                     ForEach(vm.photoUrls, id: \.self) { url in
                         photoCell(url: url)
                     }
-                    .padding(.horizontal, 24)
                 } else {
                     Image("sampleImage")
                         .resizable()
@@ -26,10 +25,9 @@ struct AlbumView<VM: AlbumViewModelImpl>: View {
                         .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
                 }
             }
+            .padding(.top, 16)
             .onAppear {
-                Task {
-                    await vm.onAppear()
-                }
+                vm.onAppear()
             }
         }
     }
@@ -41,13 +39,13 @@ extension AlbumView {
                 Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFit()
+                    .clipped()
+                    .cornerRadius(20)
+                    .frame(maxWidth: 200, maxHeight: 200)
             } else {
-                Color.gray // 読み込み失敗時のプレースホルダー
+                Image("sampleImage")
             }
         }
-        .clipped()
-        .cornerRadius(20)
-        .frame(maxWidth: 200, maxHeight: 200)
         .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
     }
 }

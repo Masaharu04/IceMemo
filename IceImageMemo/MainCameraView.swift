@@ -13,22 +13,26 @@ struct MainCameraView<VM: MainCameraViewModelImpl>: View {
             VStack(spacing: 0) {
                 Spacer()
                 HStack(alignment: .center){
-                    if let image = vm.capturedImage {
-                        Image(uiImage: image)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 72, height: 72)
-                            .clipped()
-                            .cornerRadius(10)
-                            .onTapGesture {
-                                vm.onTapAlbumButton()
+                    Group {
+                        if let url = vm.fetchLastPhoto() {
+                            if let uiImage = UIImage(contentsOfFile: url.path) {
+                                Image(uiImage: uiImage)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 72, height: 72)
+                                    .clipped()
+                                    .cornerRadius(10)
                             }
-                    }else{
-                        Rectangle()
-                            .frame(width: 72, height: 72)
-                            .background(Color.gray.opacity(0.2))
-                            .clipped()
-                            .cornerRadius(10)
+                        }else{
+                            Rectangle()
+                                .frame(width: 72, height: 72)
+                                .background(Color.gray.opacity(0.2))
+                                .clipped()
+                                .cornerRadius(10)
+                        }
+                    }
+                    .onTapGesture {
+                        vm.onTapAlbumButton()
                     }
                     Spacer()
                     Button(

@@ -4,7 +4,6 @@ import Combine
 import AVFoundation
 
 protocol MainCameraViewModel: ObservableObject {
-    var capturedImage: UIImage? { get }
     var session: AVCaptureSession { get }
     var isPresented: Bool { get }
     var expirationType: Expiration { get set }
@@ -18,7 +17,6 @@ protocol MainCameraViewModel: ObservableObject {
 }
 
 final class MainCameraViewModelImpl: MainCameraViewModel {
-    @Published var capturedImage: UIImage?
     @Published var expirationType: Expiration = .day {
         didSet {
             print("選択肢が変更されました: \(expirationType.rawValue)")
@@ -26,6 +24,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     }
     @Published var isPresented: Bool = false
     private let service: CameraService
+    private var photoUseCase: PhotoUseCase
     private var bag = Set<AnyCancellable>()
     var session: AVCaptureSession{
         service.session
@@ -33,15 +32,17 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     private weak var coordinator: AppCoordinator?
     init(
         service: CameraService,
-        coordinator: AppCoordinator
+        coordinator: AppCoordinator,
+        photoUseCase: photoUseCaseImpl
     ) {
         self.service = service
         self.coordinator = coordinator
+        self.photoUseCase = photoUseCase
         service.photoPublisher
             .compactMap { UIImage(data: $0) }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
-                self?.capturedImage = image
+                self?.objectWillChange.send()
                 if let expiration = self?.expirationType {
                     self?.storePhoto(expiration: expiration, image: image)
                 }
@@ -98,6 +99,11 @@ extension MainCameraViewModelImpl {
         } catch {
             return
         }
+    }
+    
+    func fetchLastPhoto() -> URL? {
+       let photoUrls =  self.photoUseCase.fetch()
+        return photoUrls.first
     }
     
     private func makeUrl(expiration: Expiration) -> URL {

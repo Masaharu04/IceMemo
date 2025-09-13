@@ -40,16 +40,16 @@ struct ContentView: View{
         let coordinator = AppCoordinator(container: container)
         _coordinator = StateObject(wrappedValue: coordinator)
         let service = CameraServiceImpl()
-        self.vm = MainCameraViewModelImpl(service: service, coordinator: coordinator)
+        let photoUseCase = photoUseCaseImpl()
+        self.vm = MainCameraViewModelImpl(service: service, coordinator: coordinator, photoUseCase: photoUseCase)
         vm.viewdidLoad()
     }
     var body: some View{
         if is_first == true{
             tutroial_View()
         }else{
-//            CameraView()
             MainCameraView(vm: vm)
-                .fullScreenCover(item: $coordinator.presentedRoute) { route in
+                .sheet(item: $coordinator.presentedRoute) { route in
                     coordinator.destinationView(for: route)
                 }
         }
