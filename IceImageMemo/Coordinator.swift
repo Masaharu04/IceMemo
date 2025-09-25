@@ -5,6 +5,7 @@ enum AppRoute: Identifiable {
     case album
     case setting
     case tutorial
+    case detail(URL)
     
     var id: String {
         switch self {
@@ -14,7 +15,9 @@ enum AppRoute: Identifiable {
             return "setting"
         case .tutorial:
             return "tutorial"
-        } 
+        case .detail:
+            return "detail"
+        }
     }
 }
 
@@ -23,6 +26,10 @@ struct AppContainer {
     
     func makeAlbumViewModel() -> AlbumViewModelImpl {
         AlbumViewModelImpl(photoUseCase: makePhotoUseCase())
+    }
+    
+    func makeDetailViewModel(imageUrl: URL) -> DetailViewModelImpl {
+        DetailViewModelImpl(photoUseCase: makePhotoUseCase(), imageURL: imageUrl)
     }
 }
 
@@ -52,6 +59,8 @@ final class AppCoordinator: AppCoordinatorProtocol {
             Text("Setting")
         case .tutorial:
             Text("Tutorial")
+        case .detail(let imageUrl):
+            DetailView(vm: self.container.makeDetailViewModel(imageUrl: imageUrl))
         }
     }
 }

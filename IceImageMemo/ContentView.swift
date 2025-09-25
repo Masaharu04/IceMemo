@@ -52,6 +52,7 @@ struct ContentView: View{
                 .sheet(item: $coordinator.presentedRoute) { route in
                     coordinator.destinationView(for: route)
                 }
+                .environmentObject(coordinator)
         }
     }
 }

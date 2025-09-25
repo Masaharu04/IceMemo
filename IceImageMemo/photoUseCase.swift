@@ -3,6 +3,8 @@ import SwiftUI
 
 protocol PhotoUseCase {
     func fetch() -> [URL]
+    func deltePhoto(imageUrl: URL)
+    func getRemainDate(imageUrl: URL) -> String
 }
 
 final class photoUseCaseImpl: PhotoUseCase {
@@ -44,5 +46,44 @@ final class photoUseCaseImpl: PhotoUseCase {
         }
         
         return imageURLs
+    }
+    
+    func deltePhoto(imageUrl: URL) {
+        let filemanager = FileManager.default
+        do {
+            try filemanager.removeItem(at: imageUrl)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func getRemainDate(imageUrl: URL) -> String {
+        let fileName = imageUrl.lastPathComponent
+        let nameWithoutExt = fileName.replacingOccurrences(of: ".jpg", with: "")
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .gregorian)
+        formatter.locale = Locale(identifier: "ja_JP")
+        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = "yyyyMMddHHmmss"
+        
+        guard let imageDate = formatter.date(from: nameWithoutExt) else {
+            return "日付に変換できません: \(nameWithoutExt)"
+        }
+        let directoryName = imageUrl.deletingLastPathComponent().lastPathComponent
+        
+        
+        let now = Date()
+
+        let remainSeconds = imageDate.timeIntervalSince(now)
+
+        if remainSeconds > 0 {
+            let diff = Calendar.current.dateComponents([.day, .hour, .minute], from: now, to: imageDate)
+            if let d = diff.day, let h = diff.hour, let m = diff.minute {
+                return "残り \(d)日 \(h)時間 \(m)分"
+            }
+        } else {
+            return "期限切れです"
+        }
+        return "日付の取得に失敗しました。"
     }
 }

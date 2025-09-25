@@ -24,5 +24,6 @@ final class AlbumViewModelImpl: AlbumViewModel {
         let urls = fetch()
         self.photoUrls = urls
     }
+
 }
 
