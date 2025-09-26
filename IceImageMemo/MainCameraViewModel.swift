@@ -91,18 +91,11 @@ extension MainCameraViewModelImpl {
     
     func storePhoto(expiration: Expiration, image: UIImage) {
         let saveUrl = makeUrl(expiration: expiration)
-        guard let imageJpg = image.jpegData(compressionQuality: 0.0) else {
-            return
-        }
-        do {
-            try imageJpg.write(to: saveUrl)
-        } catch {
-            return
-        }
+        photoUseCase.savePhoto(image: image,imageUrl: saveUrl)
     }
     
     func fetchLastPhoto() -> URL? {
-       let photoUrls =  self.photoUseCase.fetch()
+        let photoUrls =  self.photoUseCase.fetch()
         return photoUrls.first
     }
     
