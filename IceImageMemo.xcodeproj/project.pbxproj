@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		72085CF42E65C26F0056926B /* MainCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72085CF32E65C2620056926B /* MainCameraView.swift */; };
+		72085CF82E65C6A50056926B /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72085CF72E65C6920056926B /* CameraService.swift */; };
+		727320562AA7521A0003BEB2 /* showImage_tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727320552AA7521A0003BEB2 /* showImage_tutorial.swift */; };
+		72DCA1A22E6C0C0C00A9E2CE /* MainCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA1A12E6C0C0300A9E2CE /* MainCameraViewModel.swift */; };
+		72DCA1A42E6EF97200A9E2CE /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA1A32E6EF96900A9E2CE /* Coordinator.swift */; };
+		72DCA1A62E6F03D400A9E2CE /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA1A52E6F03CB00A9E2CE /* AlbumViewModel.swift */; };
+		72DCA1A82E6F053300A9E2CE /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA1A72E6F052D00A9E2CE /* AlbumView.swift */; };
+		72DCA1AA2E7062E500A9E2CE /* PhotoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA1A92E7062D800A9E2CE /* PhotoUseCase.swift */; };
+		72DCA1AC2E754D0F00A9E2CE /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA1AB2E754D0300A9E2CE /* DetailView.swift */; };
+		72DCA1AE2E75599500A9E2CE /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA1AD2E75598F00A9E2CE /* DetailViewModel.swift */; };
+		72DCA2A92E8555F100A9E2CE /* PhotoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA2A82E8555EA00A9E2CE /* PhotoRepository.swift */; };
+		72E7CEFE2A9F0E3600A694FA /* tutroial_View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E7CEFD2A9F0E3600A694FA /* tutroial_View.swift */; };
+		72E9D45C2A7216550068A901 /* url_control.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E9D45B2A7216550068A901 /* url_control.swift */; };
+		72E9D45E2A7343A50068A901 /* convert_image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E9D45D2A7343A50068A901 /* convert_image.swift */; };
 		D09964422A6EA0B700B41CE3 /* IceImageMemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09964412A6EA0B700B41CE3 /* IceImageMemoApp.swift */; };
 		D09964442A6EA0B700B41CE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09964432A6EA0B700B41CE3 /* ContentView.swift */; };
 		D09964462A6EA0B900B41CE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D09964452A6EA0B900B41CE3 /* Assets.xcassets */; };
@@ -21,7 +35,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D099643E2A6EA0B700B41CE3 /* IceImageMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IceImageMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		72085CF32E65C2620056926B /* MainCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCameraView.swift; sourceTree = "<group>"; };
+		72085CF72E65C6920056926B /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
+		727320552AA7521A0003BEB2 /* showImage_tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = showImage_tutorial.swift; sourceTree = "<group>"; };
+		72DCA1A12E6C0C0300A9E2CE /* MainCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCameraViewModel.swift; sourceTree = "<group>"; };
+		72DCA1A32E6EF96900A9E2CE /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		72DCA1A52E6F03CB00A9E2CE /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
+		72DCA1A72E6F052D00A9E2CE /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
+		72DCA1A92E7062D800A9E2CE /* PhotoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoUseCase.swift; sourceTree = "<group>"; };
+		72DCA1AB2E754D0300A9E2CE /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		72DCA1AD2E75598F00A9E2CE /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
+		72DCA2A82E8555EA00A9E2CE /* PhotoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRepository.swift; sourceTree = "<group>"; };
+		72E7CEFD2A9F0E3600A694FA /* tutroial_View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tutroial_View.swift; sourceTree = "<group>"; };
+		72E9D45B2A7216550068A901 /* url_control.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = url_control.swift; sourceTree = "<group>"; };
+		72E9D45D2A7343A50068A901 /* convert_image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = convert_image.swift; sourceTree = "<group>"; };
+		944E089C2A6FAFA100163123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D099643E2A6EA0B700B41CE3 /* FadeMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FadeMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D09964412A6EA0B700B41CE3 /* IceImageMemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceImageMemoApp.swift; sourceTree = "<group>"; };
 		D09964432A6EA0B700B41CE3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D09964452A6EA0B900B41CE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -57,7 +86,7 @@
 		D099643F2A6EA0B700B41CE3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D099643E2A6EA0B700B41CE3 /* IceImageMemo.app */,
+				D099643E2A6EA0B700B41CE3 /* FadeMemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -65,15 +94,30 @@
 		D09964402A6EA0B700B41CE3 /* IceImageMemo */ = {
 			isa = PBXGroup;
 			children = (
+				944E089C2A6FAFA100163123 /* Info.plist */,
+				72DCA2A82E8555EA00A9E2CE /* PhotoRepository.swift */,
 				D09964412A6EA0B700B41CE3 /* IceImageMemoApp.swift */,
+				72E7CEFD2A9F0E3600A694FA /* tutroial_View.swift */,
+				727320552AA7521A0003BEB2 /* showImage_tutorial.swift */,
 				D09964432A6EA0B700B41CE3 /* ContentView.swift */,
+				72DCA1A32E6EF96900A9E2CE /* Coordinator.swift */,
+				72DCA1A92E7062D800A9E2CE /* PhotoUseCase.swift */,
 				D09964512A6EE74800B41CE3 /* GridView.swift */,
 				D09964532A6EE76A00B41CE3 /* showImage.swift */,
 				D09964552A6EE82800B41CE3 /* CameraView.swift */,
+				72DCA1AB2E754D0300A9E2CE /* DetailView.swift */,
+				72DCA1AD2E75598F00A9E2CE /* DetailViewModel.swift */,
+				72DCA1A72E6F052D00A9E2CE /* AlbumView.swift */,
+				72DCA1A52E6F03CB00A9E2CE /* AlbumViewModel.swift */,
+				72085CF32E65C2620056926B /* MainCameraView.swift */,
+				72DCA1A12E6C0C0300A9E2CE /* MainCameraViewModel.swift */,
+				72085CF72E65C6920056926B /* CameraService.swift */,
 				D09964572A6EED0500B41CE3 /* file_control.swift */,
 				D09964592A6EED1900B41CE3 /* file_control2.swift */,
 				D099645B2A6EED3000B41CE3 /* date_control.swift */,
 				D099645D2A6EED6000B41CE3 /* exif_control.swift */,
+				72E9D45B2A7216550068A901 /* url_control.swift */,
+				72E9D45D2A7343A50068A901 /* convert_image.swift */,
 				D09964452A6EA0B900B41CE3 /* Assets.xcassets */,
 				D09964472A6EA0B900B41CE3 /* Preview Content */,
 			);
@@ -91,9 +135,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D099643D2A6EA0B700B41CE3 /* IceImageMemo */ = {
+		D099643D2A6EA0B700B41CE3 /* FadeMemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D099644C2A6EA0B900B41CE3 /* Build configuration list for PBXNativeTarget "IceImageMemo" */;
+			buildConfigurationList = D099644C2A6EA0B900B41CE3 /* Build configuration list for PBXNativeTarget "FadeMemo" */;
 			buildPhases = (
 				D099643A2A6EA0B700B41CE3 /* Sources */,
 				D099643B2A6EA0B700B41CE3 /* Frameworks */,
@@ -103,9 +147,9 @@
 			);
 			dependencies = (
 			);
-			name = IceImageMemo;
+			name = FadeMemo;
 			productName = IceImageMemo;
-			productReference = D099643E2A6EA0B700B41CE3 /* IceImageMemo.app */;
+			productReference = D099643E2A6EA0B700B41CE3 /* FadeMemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -136,7 +180,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D099643D2A6EA0B700B41CE3 /* IceImageMemo */,
+				D099643D2A6EA0B700B41CE3 /* FadeMemo */,
 			);
 		};
 /* End PBXProject section */
@@ -158,15 +202,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				72DCA1A62E6F03D400A9E2CE /* AlbumViewModel.swift in Sources */,
 				D099645A2A6EED1900B41CE3 /* file_control2.swift in Sources */,
+				72E9D45E2A7343A50068A901 /* convert_image.swift in Sources */,
 				D09964442A6EA0B700B41CE3 /* ContentView.swift in Sources */,
 				D09964522A6EE74800B41CE3 /* GridView.swift in Sources */,
 				D099645C2A6EED3000B41CE3 /* date_control.swift in Sources */,
 				D09964542A6EE76B00B41CE3 /* showImage.swift in Sources */,
 				D09964582A6EED0500B41CE3 /* file_control.swift in Sources */,
+				72085CF82E65C6A50056926B /* CameraService.swift in Sources */,
+				72DCA2A92E8555F100A9E2CE /* PhotoRepository.swift in Sources */,
+				72DCA1AE2E75599500A9E2CE /* DetailViewModel.swift in Sources */,
 				D099645E2A6EED6000B41CE3 /* exif_control.swift in Sources */,
+				72DCA1AC2E754D0F00A9E2CE /* DetailView.swift in Sources */,
+				72085CF42E65C26F0056926B /* MainCameraView.swift in Sources */,
+				72DCA1A42E6EF97200A9E2CE /* Coordinator.swift in Sources */,
+				72DCA1AA2E7062E500A9E2CE /* PhotoUseCase.swift in Sources */,
+				72E7CEFE2A9F0E3600A694FA /* tutroial_View.swift in Sources */,
 				D09964562A6EE82800B41CE3 /* CameraView.swift in Sources */,
 				D09964422A6EA0B700B41CE3 /* IceImageMemoApp.swift in Sources */,
+				72DCA1A82E6F053300A9E2CE /* AlbumView.swift in Sources */,
+				727320562AA7521A0003BEB2 /* showImage_tutorial.swift in Sources */,
+				72DCA1A22E6C0C0C00A9E2CE /* MainCameraViewModel.swift in Sources */,
+				72E9D45C2A7216550068A901 /* url_control.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,25 +353,29 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IceImageMemo/Preview Content\"";
-				DEVELOPMENT_TEAM = X492QDP79L;
+				DEVELOPMENT_TEAM = T2SK837QN7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_FILE = IceImageMemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.masaharu.misaki.IceImageMemo;
+				MARKETING_VERSION = 1.1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "app.yaaru.ice-memo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -328,22 +390,26 @@
 				DEVELOPMENT_TEAM = X492QDP79L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_FILE = IceImageMemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.masaharu.misaki.IceImageMemo;
+				MARKETING_VERSION = 1.1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = app.masaharu.misaki.FedeMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -359,7 +425,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D099644C2A6EA0B900B41CE3 /* Build configuration list for PBXNativeTarget "IceImageMemo" */ = {
+		D099644C2A6EA0B900B41CE3 /* Build configuration list for PBXNativeTarget "FadeMemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D099644D2A6EA0B900B41CE3 /* Debug */,

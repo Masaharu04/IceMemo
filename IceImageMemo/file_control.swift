@@ -26,7 +26,7 @@ func change_png(uiimage_data: UIImage) -> Data{
 }
 
 func change_jpg(uiimage_data: UIImage) -> Data{
-    guard let jpgimage_data = uiimage_data.jpegData(compressionQuality: 0.5)else {
+    guard let jpgimage_data = uiimage_data.jpegData(compressionQuality: 0.0)else {
         fatalError("変換失敗")
     }
     return jpgimage_data
@@ -43,7 +43,7 @@ func read_image2(image_url: URL) -> UIImage{
     if let uiimage_data = UIImage(contentsOfFile: image_url.path){
         return uiimage_data
     }else{
-        return UIImage(imageLiteralResourceName: "m4")
+        return UIImage(imageLiteralResourceName: "m3")
     }
 }
 

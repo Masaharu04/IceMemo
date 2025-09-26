@@ -32,7 +32,7 @@ func change_jp_date(day1:Date) -> String{
 
 //2.1
 func change_seconds_to_days(image_seconds: Double) -> Int{
-    let image_days :Int = Int(image_seconds)
+    let image_days :Int = Int(image_seconds/60/60/24)
     return image_days
 }
 
@@ -54,13 +54,13 @@ func remaining_days(image_url: URL) -> String{
     let parent_url = delete_url_last_component(image_url: image_url)
     switch parent_url{
     case day_directory:
-        int_image_date = 10-image_spend_days-1
+        int_image_date = 1-image_spend_days-1
     case week_directory:
-        int_image_date = 20-image_spend_days-1
+        int_image_date = 7-image_spend_days-1
     case month_directory:
-        int_image_date = 40-image_spend_days-1
+        int_image_date = 30-image_spend_days-1
     case year_directory:
-        int_image_date = 60-image_spend_days-1
+        int_image_date = 365-image_spend_days-1
     default:
         return ""
     }
