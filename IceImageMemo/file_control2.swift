@@ -26,13 +26,13 @@ func auto_remove_image(all_image_url: [URL]){
         let parent_url = delete_url_last_component(image_url: image_url)
         switch parent_url{
         case day_directory:
-            remove_image_judge_by_time(image_url: image_url, remove_time: 10)
+            remove_image_judge_by_time(image_url: image_url, remove_time: 1*60*60*24)
         case week_directory:
-            remove_image_judge_by_time(image_url: image_url, remove_time: 20)
+            remove_image_judge_by_time(image_url: image_url, remove_time: 7*60*60*24)
         case month_directory:
-            remove_image_judge_by_time(image_url: image_url, remove_time: 40)
+            remove_image_judge_by_time(image_url: image_url, remove_time: 30*60*60*24)
         case year_directory:
-            remove_image_judge_by_time(image_url: image_url, remove_time: 60)
+            remove_image_judge_by_time(image_url: image_url, remove_time: 365*60*60*24)
         default:
             continue
         }
@@ -152,10 +152,71 @@ func sort_url(all_image_url :[URL]) -> [URL]{
         let image_name = delete_extension.lastPathComponent
         url_and_path_array.append(url_and_path(image_url: image_url, image_path: image_name))
     }
-    url_and_path_array.sort(by: {$0.image_path < $1.image_path})
+    url_and_path_array.sort(by: {$0.image_path > $1.image_path})
     let result_urls = url_and_path_array.map({(url_and_path) -> URL in return url_and_path.image_url})
     print("----------------------------\n\(result_urls)\n-----------------------------")
     return result_urls
 }
 
+func judge_format(file_url: URL) -> String{
+    let ans = file_url.pathExtension
+    print(ans)
+    return ans
+}
 
+
+func write_text(text_url: URL,text: String){
+    do {
+        try text.write(to: text_url, atomically: true, encoding: .utf8)
+    } catch {
+        print("書き込み失敗")
+    }
+}
+
+func read_text(text_url: URL) -> String{
+    var text: String = ""
+    do{
+        text = try String(contentsOf: text_url, encoding: .utf8)
+    } catch {
+        print("読み込み失敗")
+    }
+    return text
+}
+
+func get_file_name(image_url: URL) -> String{
+    let file_name = image_url.lastPathComponent
+    return file_name
+}
+
+func make_new_text_name() -> String{
+    let jp_date = change_jp_date(day1:Date())
+    let image_name = "\(jp_date).txt"
+    return image_name
+}
+
+func change_directory_and_save_text(mode: Int, text: String){
+    switch mode{
+    case 1:
+        let directory_name = "day"
+        let text_name = make_new_text_name()
+        let text_url =  change_name_to_url(image_name: "\(directory_name)/\(text_name)")
+        write_text(text_url: text_url, text: text)
+    case 2:
+        let directory_name = "week"
+        let text_name = make_new_text_name()
+        let text_url =  change_name_to_url(image_name: "\(directory_name)/\(text_name)")
+        write_text(text_url: text_url, text: text)
+    case 3:
+        let directory_name = "month"
+        let text_name = make_new_text_name()
+        let text_url =  change_name_to_url(image_name: "\(directory_name)/\(text_name)")
+        write_text(text_url: text_url, text: text)
+    case 4:
+        let directory_name = "year"
+        let text_name = make_new_text_name()
+        let text_url =  change_name_to_url(image_name: "\(directory_name)/\(text_name)")
+        write_text(text_url: text_url, text: text)
+    default:
+        return
+    }
+}

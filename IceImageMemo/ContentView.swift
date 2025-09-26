@@ -9,6 +9,7 @@ import SwiftUI
 import UIKit
 import Photos
 
+// TODO: 入れなくなったら消す
 struct TapItems:Identifiable{
     var id = UUID()
     var icon : String
@@ -27,16 +28,37 @@ enum Tap :String{
     case month
     case year
 }
+var is_first:Bool = false
 
+//
 
 struct ContentView: View{
-    init(){
-        make_directory_2()
+    @StateObject private var coordinator: AppCoordinator
+    let vm: MainCameraViewModelImpl
+
+    init() {
+        let photoRepository = PhotoRepositoryImpl()
+        let container = AppContainer(
+            makePhotoUseCase: { photoUseCaseImpl(repository: photoRepository) }
+        )
+        let coordinator = AppCoordinator(container: container)
+        _coordinator = StateObject(wrappedValue: coordinator)
+        let service = CameraServiceImpl()
+        let photoUseCase = photoUseCaseImpl(repository: photoRepository)
+        self.vm = MainCameraViewModelImpl(service: service, coordinator: coordinator, photoUseCase: photoUseCase)
+        vm.viewdidLoad()
     }
     var body: some View{
-        CameraView()
+        if is_first == true{
+            tutroial_View()
+        }else{
+            MainCameraView(vm: vm)
+                .sheet(item: $coordinator.presentedRoute) { route in
+                    coordinator.destinationView(for: route)
+                }
+                .environmentObject(coordinator)
+        }
     }
-    
 }
 
 struct ContentView_Preiews: PreviewProvider{
