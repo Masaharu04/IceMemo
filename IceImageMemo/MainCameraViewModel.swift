@@ -9,11 +9,13 @@ protocol MainCameraViewModel: ObservableObject {
     var expirationType: Expiration { get set }
     func presentSheet()
     func onAppear()
+    func onDisappear()
     func viewdidLoad()
     func onTakePhoto()
     func onTapAlbumButton()
     func zoomIn()
     func zoomOut()
+    func fetchLastPhoto() -> URL?
 }
 
 final class MainCameraViewModelImpl: MainCameraViewModel {

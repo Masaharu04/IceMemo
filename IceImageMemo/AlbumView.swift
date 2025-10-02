@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AlbumView<VM: AlbumViewModelImpl>: View {
+struct AlbumView<VM: AlbumViewModel>: View {
     @StateObject var vm: VM
     @EnvironmentObject var coordinator: AppCoordinator
     var body: some View {
