@@ -1,2 +1,0 @@
-Target dependency graph (1 target)
-Target 'FadeMemo' in project 'IceImageMemo' (no dependencies)
