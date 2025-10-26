@@ -1,0 +1,16 @@
+---
+path:            '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.0/_StringProcessing.swiftmodule/arm64-apple-ios-simulator.swiftmodule'
+dependencies:
+  - mtime:           1757160856000000000
+    path:            '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphonesimulator/prebuilt-modules/26.0/_StringProcessing.swiftmodule/arm64-apple-ios-simulator.swiftmodule'
+    size:            83608
+  - mtime:           1754191888000000000
+    path:            'usr/lib/swift/Swift.swiftmodule/arm64-apple-ios-simulator.swiftinterface'
+    size:            2260741
+    sdk_relative:    true
+  - mtime:           1754194638000000000
+    path:            'usr/lib/swift/_StringProcessing.swiftmodule/arm64-apple-ios-simulator.swiftinterface'
+    size:            24469
+    sdk_relative:    true
+version:         1
+...

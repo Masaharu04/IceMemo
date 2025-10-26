@@ -1,0 +1,40 @@
+{
+  "source": "/Users/masaharu/Documents/xcode/IceMemo/IceImageMemo/DetailView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "本当に削除しますか？",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 27
+        }
+      },
+      {
+        "comment": "",
+        "key": "削除",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 32
+        }
+      },
+      {
+        "comment": "",
+        "key": "キャンセル",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 36
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,23 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "B228410716EBE0DA3F430102988D4682378AC594",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "B228410716EBE0DA3F430102988D4682378AC594" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "A19D0B0D-7C5D-4241-936D-962365141906",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "B228410716EBE0DA3F430102988D4682378AC594" : "IceMemo\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "IceImageMemo",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "IceImageMemo.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git@github.com:Masaharu04\/IceMemo.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "B228410716EBE0DA3F430102988D4682378AC594"
+    }
+  ]
+}

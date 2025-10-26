@@ -1,0 +1,8 @@
+{
+  "" : {
+    "pch" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/FadeMemo-primary-Bridging-header.pch"
+  },
+  "/Users/masaharu/Documents/xcode/IceMemo/IceImageMemo/showImage.swift" : {
+    "object" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/showImage.__XCPREVIEW_THUNKSUFFIX__.preview-thunk.o"
+  }
+}

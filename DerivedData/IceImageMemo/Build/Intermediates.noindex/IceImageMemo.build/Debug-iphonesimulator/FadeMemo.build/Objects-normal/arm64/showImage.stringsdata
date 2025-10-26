@@ -1,0 +1,16 @@
+{
+  "source": "/Users/masaharu/Documents/xcode/IceMemo/IceImageMemo/showImage.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "あと%@日",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 125
+        }
+      }
+    ]
+  },
+  "version": 1
+}

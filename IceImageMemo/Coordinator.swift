@@ -1,5 +1,5 @@
 import Foundation
-import SwiftUICore
+import SwiftUI
 
 enum AppRoute: Identifiable {
     case album

@@ -1,0 +1,23 @@
+{
+  "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "object" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps"
+  },
+  "/Users/masaharu/Documents/xcode/IceMemo/IceImageMemo/MainCameraViewModel.swift" : {
+    "const-values" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/MainCameraViewModel.swiftconstvalues",
+    "dependencies" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/MainCameraViewModel.d",
+    "diagnostics" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/MainCameraViewModel.dia",
+    "object" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/MainCameraViewModel.o",
+    "swift-dependencies" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/MainCameraViewModel.swiftdeps"
+  },
+  "/Users/masaharu/Documents/xcode/IceMemo/IceImageMemo/url_control.swift" : {
+    "const-values" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/url_control.swiftconstvalues",
+    "dependencies" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/url_control.d",
+    "diagnostics" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/url_control.dia",
+    "object" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/url_control.o",
+    "swift-dependencies" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex/IceImageMemo.build/Debug-iphonesimulator/FadeMemo.build/Objects-normal/arm64/url_control.swiftdeps"
+  }
+}

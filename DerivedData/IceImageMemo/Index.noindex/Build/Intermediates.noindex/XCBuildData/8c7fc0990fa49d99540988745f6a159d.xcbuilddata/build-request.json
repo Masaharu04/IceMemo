@@ -1,0 +1,48 @@
+{
+  "buildCommand" : {
+    "command" : "prepareForIndexing",
+    "enableIndexBuildArena" : true,
+    "targets" : null
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "3690ff8f556e46d0830697bbea2733ea4842807ac3fae71c2668c7034f76bed9"
+    }
+  ],
+  "containerPath" : "/Users/masaharu/Documents/xcode/IceMemo/IceImageMemo.xcodeproj",
+  "continueBuildingAfterErrors" : true,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "indexbuild",
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Index.noindex/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Index.noindex/Build/Products",
+      "derivedDataPath" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData",
+      "indexDataStoreFolderPath" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Index.noindex/PrecompiledHeaders",
+      "indexRegularBuildIntermediatesPath" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Intermediates.noindex",
+      "indexRegularBuildProductsPath" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Build/Products",
+      "pchPath" : "/Users/masaharu/Documents/xcode/IceMemo/DerivedData/IceImageMemo/Index.noindex/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "synthesized" : {
+        "table" : {
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "NO",
+          "ONLY_ACTIVE_ARCH" : "YES"
+        }
+      }
+    }
+  },
+  "qos" : "utility",
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}
