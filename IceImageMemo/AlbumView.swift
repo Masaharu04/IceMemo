@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AlbumView<VM: AlbumViewModel>: View {
-    @StateObject var vm: VM
+    @ObservedObject var vm: VM
     @EnvironmentObject var coordinator: AppCoordinator
     var body: some View {
         NavigationStack {

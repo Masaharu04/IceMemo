@@ -13,7 +13,7 @@ struct pos {
 protocol DetailViewModel: ObservableObject {
     var imageURL: URL { get }
     var position: pos { get }
-    var isTapped: Bool { get }
+    var isTapped: Bool { get set }
     var isDelete: Bool { get set }
     func didTapImage(isTapoed: Bool)
     func didTapDelteButton() 
@@ -41,6 +41,6 @@ final class DetailViewModelImpl: DetailViewModel {
     
     func didTapDelteButton() {
         isDelete = false
-        photoUseCase.deltePhoto(imageUrl: imageURL)
+        photoUseCase.deletePhoto(imageUrl: imageURL)
     }
 }

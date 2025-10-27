@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct DetailView<VM: DetailViewModelImpl>: View {
-    @StateObject var vm: VM
+struct DetailView<VM: DetailViewModel>: View {
+    @ObservedObject var vm: VM
     @Environment(\.dismiss) private var dismiss
     var body: some View {
         GeometryReader { geometry in

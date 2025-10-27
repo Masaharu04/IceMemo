@@ -2,10 +2,9 @@ import Foundation
 
 protocol AlbumViewModel: ObservableObject {
     var photoUrls: [URL] { get }
-    func fetch() async -> [URL]
+    func fetch() -> [URL]
     func onAppear()
 }
-
 
 final class AlbumViewModelImpl: AlbumViewModel {
     @Published var photoUrls: [URL]
