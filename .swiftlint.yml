@@ -1,0 +1,36 @@
+name: iOS CI
+
+on:
+  pull_request:
+  push:
+    branches: [ develop, main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        run: sudo xcode-select -s /Applications/Xcode.app
+
+      - name: Install tools
+        run: |
+          brew install swiftlint
+          brew install swift-format
+
+      - name: Lint code with SwiftLint
+        run: swiftlint
+
+      - name: Check format with SwiftFormat
+        run: swift-format lint --recursive .
+
+      - name: Build project
+        run: |
+          xcodebuild -project IceImageMemo.xcodeproj \
+            -scheme IceImageMemo \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=18.0' \
+            clean build | xcpretty
+
