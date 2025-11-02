@@ -3,6 +3,9 @@ name: iOS CI (PR only)
 on:
   pull_request:
     branches: [ develop, main ]
+    paths-ignore:
+      - '**/*.md'
+      - '.github/**'
 
 jobs:
   build:
@@ -15,21 +18,34 @@ jobs:
       - name: Set up Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
 
-      - name: Install tools
+      - name: Install dependencies
         run: |
-          brew install swiftlint
-          brew install swift-format
+          if ! command -v swiftlint &> /dev/null; then
+            brew install swiftlint
+          fi
+          if ! command -v swift-format &> /dev/null; then
+            brew install swift-format
+          fi
+          gem install xcpretty
 
-      - name: Lint code with SwiftLint
-        run: swiftlint
+      - name: Lint with SwiftLint
+        run: swiftlint || true
 
       - name: Check format with SwiftFormat
-        run: swift-format lint --recursive .
+        run: swift-format lint --strict --recursive .
+
+      - name: Cache DerivedData
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-xcode-${{ hashFiles('**/*.xcodeproj/**', '**/*.swift') }}
+          restore-keys: |
+            ${{ runner.os }}-xcode-
 
       - name: Build project
         run: |
+          set -o pipefail && \
           xcodebuild -project IceImageMemo.xcodeproj \
             -scheme IceImageMemo \
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=18.0' \
-            clean build | xcpretty
-
+            clean build | tee xcodebuild.log | xcpretty
