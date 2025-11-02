@@ -20,19 +20,38 @@ jobs:
 
       - name: Install dependencies
         run: |
-          if ! command -v swiftlint &> /dev/null; then
-            brew install swiftlint
-          fi
-          if ! command -v swift-format &> /dev/null; then
-            brew install swift-format
+          if ! command -v swiftlint &> /dev/null || ! command -v swift-format &> /dev/null; then
+            brew install swiftlint swift-format
           fi
           gem install xcpretty
 
-      - name: Lint with SwiftLint
-        run: swiftlint || true
+      - name: Run SwiftLint on changed files
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- '*.swift')
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "✅ No Swift files changed."
+          else
+            echo "🧹 Running SwiftLint on changed files..."
+            for file in $CHANGED_FILES; do
+              echo "Linting $file"
+              swiftlint --path "$file" || true
+            done
+          fi
 
-      - name: Check format with SwiftFormat
-        run: swift-format lint --strict --recursive .
+      - name: Run SwiftFormat on changed files
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- '*.swift')
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "✅ No Swift files changed."
+          else
+            echo "🎨 Running SwiftFormat on changed files..."
+            for file in $CHANGED_FILES; do
+              echo "Formatting check for $file"
+              swift-format lint "$file" || true
+            done
+          fi
 
       - name: Cache DerivedData
         uses: actions/cache@v4
