@@ -1,10 +1,3 @@
-//
-//  CameraView.swift
-//  IceImageMemo
-//
-//  Created by Masaharu on 2023/07/25.
-//
-
 import SwiftUI
 import AVFoundation
 
