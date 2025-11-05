@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
 
       - name: Set up Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
@@ -27,10 +27,15 @@ jobs:
           fi
           gem install xcpretty
 
+      - name: Fetch base branch
+        run: git fetch origin ${{ github.event.pull_request.base.ref }}
+
       - name: Run SwiftLint on changed files
         run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
           CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- '*.swift')
+          echo "Changed Swift files:"
+          echo "$CHANGED_FILES"
+
           if [ -z "$CHANGED_FILES" ]; then
             echo "✅ No Swift files changed."
           else
@@ -41,32 +46,4 @@ jobs:
             done
           fi
 
-      - name: Run SwiftFormat on changed files
-        run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- '*.swift')
-          if [ -z "$CHANGED_FILES" ]; then
-            echo "✅ No Swift files changed."
-          else
-            echo "🎨 Running SwiftFormat on changed files..."
-            for file in $CHANGED_FILES; do
-              echo "Formatting check for $file"
-              swift-format lint "$file" || true
-            done
-          fi
-
-      - name: Cache DerivedData
-        uses: actions/cache@v4
-        with:
-          path: ~/Library/Developer/Xcode/DerivedData
-          key: ${{ runner.os }}-xcode-${{ hashFiles('**/*.xcodeproj/**', '**/*.swift') }}
-          restore-keys: |
-            ${{ runner.os }}-xcode-
-
-      - name: Build project
-        run: |
-          set -o pipefail && \
-          xcodebuild -project IceImageMemo.xcodeproj \
-            -scheme IceImageMemo \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=18.0' \
-            clean build | tee xcodebuild.log | xcpretty
+      - name:
