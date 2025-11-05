@@ -12,47 +12,38 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      # ✅ リポジトリを全履歴でチェックアウト（--unshallow不要）
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1  # 一旦 shallow clone
-
-      - name: Unshallow full history  # ✅ ←これを追加！
-        run: git fetch --unshallow
+          fetch-depth: 0
 
       - name: Set up Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
 
       - name: Install dependencies
         run: |
-          if ! command -v swiftlint &> /dev/null || ! command -v swift-format &> /dev/null; then
-            brew install swiftlint swift-format
-          fi
+          brew install swiftlint swift-format
           gem install xcpretty
 
-      - name: Fetch base branch
-        run: git fetch origin ${{ github.event.pull_request.base.ref }}
-
-      - name: Run SwiftLint on changed files
+      # ✅ 差分取得してLint/Format
+      - name: Run SwiftLint and SwiftFormat on changed files
         run: |
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- '*.swift')
+          BASE_BRANCH=${{ github.event.pull_request.base.ref }}
+          echo "Fetching base branch: $BASE_BRANCH"
+          git fetch origin $BASE_BRANCH
+
+          CHANGED_FILES=$(git diff --name-only origin/$BASE_BRANCH...HEAD -- '*.swift')
           echo "Changed Swift files:"
           echo "$CHANGED_FILES"
 
           if [ -z "$CHANGED_FILES" ]; then
             echo "✅ No Swift files changed."
           else
-            echo "🧹 Running SwiftLint on changed files..."
+            echo "🧹 Running SwiftLint..."
             echo "$CHANGED_FILES" | xargs -I {} swiftlint --path "{}" || true
-          fi
 
-      - name: Run SwiftFormat on changed files
-        run: |
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- '*.swift')
-          if [ -z "$CHANGED_FILES" ]; then
-            echo "✅ No Swift files changed."
-          else
-            echo "🎨 Running SwiftFormat on changed files..."
+            echo "🎨 Running SwiftFormat..."
             echo "$CHANGED_FILES" | xargs -I {} swift-format lint "{}" || true
           fi
 
