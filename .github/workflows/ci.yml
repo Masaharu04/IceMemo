@@ -12,7 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: １  # 差分比較に必要
+          fetch-depth: 0
+          # PR の場合、base ブランチも一緒に取得
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Fetch base branch
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }}
 
       - name: Install tools
         run: |
@@ -21,16 +27,19 @@ jobs:
 
       - name: Lint & Format (changed Swift files only)
         run: |
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -- '*.swift')
+          # base ブランチとの差分を取得
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...${{ github.event.pull_request.head.sha }} -- '*.swift')
           
           if [ -z "$CHANGED_FILES" ]; then
             echo "✅ No Swift files changed."
           else
             for file in $CHANGED_FILES; do
-              echo "🧹 Linting: $file"
-              swiftlint --path "$file" || true
-              echo "🎨 Checking format: $file"
-              swift-format lint "$file" || true
+              if [ -f "$file" ]; then
+                echo "🧹 Linting: $file"
+                swiftlint --path "$file" || true
+                echo "🎨 Checking format: $file"
+                swift-format lint "$file" || true
+              fi
             done
           fi
 
