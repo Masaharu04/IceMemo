@@ -27,7 +27,7 @@ jobs:
 
       - name: Run SwiftLint on changed files
         run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=0
           CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- '*.swift')
           if [ -z "$CHANGED_FILES" ]; then
             echo "✅ No Swift files changed."
@@ -41,7 +41,7 @@ jobs:
 
       - name: Run SwiftFormat on changed files
         run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=0
           CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- '*.swift')
           if [ -z "$CHANGED_FILES" ]; then
             echo "✅ No Swift files changed."
