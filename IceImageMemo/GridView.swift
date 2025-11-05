@@ -1,12 +1,6 @@
-//
-//  GridView.swift
-//  IceImageMemo
-//
-//  Created by Masaharu on 2023/07/25.
-//
-
 import SwiftUI
 import Foundation
+
 
 struct GridView: View {
     @StateObject var manger = ManagerClass()
