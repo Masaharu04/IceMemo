@@ -3,62 +3,40 @@ name: iOS CI (PR only)
 on:
   pull_request:
     branches: [ develop, main ]
-    paths-ignore:
-      - '**/*.md'
-      - '.github/**'
 
 jobs:
   build:
     runs-on: macos-latest
 
     steps:
-      # ✅ リポジトリを全履歴でチェックアウト（--unshallow不要）
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # 差分比較に必要
 
-      - name: Set up Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
-
-      - name: Install dependencies
+      - name: Install tools
         run: |
           brew install swiftlint swift-format
           gem install xcpretty
 
-      # ✅ 差分取得してLint/Format
-      - name: Run SwiftLint and SwiftFormat on changed files
+      - name: Lint & Format (changed Swift files only)
         run: |
-          BASE_BRANCH=${{ github.event.pull_request.base.ref }}
-          echo "Fetching base branch: $BASE_BRANCH"
-          git fetch origin $BASE_BRANCH
-
-          CHANGED_FILES=$(git diff --name-only origin/$BASE_BRANCH...HEAD -- '*.swift')
-          echo "Changed Swift files:"
-          echo "$CHANGED_FILES"
-
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} ${{ github.sha }} -- '*.swift')
+          
           if [ -z "$CHANGED_FILES" ]; then
             echo "✅ No Swift files changed."
           else
-            echo "🧹 Running SwiftLint..."
-            echo "$CHANGED_FILES" | xargs -I {} swiftlint --path "{}" || true
-
-            echo "🎨 Running SwiftFormat..."
-            echo "$CHANGED_FILES" | xargs -I {} swift-format lint "{}" || true
+            for file in $CHANGED_FILES; do
+              echo "🧹 Linting: $file"
+              swiftlint --path "$file" || true
+              echo "🎨 Checking format: $file"
+              swift-format lint "$file" || true
+            done
           fi
-
-      - name: Cache DerivedData
-        uses: actions/cache@v4
-        with:
-          path: ~/Library/Developer/Xcode/DerivedData
-          key: ${{ runner.os }}-xcode-${{ hashFiles('**/*.xcodeproj/**', '**/*.swift') }}
-          restore-keys: |
-            ${{ runner.os }}-xcode-
 
       - name: Build project
         run: |
-          set -o pipefail && \
           xcodebuild -project IceImageMemo.xcodeproj \
             -scheme IceImageMemo \
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=18.0' \
-            clean build | tee xcodebuild.log | xcpretty
+            clean build | xcpretty
