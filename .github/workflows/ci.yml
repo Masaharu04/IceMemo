@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # ← フル履歴取得（差分比較に必要）
+          fetch-depth: 1  # ← フル履歴取得（差分比較に必要）
 
       - name: Set up Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
