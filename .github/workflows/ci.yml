@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # ✅ フル履歴を取得（これが重要！）
+          fetch-depth: 0  # ← フル履歴取得（差分比較に必要）
 
       - name: Set up Xcode
         run: sudo xcode-select -s /Applications/Xcode.app
@@ -27,10 +27,11 @@ jobs:
           fi
           gem install xcpretty
 
-      # ✅ fetch から --depth=1 を削除（完全な履歴があるため不要）
+      # ✅ ここでbaseブランチをfetch（depth指定不要）
       - name: Fetch base branch
         run: git fetch origin ${{ github.event.pull_request.base.ref }}
 
+      # ✅ 差分のみ lint
       - name: Run SwiftLint on changed files
         run: |
           CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- '*.swift')
@@ -41,12 +42,11 @@ jobs:
             echo "✅ No Swift files changed."
           else
             echo "🧹 Running SwiftLint on changed files..."
-            for file in $CHANGED_FILES; do
-              echo "Linting $file"
-              swiftlint --path "$file" || true
-            done
+            # 並列 lintで高速化
+            echo "$CHANGED_FILES" | xargs -I {} swiftlint --path "{}" || true
           fi
 
+      # ✅ 差分のみ formatチェック
       - name: Run SwiftFormat on changed files
         run: |
           CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}...HEAD -- '*.swift')
@@ -54,10 +54,7 @@ jobs:
             echo "✅ No Swift files changed."
           else
             echo "🎨 Running SwiftFormat on changed files..."
-            for file in $CHANGED_FILES; do
-              echo "Formatting check for $file"
-              swift-format lint "$file" || true
-            done
+            echo "$CHANGED_FILES" | xargs -I {} swift-format lint "{}" || true
           fi
 
       - name: Cache DerivedData
