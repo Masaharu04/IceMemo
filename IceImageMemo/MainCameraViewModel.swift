@@ -1,3 +1,59 @@
+/*
+ MainCameraViewModel.swift
+ --------------------------------------------
+ カメラ画面の ViewModel。CameraService で撮影・プレビューを管理し、
+ 撮影データを PhotoUseCase で保存します。アルバム画面への遷移は
+ AppCoordinator 経由で行います。
+
+ ■ 何をする？
+ - カメラ起動/停止：onAppear() で configure → start、onDisappear() で stop
+ - 撮影：onTakePhoto() → CameraService が JPEG/HEIC Data を発行
+ - 保存：photoPublisher を購読し、Expiration に応じたフォルダへ JPEG(品質0.5) を保存
+ - 表示制御：isPresented でシート表示、expirationType の変更ログ出力
+ - 画面遷移：onTapAlbumButton() で .album を present
+ - 補助：fetchLastPhoto() で最新1枚の URL を取得、viewdidLoad() で保存先フォルダ作成
+
+ ■ 主なプロパティ
+ - session: AVCaptureSession（CameraService から取得）
+ - expirationType: Expiration（保存先フォルダ day/week/month/year の選択）
+ - isPresented: シート表示フラグ
+ - coordinator: AppCoordinator（アルバム画面遷移用。weak 参照）
+
+ ■ Combine パイプライン
+ CameraService.photoPublisher (Data)
+   → UIImage 化
+   → main スレッドに切替
+   → storePhoto(expiration:image:) で Documents/<expiration>/ に保存
+
+ ■ 使い方（例）
+   @StateObject var vm = MainCameraViewModelImpl(
+     service: CameraServiceImpl(),
+     coordinator: coordinator,
+     photoUseCase: PhotoUseCaseImpl(...)
+   )
+   .onAppear { vm.onAppear() }
+   .onDisappear { vm.onDisappear() }
+
+   CameraServiceView(session: vm.session)
+   Button("シャッター") { vm.onTakePhoto() }
+   Button("アルバム") { vm.onTapAlbumButton() }
+
+ ■ 実装メモ / 改善提案
+ - 命名:
+   - `viewdidLoad()` → iOS 慣習に合わせ `viewDidLoad()` へ。
+ - 型/依存:
+   - 初期化子の引数は `photoUseCase: PhotoUseCase` とプロトコル型で受けると DI が柔軟。
+   - ViewModel は UI 状態を扱うため `@MainActor` を付与すると安全。
+ - パフォーマンス:
+   - `UIImage.jpegData` は重い場合があるため、保存処理をバックグラウンドキューに逃がす検討。
+ - ディレクトリ管理:
+   - フォルダ作成は UseCase/Repository 層に寄せると責務分離が明確。
+ - その他:
+   - `objectWillChange.send()` は @Published を更新しない限り不要（ここでは保存だけ）。削除可。
+   - ズーム（zoomIn/Out）は AVCaptureDevice の videoZoomFactor で実装可能。
+   - 例外/エラーは現在 print のみ。ユーザー通知やリトライ方針が必要なら拡張を。
+*/
+
 import Foundation
 import SwiftUI
 import Combine

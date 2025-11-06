@@ -1,3 +1,28 @@
+/*
+ PhotoUseCase.swift
+ --------------------------------------------
+ 「写真」機能のユースケース層。Repository を介して入出力を行い、
+ UI から使いやすい形（並び順・残り時間の判定など）に整えます。
+
+ ■ 何をする？
+ - fetch(): Repository から画像 URL を取得し、更新日時の新しい順に並べ替えて返す
+ - deletePhoto(_:), savePhoto(_:url:): 画像の削除／保存を委譲
+ - getRemainDate(imageUrl:): ファイル名に埋め込んだ日時(yyyyMMddHHmmss)を基に
+   期限までの残り時間を「残り X日 Y時間 Z分」の文字列で返す（過ぎていれば「期限切れです」）
+ - autoDelete(): 上記判定で期限切れの画像を一括削除
+
+ ■ 前提・制約
+ - ファイル名が <yyyyMMddHHmmss>.jpg 形式であること（現状 .jpg 固定）
+ - タイムゾーンは端末設定（TimeZone.current）を使用
+ - 期限判定は getRemainDate の戻り文字列に「期限切れ」を含むかで判定（簡易実装）
+
+ ■ 設計メモ
+ - 日付計算（ビジネスロジック）と文字列化（表示）は分離するとテストしやすい
+   例: enum ExpiryStatus { case remaining(DateComponents), expired }
+ - 複数拡張子に対応する場合は拡張子の扱いを一般化する
+ - 型名は Swift 慣習に合わせて `PhotoUseCaseImpl`（先頭大文字）を推奨
+*/
+
 import Foundation
 
 protocol PhotoUseCase {
