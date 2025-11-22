@@ -1,11 +1,11 @@
 import Foundation
-import SwiftUI
 
 protocol PhotoUseCase {
     func fetch() -> [URL]
-    func deltePhoto(imageUrl: URL)
-    func savePhoto(image:UIImage, imageUrl: URL)
+    func deletePhoto(imageUrl: URL)
+    func savePhoto(data: Data, url: URL)
     func getRemainDate(imageUrl: URL) -> String
+    func autoDelete()
 }
 
 final class photoUseCaseImpl: PhotoUseCase {
@@ -26,12 +26,12 @@ final class photoUseCaseImpl: PhotoUseCase {
         return imageUrls
     }
     
-    func deltePhoto(imageUrl: URL) {
-        repository.delete(imageUrl: imageUrl)
+    func deletePhoto(imageUrl: URL) {
+        repository.delete(url: imageUrl)
     }
     
-    func savePhoto(image: UIImage,imageUrl: URL) {
-        repository.save(image: image, url: imageUrl)
+    func savePhoto(data: Data, url: URL) {
+        repository.save(data: data, url: url)
     }
     
     func getRemainDate(imageUrl: URL) -> String {
@@ -48,7 +48,6 @@ final class photoUseCaseImpl: PhotoUseCase {
         }
         let directoryName = imageUrl.deletingLastPathComponent().lastPathComponent
         
-        
         let now = Date()
 
         let remainSeconds = imageDate.timeIntervalSince(now)
@@ -62,5 +61,15 @@ final class photoUseCaseImpl: PhotoUseCase {
             return "期限切れです"
         }
         return "日付の取得に失敗しました。"
+    }
+    
+    func autoDelete() {
+        let imageUrls = fetch()
+        for url in imageUrls {
+            let remainDate = getRemainDate(imageUrl: url)
+            if remainDate.contains("期限切れ") {
+                deletePhoto(imageUrl: url)
+            }
+        }
     }
 }
