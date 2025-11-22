@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  IceImageMemo
-//
-//  Created by Masaharu on 2023/07/24.
-//
-
 import SwiftUI
 import UIKit
 import Photos
@@ -50,7 +43,7 @@ struct ContentView: View{
     }
     var body: some View{
         if is_first == true{
-            tutroial_View()
+            //tutroial_View()
         }else{
             MainCameraView(vm: vm)
                 .sheet(item: $coordinator.presentedRoute) { route in
