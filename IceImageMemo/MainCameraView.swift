@@ -2,7 +2,7 @@ import SwiftUI
 import AVFoundation
 import Combine
 
-struct MainCameraView<VM: MainCameraViewModelImpl>: View {
+struct MainCameraView<VM: MainCameraViewModel>: View {
     @ObservedObject var vm: VM
     var body: some View {
         ZStack {
@@ -14,15 +14,14 @@ struct MainCameraView<VM: MainCameraViewModelImpl>: View {
                 Spacer()
                 HStack(alignment: .center){
                     Group {
-                        if let url = vm.fetchLastPhoto() {
-                            if let uiImage = UIImage(contentsOfFile: url.path) {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 72, height: 72)
-                                    .clipped()
-                                    .cornerRadius(10)
-                            }
+                        if let url = vm.fetchLastPhoto(),
+                           let uiImage = UIImage(contentsOfFile: url.path) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 72, height: 72)
+                                .clipped()
+                                .cornerRadius(10)
                         }else{
                             Rectangle()
                                 .frame(width: 72, height: 72)

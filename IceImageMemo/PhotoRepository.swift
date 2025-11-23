@@ -3,10 +3,9 @@ import UIKit
 
 protocol PhotoRepository {
     func fetch() -> [URL]
-    func delete(imageUrl: URL)
-    func save(image: UIImage, url: URL)
+    func delete(url: URL)
+    func save(data: Data, url: URL)
 }
-
 
 final class PhotoRepositoryImpl: PhotoRepository {
     func fetch() -> [URL] {
@@ -41,21 +40,18 @@ final class PhotoRepositoryImpl: PhotoRepository {
         return imageUrls
     }
     
-    func delete(imageUrl: URL) {
+    func delete(url: URL) {
         let filemanager = FileManager.default
         do {
-            try filemanager.removeItem(at: imageUrl)
+            try filemanager.removeItem(at: url)
         } catch {
             print(error.localizedDescription)
         }
     }
     
-    func save(image: UIImage, url: URL) {
-        guard let imageJpg = image.jpegData(compressionQuality: 0.0) else {
-            return
-        }
+    func save(data: Data, url: URL) {
         do {
-            try imageJpg.write(to: url)
+            try data.write(to: url)
         } catch {
             return
         }
