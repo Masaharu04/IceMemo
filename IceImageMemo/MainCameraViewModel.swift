@@ -9,11 +9,13 @@ protocol MainCameraViewModel: ObservableObject {
     var expirationType: Expiration { get set }
     func presentSheet()
     func onAppear()
+    func onDisappear()
     func viewdidLoad()
     func onTakePhoto()
     func onTapAlbumButton()
     func zoomIn()
     func zoomOut()
+    func fetchLastPhoto() -> URL?
 }
 
 final class MainCameraViewModelImpl: MainCameraViewModel {
@@ -91,7 +93,8 @@ extension MainCameraViewModelImpl {
     
     func storePhoto(expiration: Expiration, image: UIImage) {
         let saveUrl = makeUrl(expiration: expiration)
-        photoUseCase.savePhoto(image: image,imageUrl: saveUrl)
+        guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
+        photoUseCase.savePhoto(data: imageData,url: saveUrl)
     }
     
     func fetchLastPhoto() -> URL? {
