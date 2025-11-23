@@ -14,10 +14,7 @@ protocol CameraService {
 
 final class CameraServiceImpl: NSObject, CameraService {
     var session = AVCaptureSession()
-    private let sessionQueue = DispatchQueue(label: "camera.session.queue")
-    private var deviceInput: AVCaptureDeviceInput?
-    private let photoOutput = AVCapturePhotoOutput()
-    private let photoSubject = PassthroughSubject<Data, Never>()
+  
     var photoPublisher: AnyPublisher<Data, Never> {
         photoSubject.eraseToAnyPublisher()
     }
@@ -28,12 +25,7 @@ final class CameraServiceImpl: NSObject, CameraService {
     }
     
     func configure() async {
-        let status = checkAuthorization()
-        if status == .notDetermined {
-            let granted = await AVCaptureDevice.requestAccess(for: .video)
-            guard granted else { return }
-        }
-        guard AVCaptureDevice.authorizationStatus(for: .video) == .authorized else { return }
+    tionStatus(for: .video) == .authorized else { return }
         
         session.beginConfiguration()
         session.sessionPreset = .photo
