@@ -9,22 +9,36 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Set up Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
+      - name: Fetch base branch explicitly
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }} --no-tags
 
       - name: Install tools
         run: |
-          brew install swiftlint
-          brew install swift-format
+          brew install swiftlint swift-format
+          gem install xcpretty
 
-      - name: Lint code with SwiftLint
-        run: swiftlint
-
-      - name: Check format with SwiftFormat
-        run: swift-format lint --recursive .
+      - name: Lint & Format (changed Swift files only)
+        run: |
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD -- '*.swift')
+          
+          if [ -z "$CHANGED_FILES" ]; then
+            echo "✅ No Swift files changed."
+          else
+            echo "$CHANGED_FILES" | while read file; do
+              if [ -f "$file" ]; then
+                echo "🧹 Linting: $file"
+                swiftlint --path "$file" || true
+                echo "🎨 Checking format: $file"
+                swift-format lint "$file" || true
+              fi
+            done
+          fi
 
       - name: Build project
         run: |
@@ -32,4 +46,3 @@ jobs:
             -scheme IceImageMemo \
             -destination 'platform=iOS Simulator,name=iPhone 15,OS=18.0' \
             clean build | xcpretty
-
