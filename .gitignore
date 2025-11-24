@@ -41,3 +41,10 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 
 iOSInjectionProject/
+
+# Ruby and Bundler
+.bundle/
+vendor/bundle/
+
+# If you choose NOT to commit Gemfile.lock (NOT RECOMMENDED for fastlane CI)
+# Gemfile.lock
