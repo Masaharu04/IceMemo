@@ -6,7 +6,8 @@ platform :ios do
     gym(
       scheme: "FadeMemo",
       configuration: "Debug",
-      skip_archive: true
+      skip_archive: true,
+      skip_codesigning: true
     )
 
     UI.success("✅ ビルドチェックが正常に完了しました！")
