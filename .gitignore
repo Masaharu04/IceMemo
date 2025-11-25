@@ -46,5 +46,5 @@ iOSInjectionProject/
 .bundle/
 vendor/bundle/
 
-# If you choose NOT to commit Gemfile.lock (NOT RECOMMENDED for fastlane CI)
-# Gemfile.lock
+Gemfile.lock
+IceImageMemo.xcodeproj/xcshareddata/xcschemes/FadeMemo.xcscheme
