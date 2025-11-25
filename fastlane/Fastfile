@@ -15,7 +15,7 @@ end
 
 after_all do |lane|
   if ENV['GITHUB_TOKEN']
-    update_github_status(
+    github_status(
       state: 'success',
       context: "fastlane-ci-build-check",
       description: "Fastlane build check passed."
@@ -25,7 +25,7 @@ end
 
 error do |lane, exception|
   if ENV['GITHUB_TOKEN']
-    update_github_status(
+    github_status(
       state: 'failure',
       context: "fastlane-ci-build-check",
       description: "Fastlane build check failed."
