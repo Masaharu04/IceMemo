@@ -8,53 +8,18 @@ on:
 
 jobs:
   fastlane_ci_build:
-    name: Fastlane Build Check
     runs-on: macos-latest
-    
     steps:
-      # 1. リポジトリのチェックアウト
-      - name: Checkout repository
+      - name: ⬇️ Checkout code
         uses: actions/checkout@v4
-        with:
-          # ステータス報告に必要なSHAを取得
-          fetch-depth: 0 
 
-      # 2. Ruby環境のセットアップ
-      - name: Setup Ruby
+      - name: 💎 Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3' # CIログから推測される安定版
-          bundler-cache: true 
+          ruby-version: '3.3'
+          bundler-cache: trued
 
-      # 3. Fastlaneレーンの実行
-      - name: 🚀 Run Fastlane ci_build_check
-        id: fastlane_run
+      - name: 🚀 Run Fastlane
         run: bundle exec fastlane ci_build_check
         env:
-          FASTLANE_SKIP_UPDATE_FASTLANE_README: true
-
-      # 4. ✅ Report Success (成功時のみ実行)
-      - name: ✅ Report Success Status to PR
-        if: success()
-        uses: Sibz/github-status-action@v1.1.0
-        with:
-          # state: success に修正済み
-          state: success
-          description: 'Build check successful'
-          context: 'fastlane-ci-build-check'
-          sha: ${{ github.event.pull_request.head.sha || github.sha }}
-          # 認証情報の追加 (手動取得不要)
-          authToken: ${{ secrets.GITHUB_TOKEN }} 
-
-      # 5. ❌ Report Failure (失敗時のみ実行)
-      - name: ❌ Report Failure Status to PR
-        if: failure()
-        uses: Sibz/github-status-action@v1.1.0
-        with:
-          # state: failure に修正済み
-          state: failure
-          description: 'Build check failed'
-          context: 'fastlane-ci-build-check'
-          sha: ${{ github.event.pull_request.head.sha || github.sha }}
-          # 認証情報の追加 (手動取得不要)
-          authToken: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

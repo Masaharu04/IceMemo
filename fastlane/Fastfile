@@ -7,7 +7,8 @@ platform :ios do
       scheme: "FadeMemo",
       configuration: "Debug",
       skip_archive: true,
-      skip_codesigning: true
+      skip_codesigning: true,
+      clean: true
     )
 
     UI.success("✅ ビルドチェックが正常に完了しました！")
