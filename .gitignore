@@ -46,5 +46,3 @@ iOSInjectionProject/
 .bundle/
 vendor/bundle/
 
-Gemfile.lock
-IceImageMemo.xcodeproj/xcshareddata/xcschemes/FadeMemo.xcscheme
