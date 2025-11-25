@@ -1,18 +1,3 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:ios)
 
 platform :ios do
@@ -29,5 +14,21 @@ platform :ios do
 end
 
 after_all do |lane|
-  sh "rm -f README.md" 
+  if ENV['GITHUB_TOKEN']
+    update_github_status(
+      state: 'success',
+      context: "fastlane-ci-build-check",
+      description: "Fastlane build check passed."
+    )
+  end
+end
+
+error do |lane, exception|
+  if ENV['GITHUB_TOKEN']
+    update_github_status(
+      state: 'failure',
+      context: "fastlane-ci-build-check",
+      description: "Fastlane build check failed."
+    )
+  end
 end

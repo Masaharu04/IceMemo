@@ -1,0 +1,26 @@
+name: CI Build Check for iOS
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  fastlane_ci_build:
+    runs-on: macos-latest
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+
+      - name: 💎 Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: 🚀 Run Fastlane
+        run: bundle exec fastlane ci_build_check
+        env:
+          FASTLANE_SKIP_UPDATE_FASTLANE_README: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
