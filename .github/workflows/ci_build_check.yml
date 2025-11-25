@@ -6,21 +6,44 @@ on:
   pull_request:
     branches: [ "main", "develop" ]
 
+
 jobs:
   fastlane_ci_build:
+    name: Fastlane Build Check
     runs-on: macos-latest
+    
     steps:
-      - name: ⬇️ Checkout code
-        uses: actions/checkout@v4
-
-      - name: 💎 Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3'
-          bundler-cache: true
-
-      - name: 🚀 Run Fastlane
+      # ... (Checkout, Ruby セットアップなどの既存のコード) ...
+      
+      - name: 🚀 Run Fastlane ci_build_check
+        # Fastlane自体は成功/失敗のステータスを返します
         run: bundle exec fastlane ci_build_check
         env:
           FASTLANE_SKIP_UPDATE_FASTLANE_README: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GITHUB_TOKEN は Fastlane のステップからは削除してOKです
+
+      # ------------------------------------
+      # ✅ (NEW) Report Success
+      # ------------------------------------
+      - name: ✅ Report Success Status to PR
+        # 直前のステップが成功した場合のみ実行
+        if: success()
+        uses: Sibz/github-status-action@v1.1.0
+        with:
+          status: success
+          description: 'Build check successful'
+          context: 'fastlane-ci-build-check' # ブランチ保護ルールで使った名前
+          sha: ${{ github.event.pull_request.head.sha || github.sha }}
+          
+      # ------------------------------------
+      # ❌ (NEW) Report Failure
+      # ------------------------------------
+      - name: ❌ Report Failure Status to PR
+        # 直前のステップが失敗した場合のみ実行
+        if: failure()
+        uses: Sibz/github-status-action@v1.1.0
+        with:
+          status: failure
+          description: 'Build check failed'
+          context: 'fastlane-ci-build-check' # ブランチ保護ルールで使った名前
+          sha: ${{ github.event.pull_request.head.sha || github.sha }}

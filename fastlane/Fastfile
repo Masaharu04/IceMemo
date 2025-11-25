@@ -15,21 +15,9 @@ platform :ios do
 end
 
 after_all do |lane|
-  if ENV['GITHUB_TOKEN']
-    github_status(
-      state: 'success',
-      context: "fastlane-ci-build-check",
-      description: "Fastlane build check passed."
-    )
-  end
+
 end
 
 error do |lane, exception|
-  if ENV['GITHUB_TOKEN']
-    github_status(
-      state: 'failure',
-      context: "fastlane-ci-build-check",
-      description: "Fastlane build check failed."
-    )
-  end
+  
 end
