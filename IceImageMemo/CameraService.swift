@@ -27,9 +27,9 @@ final class CameraServiceImpl: NSObject, CameraService {
         return status
     }
     
-    func configure() async {
+    func configure() async    {
         let status = checkAuthorization()
-        if status == .notDetermined {
+        if status == .notDetermined{
             let granted = await AVCaptureDevice.requestAccess(for: .video)
             guard granted else { return }
         }

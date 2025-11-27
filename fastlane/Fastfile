@@ -1,0 +1,24 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "CI環境でのコンパイルチェックを実行します" 
+  lane :ci_build_check do
+    gym(
+      scheme: "FadeMemo",
+      configuration: "Debug",
+      skip_archive: true,
+      skip_codesigning: true,
+      clean: true
+    )
+
+    UI.success("✅ ビルドチェックが正常に完了しました！")
+  end
+end
+
+after_all do |lane|
+
+end
+
+error do |lane, exception|
+  
+end
