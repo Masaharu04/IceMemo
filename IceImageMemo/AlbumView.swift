@@ -38,7 +38,17 @@ struct AlbumView<VM: AlbumViewModel>: View {
                 }
             }
             .simultaneousGesture(DragGesture(minimumDistance: 0))
-            .navigationTitle("Album")
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Album")
+                        .font(.largeTitle).bold() // 大きめのフォントで「大きなタイトル風」
+                }
+                ToolbarItem(placement: .topBarLeading) {
+                    Button(action: { coordinator.dismiss() }) {
+                        Image(systemName: "xmark")
+                    }
+                }
+            }
             .navigationDestination(for: URL.self) { url in
                 coordinator.destinationView(for: .detail(url))
             }
