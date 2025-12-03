@@ -35,25 +35,44 @@ final class photoUseCaseImpl: PhotoUseCase {
     }
     
     func getRemainDate(imageUrl: URL) -> String {
+        // 1. ファイル名から撮影日時を取得
         let fileName = imageUrl.lastPathComponent
         let nameWithoutExt = fileName.replacingOccurrences(of: ".jpg", with: "")
+        
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .gregorian)
         formatter.locale = Locale(identifier: "ja_JP")
         formatter.timeZone = TimeZone.current
         formatter.dateFormat = "yyyyMMddHHmmss"
         
-        guard let imageDate = formatter.date(from: nameWithoutExt) else {
+        guard let shootDate = formatter.date(from: nameWithoutExt) else {
             return "日付に変換できません: \(nameWithoutExt)"
         }
-        let directoryName = imageUrl.deletingLastPathComponent().lastPathComponent
         
+        // 2. ディレクトリ名から期限タイプを取得
+        let directoryName = imageUrl.deletingLastPathComponent().lastPathComponent.lowercased()
+        
+        // 3. 期限タイプに応じて期限日時を計算
+        var expireDate: Date
+        switch directoryName {
+        case "day":
+            expireDate = Calendar.current.date(byAdding: .day, value: 1, to: shootDate)!
+        case "week":
+            expireDate = Calendar.current.date(byAdding: .day, value: 7, to: shootDate)!
+        case "month":
+            expireDate = Calendar.current.date(byAdding: .day, value: 30, to: shootDate)!
+        case "year":
+            expireDate = Calendar.current.date(byAdding: .day, value: 365, to: shootDate)!
+        default:
+            expireDate = shootDate // デフォルトは撮影日そのまま（期限切れ扱いになる）
+        }
+        
+        // 4. 現在日時との残り時間計算
         let now = Date()
-
-        let remainSeconds = imageDate.timeIntervalSince(now)
-
+        let remainSeconds = expireDate.timeIntervalSince(now)
+        
         if remainSeconds > 0 {
-            let diff = Calendar.current.dateComponents([.day, .hour, .minute], from: now, to: imageDate)
+            let diff = Calendar.current.dateComponents([.day, .hour, .minute], from: now, to: expireDate)
             if let d = diff.day, let h = diff.hour, let m = diff.minute {
                 return "残り \(d)日 \(h)時間 \(m)分"
             }
@@ -62,6 +81,7 @@ final class photoUseCaseImpl: PhotoUseCase {
         }
         return "日付の取得に失敗しました。"
     }
+
     
     func autoDelete() {
         let imageUrls = fetch()
