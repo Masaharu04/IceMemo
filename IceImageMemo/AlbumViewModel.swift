@@ -4,6 +4,7 @@ protocol AlbumViewModel: ObservableObject {
     var photoUrls: [URL] { get }
     func fetch() -> [URL]
     func onAppear()
+    func isExpiringSoon(_ url: URL) -> Bool
 }
 
 final class AlbumViewModelImpl: AlbumViewModel {
@@ -24,7 +25,7 @@ final class AlbumViewModelImpl: AlbumViewModel {
         self.photoUrls = urls
     }
     
-    func isExpiringSoon(url: URL) -> Bool {
+    func isExpiringSoon(_ url: URL) -> Bool {
         let remainString = photoUseCase.getRemainDate(imageUrl: url)
         if remainString.contains("期限切れ") { return false }
         let pattern = #"残り (\d+)日"#
