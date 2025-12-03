@@ -1,7 +1,8 @@
 import SwiftUI
 
-struct AlbumView: View {
-    @ObservedObject var vm: AlbumViewModelImpl
+
+struct AlbumView<VM: AlbumViewModel>: View {
+    @ObservedObject var vm: VM
     @EnvironmentObject var coordinator: AppCoordinator
     
     private let spacing: CGFloat = 8
@@ -61,7 +62,7 @@ extension AlbumView {
                         .cornerRadius(12)
                 }
                 
-                if vm.isExpiringSoon(url: url) {
+                if vm.isExpiringSoon(url) {
                     Color.black.opacity(0.3)
                         .cornerRadius(12)
                     VStack {
