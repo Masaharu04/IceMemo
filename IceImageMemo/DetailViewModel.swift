@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUI
 
 struct pos {
     var width: CGFloat
