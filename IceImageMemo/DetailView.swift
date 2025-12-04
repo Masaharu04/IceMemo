@@ -13,7 +13,6 @@ struct DetailView<VM: DetailViewModel>: View {
                         .clipped()
                         .cornerRadius(12)
                         .padding(.horizontal, 16)
-                        .frame(width: geometry.size.width + vm.position.width, height: geometry.size.height + vm.position.height,alignment: .center)
                         .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
                         .onTapGesture {
                             vm.isTapped.toggle()
@@ -43,8 +42,19 @@ struct DetailView<VM: DetailViewModel>: View {
                             }
                             Button("キャンセル", role: .cancel) { }
                         }
+                    Text(vm.remainDate)
+                        .font(.headline)
+                        .foregroundStyle(.primary)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 16)
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                        .padding(.top, 8)
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
+        }
+        .onAppear {
+            vm.fetchRemainDate()
         }
     }
 }

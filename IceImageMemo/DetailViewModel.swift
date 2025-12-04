@@ -15,9 +15,10 @@ protocol DetailViewModel: ObservableObject {
     var position: pos { get }
     var isTapped: Bool { get set }
     var isDelete: Bool { get set }
+    var remainDate: String { get }
     func didTapImage(isTapoed: Bool)
-    func didTapDelteButton() 
-
+    func didTapDelteButton()
+    func fetchRemainDate()
 }
 
 final class DetailViewModelImpl: DetailViewModel {
@@ -25,6 +26,7 @@ final class DetailViewModelImpl: DetailViewModel {
     @Published var position: pos = .init(width: 0, height: 0)
     @Published var isTapped: Bool = false
     @Published var isDelete: Bool = false
+    @Published var remainDate: String = ""
     var imageURL: URL
     
     init(
@@ -43,4 +45,11 @@ final class DetailViewModelImpl: DetailViewModel {
         isDelete = false
         photoUseCase.deletePhoto(imageUrl: imageURL)
     }
+    
+    func fetchRemainDate() {
+        remainDate = photoUseCase.getRemainDate(imageUrl: imageURL)
+        print("DetailViewModelImpl")
+        print(imageURL)
+    }
+
 }
