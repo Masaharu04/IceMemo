@@ -27,7 +27,7 @@ final class CameraServiceImpl: NSObject, CameraService {
         return status
     }
     
-    func configure() async    {
+    func configure() async {
         let status = checkAuthorization()
         if status == .notDetermined{
             let granted = await AVCaptureDevice.requestAccess(for: .video)
@@ -38,11 +38,28 @@ final class CameraServiceImpl: NSObject, CameraService {
         session.beginConfiguration()
         session.sessionPreset = .photo
         
-        if let device = AVCaptureDevice.default(
-            .builtInWideAngleCamera,
-            for: .video,
+        let deviceTypes: [AVCaptureDevice.DeviceType] = [
+            .builtInTripleCamera,
+            .builtInDualWideCamera,
+            .builtInDualCamera,
+            .builtInWideAngleCamera
+        ]
+        
+        let mediaType: AVMediaType =  .video
+         
+        let discovery = AVCaptureDevice.DiscoverySession(
+            deviceTypes: deviceTypes,
+            mediaType: mediaType,
             position: .back
-        ) {
+        )
+        
+        let devices = discovery.devices
+        
+        if let device =
+            devices.first(where: { $0.deviceType == .builtInTripleCamera }) ??
+            devices.first(where: { $0.deviceType == .builtInDualWideCamera }) ??
+            devices.first(where: { $0.deviceType == .builtInDualCamera }) ??
+            devices.first(where: { $0.deviceType == .builtInWideAngleCamera }) {
             do {
                 let input = try AVCaptureDeviceInput(device: device)
                 if session.canAddInput(input) {

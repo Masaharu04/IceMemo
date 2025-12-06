@@ -10,6 +10,15 @@ struct MainCameraView<VM: MainCameraViewModel>: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.black)
                 .ignoresSafeArea()
+                .gesture(
+                    MagnificationGesture()
+                        .onChanged { value in
+                            vm.onPinchChanged(scale: value)
+                        }
+                        .onEnded { _ in
+                            vm.onPinchEnded()
+                        }
+                )
             VStack(spacing: 0) {
                 Spacer()
                 HStack(alignment: .center){
