@@ -15,8 +15,6 @@ protocol MainCameraViewModel: ObservableObject {
     func onTapAlbumButton()
     func onPinchChanged(scale: CGFloat)
     func onPinchEnded()
-    func zoomIn()
-    func zoomOut()
     func fetchLastPhoto() -> URL?
 }
 
@@ -30,10 +28,9 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     private let service: CameraService
     private var photoUseCase: PhotoUseCase
     private var bag = Set<AnyCancellable>()
-    private var lastScale: CGFloat = 1.0
-    private let zoomStep: CGFloat = 0.5
     private let maxZoom: CGFloat = 5.0
-    private let pinchThreshold: CGFloat = 0.0
+    private var baseZoomFactor: CGFloat = 1.0
+    private var isPinching: Bool = false
     var session: AVCaptureSession{
         service.session
     }
@@ -79,25 +76,10 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     }
     
     func onPinchChanged(scale: CGFloat) {
-        let delta = scale / lastScale
-        if delta > 1 + pinchThreshold {
-            zoomIn()
-            lastScale = scale
-        } else if delta < 1 - pinchThreshold {
-            zoomOut()
-            lastScale = scale
-        }
+        changeZoom(scale: scale)
     }
     func onPinchEnded() {
-        lastScale = 1.0
-    }
-    
-    func zoomIn() {
-        changeZoom(by: zoomStep)
-    }
-    
-    func zoomOut() {
-        changeZoom(by: -zoomStep)
+        isPinching = false
     }
     
     func onTakePhoto() {
@@ -161,22 +143,27 @@ extension MainCameraViewModelImpl {
         }
     }
     
-    private func changeZoom(by: CGFloat) {
+    private func changeZoom(scale: CGFloat) {
         guard let deviceInput = session.inputs.first as? AVCaptureDeviceInput else {
             print("Failed to get AVCaptureDeviceInput")
             return
         }
         let device = deviceInput.device
         
+        if !isPinching {
+            isPinching = true
+            baseZoomFactor = device.videoZoomFactor
+        }
+        var newFactor = baseZoomFactor * scale
+        
         do {
             try device.lockForConfiguration()
-            var newFactor = device.videoZoomFactor + by
             
             let minFactor: CGFloat = 1.0
             let maxFactor = min(device.activeFormat.videoMaxZoomFactor, maxZoom)
             newFactor = max(minFactor, min(newFactor, maxFactor))
             
-            device.ramp(toVideoZoomFactor: newFactor, withRate: 5.0)
+            device.videoZoomFactor = newFactor
             device.unlockForConfiguration()
         } catch {
             print("Failed to change zoom: \(error)")
