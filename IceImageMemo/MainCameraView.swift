@@ -11,9 +11,9 @@ struct MainCameraView<VM: MainCameraViewModel>: View {
                 .background(Color.black)
                 .ignoresSafeArea()
                 .gesture(
-                    MagnificationGesture()
+                    MagnifyGesture()
                         .onChanged { value in
-                            vm.onPinchChanged(scale: value)
+                            vm.onPinchChanged(scale: value.magnification)
                         }
                         .onEnded { _ in
                             vm.onPinchEnded()
