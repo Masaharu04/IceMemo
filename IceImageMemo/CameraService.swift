@@ -129,9 +129,9 @@ final class CameraPreviewContainerView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         previewLayer.frame = bounds
-        if let conn = previewLayer.connection, conn.isVideoOrientationSupported {
-            conn.videoOrientation = .portrait
-        }
+
+        guard let connection = previewLayer.connection else { return }
+        connection.videoRotationAngle = 90
     }
 }
 
