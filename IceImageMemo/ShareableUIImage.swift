@@ -1,12 +1,4 @@
-//
-//  ShareableUIImage.swift
-//  FadeMemo
-//
-//  Created by motoki-7 on 2025/12/01.
-//
-
 import SwiftUI
-//import UniformTypeIdentifiers
 
 struct ShareableUIImage: Transferable {
     struct EncodingError: Error {}
@@ -19,7 +11,6 @@ struct ShareableUIImage: Transferable {
             }
             return data
         }
-        .suggestedFileName("image.jpg")
     }
 }
 

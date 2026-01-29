@@ -29,7 +29,10 @@ struct DetailView<VM: DetailViewModel>: View {
                             ToolbarItem(placement: .bottomBar) {
                                 ShareLink(
                                     item: ShareableUIImage(uiImage: uiImage),
-                                    preview: SharePreview("Image")
+                                    preview: SharePreview(
+                                        "",
+                                        image: Image(uiImage: uiImage)
+                                    )
                                 ) {
                                     Label("Share", systemImage: "square.and.arrow.up")
                                 }
