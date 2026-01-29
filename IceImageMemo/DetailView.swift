@@ -26,6 +26,17 @@ struct DetailView<VM: DetailViewModel>: View {
                                     Text("Delete")
                                 }
                             }
+                            ToolbarItem(placement: .bottomBar) {
+                                ShareLink(
+                                    item: ShareableUIImage(uiImage: uiImage),
+                                    preview: SharePreview(
+                                        "",
+                                        image: Image(uiImage: uiImage)
+                                    )
+                                ) {
+                                    Label("Share", systemImage: "square.and.arrow.up")
+                                }
+                            }
                         }
                         .alert("本当に削除しますか？", isPresented: $vm.isDelete) {
                             Button("削除", role: .destructive) {

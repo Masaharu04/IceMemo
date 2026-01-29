@@ -13,8 +13,8 @@ protocol MainCameraViewModel: ObservableObject {
     func viewdidLoad()
     func onTakePhoto()
     func onTapAlbumButton()
-    func onPinchChanged(scale: CGFloat)
-    func onPinchEnded()
+    func zoomIn()
+    func zoomOut()
     func fetchLastPhoto() -> URL?
 }
 
@@ -28,9 +28,6 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     private let service: CameraService
     private var photoUseCase: PhotoUseCase
     private var bag = Set<AnyCancellable>()
-    private let maxZoom: CGFloat = 5.0
-    private var baseZoomFactor: CGFloat = 1.0
-    private var isPinching: Bool = false
     var session: AVCaptureSession{
         service.session
     }
@@ -75,11 +72,12 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
         makeDirectories()
     }
     
-    func onPinchChanged(scale: CGFloat) {
-        changeZoom(scale: scale)
+    func zoomIn() {
+        //TODO: 拡大
     }
-    func onPinchEnded() {
-        isPinching = false
+    
+    func zoomOut() {
+        //TODO: 縮小
     }
     
     func onTakePhoto() {
@@ -140,33 +138,6 @@ extension MainCameraViewModelImpl {
                     print("ディレクトリ作成に失敗: \(name), error: \(error)")
                 }
             }
-        }
-    }
-    
-    private func changeZoom(scale: CGFloat) {
-        guard let deviceInput = session.inputs.first as? AVCaptureDeviceInput else {
-            print("Failed to get AVCaptureDeviceInput")
-            return
-        }
-        let device = deviceInput.device
-        
-        if !isPinching {
-            isPinching = true
-            baseZoomFactor = device.videoZoomFactor
-        }
-        var newFactor = baseZoomFactor * scale
-        
-        do {
-            try device.lockForConfiguration()
-            
-            let minFactor: CGFloat = 1.0
-            let maxFactor = min(device.activeFormat.videoMaxZoomFactor, maxZoom)
-            newFactor = max(minFactor, min(newFactor, maxFactor))
-            
-            device.videoZoomFactor = newFactor
-            device.unlockForConfiguration()
-        } catch {
-            print("Failed to change zoom: \(error)")
         }
     }
 }
