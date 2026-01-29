@@ -27,10 +27,12 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     @Published var isPresented: Bool = false
     private let service: CameraService
     private var photoUseCase: PhotoUseCase
+    private let noticeUseCase = ScheduleDeleteNoticeForPhotoUseCase()
     private var bag = Set<AnyCancellable>()
     private let maxZoom: CGFloat = 5.0
     private var baseZoomFactor: CGFloat = 1.0
     private var isPinching: Bool = false
+    private var lastShotDate: Date?
     var session: AVCaptureSession{
         service.session
     }
@@ -72,6 +74,11 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     }
     
     func viewdidLoad() {
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: [.alert, .sound, .badge]
+        ) { granted, error in
+            print("通知許可:", granted)
+        }
         makeDirectories()
     }
     
@@ -83,7 +90,10 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     }
     
     func onTakePhoto() {
+        let shotDate = Date()
         service.capturePhoto()
+        
+        lastShotDate = shotDate
     }
     
     func onTapAlbumButton() {
@@ -94,9 +104,16 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
 extension MainCameraViewModelImpl {
     
     func storePhoto(expiration: Expiration, image: UIImage) {
-        let saveUrl = makeUrl(expiration: expiration)
+        guard let shotDate = lastShotDate else { return }
+
+        let saveUrl = makeUrl(expiration: expiration, shotDate: shotDate)
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         photoUseCase.savePhoto(data: imageData,url: saveUrl)
+        
+        noticeUseCase.execute(
+                expiration: expiration,
+                shotDate: shotDate
+            )
     }
     
     func fetchLastPhoto() -> URL? {
@@ -104,7 +121,7 @@ extension MainCameraViewModelImpl {
         return photoUrls.first
     }
     
-    private func makeUrl(expiration: Expiration) -> URL {
+    private func makeUrl(expiration: Expiration, shotDate: Date) -> URL {
         let formatter = DateFormatter()
         formatter.calendar = .init(identifier: .gregorian)
         formatter.timeZone = .current
