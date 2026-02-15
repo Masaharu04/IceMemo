@@ -6,8 +6,12 @@ final class ScheduleDeleteNoticeForPhotoUseCase {
     func execute(expiration: Expiration, shotDate: Date) {
         switch expiration {
         case .day, .week:
-            /// 通知機能のテストのための機能撮影したタイミングから10秒後の削除
-            //testNotice(idBase: shotDate)
+        /// 通知機能のテストのための機能撮影したタイミングから10秒後の削除
+        #if DEBUG
+            testNotice(idBase: shotDate)
+        #else
+            break
+        #endif
 
         case .month:
             scheduleMonthNotice(idBase: shotDate)
