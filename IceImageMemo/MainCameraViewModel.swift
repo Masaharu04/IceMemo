@@ -74,11 +74,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     }
     
     func viewdidLoad() {
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: [.alert, .sound, .badge]
-        ) { granted, error in
-            print("通知許可:", granted)
-        }
+        requestPushNotification()
         makeDirectories()
     }
     
@@ -160,5 +156,12 @@ extension MainCameraViewModelImpl {
             }
         }
     }
+    
+    func requestPushNotification() {
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: [.alert, .sound, .badge]
+        ) { granted, error in
+            print("通知許可:", granted)
+        }
+    }
 }
-
