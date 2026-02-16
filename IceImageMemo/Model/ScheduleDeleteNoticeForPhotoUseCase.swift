@@ -6,13 +6,7 @@ final class ScheduleDeleteNoticeForPhotoUseCase {
     func execute(expiration: Expiration, shotDate: Date) {
         switch expiration {
         case .day, .week:
-        /// 通知機能のテストのための機能撮影したタイミングから10秒後の削除
-        #if DEBUG
-            testNotice(idBase: shotDate)
-        #else
             break
-        #endif
-
         case .month:
             scheduleMonthNotice(idBase: shotDate)
 
@@ -27,29 +21,6 @@ private extension ScheduleDeleteNoticeForPhotoUseCase {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMddHHmmss"
         return "\(formatter.string(from: base))_\(suffix)"
-    }
-}
-
-private extension ScheduleDeleteNoticeForPhotoUseCase {
-
-    func testNotice(idBase: Date) {
-        let content = UNMutableNotificationContent()
-        content.title = "📸 写真がまもなく削除されます"
-        content.body = "テスト通知です"
-        content.sound = .default
-
-        let trigger = UNTimeIntervalNotificationTrigger(
-            timeInterval: 10,
-            repeats: false
-        )
-
-        let request = UNNotificationRequest(
-            identifier: makeId(base: idBase, suffix: "test_10sec"),
-            content: content,
-            trigger: trigger
-        )
-
-        UNUserNotificationCenter.current().add(request)
     }
 }
 
