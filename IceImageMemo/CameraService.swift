@@ -65,6 +65,14 @@ final class CameraServiceImpl: NSObject, CameraService {
                 if session.canAddInput(input) {
                     session.addInput(input)
                     self.deviceInput = input
+                    
+                    try device.lockForConfiguration()
+                    if let switchOverFactor = device.virtualDeviceSwitchOverVideoZoomFactors.first {
+                        device.videoZoomFactor = CGFloat(switchOverFactor.floatValue)
+                    } else {
+                        device.videoZoomFactor = 1.0
+                    }
+                    device.unlockForConfiguration()
                 }
             } catch {
                 print("Input error:", error)
