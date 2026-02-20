@@ -41,18 +41,12 @@ import SwiftUI
 
 enum AppRoute: Identifiable {
     case album
-    case setting
-    case tutorial
     case detail(URL)
     
     var id: String {
         switch self {
         case .album:
             return "album"
-        case .setting:
-            return "setting"
-        case .tutorial:
-            return "tutorial"
         case .detail:
             return "detail"
         }
@@ -93,10 +87,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
         switch route {
         case .album:
             AlbumView(vm: self.container.makeAlbumViewModel())
-        case .setting:
-            Text("Setting")
-        case .tutorial:
-            Text("Tutorial")
         case .detail(let imageUrl):
             DetailView(vm: self.container.makeDetailViewModel(imageUrl: imageUrl))
         }

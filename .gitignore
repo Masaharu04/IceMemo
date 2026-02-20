@@ -41,3 +41,8 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 
 iOSInjectionProject/
+
+# Ruby and Bundler
+.bundle/
+vendor/bundle/
+

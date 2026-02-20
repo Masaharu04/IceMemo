@@ -23,8 +23,6 @@ enum Tap :String{
 }
 var is_first:Bool = false
 
-//
-
 struct ContentView: View{
     @StateObject private var coordinator: AppCoordinator
     let vm: MainCameraViewModelImpl

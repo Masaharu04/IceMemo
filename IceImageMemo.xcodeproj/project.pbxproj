@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27751CC22EE1C50900ED1622 /* ShareableUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27751CC12EE1C50900ED1622 /* ShareableUIImage.swift */; };
 		72085CF42E65C26F0056926B /* MainCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72085CF32E65C2620056926B /* MainCameraView.swift */; };
 		72085CF82E65C6A50056926B /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72085CF72E65C6920056926B /* CameraService.swift */; };
 		72DCA1A22E6C0C0C00A9E2CE /* MainCameraViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA1A12E6C0C0300A9E2CE /* MainCameraViewModel.swift */; };
@@ -17,13 +18,16 @@
 		72DCA1AC2E754D0F00A9E2CE /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA1AB2E754D0300A9E2CE /* DetailView.swift */; };
 		72DCA1AE2E75599500A9E2CE /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA1AD2E75598F00A9E2CE /* DetailViewModel.swift */; };
 		72DCA2A92E8555F100A9E2CE /* PhotoRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72DCA2A82E8555EA00A9E2CE /* PhotoRepository.swift */; };
+		D091853E2F3878D4000F905D /* CancelDeleteNoticeForPhotoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D091853D2F3878C5000F905D /* CancelDeleteNoticeForPhotoUseCase.swift */; };
 		D09964422A6EA0B700B41CE3 /* IceImageMemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09964412A6EA0B700B41CE3 /* IceImageMemoApp.swift */; };
 		D09964442A6EA0B700B41CE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09964432A6EA0B700B41CE3 /* ContentView.swift */; };
 		D09964462A6EA0B900B41CE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D09964452A6EA0B900B41CE3 /* Assets.xcassets */; };
 		D09964492A6EA0B900B41CE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D09964482A6EA0B900B41CE3 /* Preview Assets.xcassets */; };
+		D0D7C6A82F1CCF7300FD707F /* ScheduleDeleteNoticeForPhotoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D7C6A72F1CCF7200FD707F /* ScheduleDeleteNoticeForPhotoUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		27751CC12EE1C50900ED1622 /* ShareableUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableUIImage.swift; sourceTree = "<group>"; };
 		72085CF32E65C2620056926B /* MainCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCameraView.swift; sourceTree = "<group>"; };
 		72085CF72E65C6920056926B /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		72DCA1A12E6C0C0300A9E2CE /* MainCameraViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCameraViewModel.swift; sourceTree = "<group>"; };
@@ -35,11 +39,13 @@
 		72DCA1AD2E75598F00A9E2CE /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		72DCA2A82E8555EA00A9E2CE /* PhotoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRepository.swift; sourceTree = "<group>"; };
 		944E089C2A6FAFA100163123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D091853D2F3878C5000F905D /* CancelDeleteNoticeForPhotoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelDeleteNoticeForPhotoUseCase.swift; sourceTree = "<group>"; };
 		D099643E2A6EA0B700B41CE3 /* FadeMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FadeMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D09964412A6EA0B700B41CE3 /* IceImageMemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceImageMemoApp.swift; sourceTree = "<group>"; };
 		D09964432A6EA0B700B41CE3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D09964452A6EA0B900B41CE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D09964482A6EA0B900B41CE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D0D7C6A72F1CCF7200FD707F /* ScheduleDeleteNoticeForPhotoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDeleteNoticeForPhotoUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +89,9 @@
 				72DCA1A72E6F052D00A9E2CE /* AlbumView.swift */,
 				72DCA1A52E6F03CB00A9E2CE /* AlbumViewModel.swift */,
 				72085CF32E65C2620056926B /* MainCameraView.swift */,
+				D0D7C6A92F1CCF9900FD707F /* Model */,
 				72DCA1A12E6C0C0300A9E2CE /* MainCameraViewModel.swift */,
+				27751CC12EE1C50900ED1622 /* ShareableUIImage.swift */,
 				72085CF72E65C6920056926B /* CameraService.swift */,
 				D09964452A6EA0B900B41CE3 /* Assets.xcassets */,
 				D09964472A6EA0B900B41CE3 /* Preview Content */,
@@ -97,6 +105,15 @@
 				D09964482A6EA0B900B41CE3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D0D7C6A92F1CCF9900FD707F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D091853D2F3878C5000F905D /* CancelDeleteNoticeForPhotoUseCase.swift */,
+				D0D7C6A72F1CCF7200FD707F /* ScheduleDeleteNoticeForPhotoUseCase.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +144,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					D099643D2A6EA0B700B41CE3 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -174,12 +191,15 @@
 				72085CF82E65C6A50056926B /* CameraService.swift in Sources */,
 				72DCA2A92E8555F100A9E2CE /* PhotoRepository.swift in Sources */,
 				72DCA1AE2E75599500A9E2CE /* DetailViewModel.swift in Sources */,
+				D0D7C6A82F1CCF7300FD707F /* ScheduleDeleteNoticeForPhotoUseCase.swift in Sources */,
 				72DCA1AC2E754D0F00A9E2CE /* DetailView.swift in Sources */,
+				D091853E2F3878D4000F905D /* CancelDeleteNoticeForPhotoUseCase.swift in Sources */,
 				72085CF42E65C26F0056926B /* MainCameraView.swift in Sources */,
 				72DCA1A42E6EF97200A9E2CE /* Coordinator.swift in Sources */,
 				72DCA1AA2E7062E500A9E2CE /* PhotoUseCase.swift in Sources */,
 				D09964422A6EA0B700B41CE3 /* IceImageMemoApp.swift in Sources */,
 				72DCA1A82E6F053300A9E2CE /* AlbumView.swift in Sources */,
+				27751CC22EE1C50900ED1622 /* ShareableUIImage.swift in Sources */,
 				72DCA1A22E6C0C0C00A9E2CE /* MainCameraViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -221,8 +241,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = T2SK837QN7;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -242,6 +264,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -281,8 +304,10 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = T2SK837QN7;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -295,6 +320,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
@@ -309,7 +335,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IceImageMemo/Preview Content\"";
-				DEVELOPMENT_TEAM = X492QDP79L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IceImageMemo/Info.plist;
@@ -319,12 +344,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "app.yaaru.ice-memo";
+				PRODUCT_BUNDLE_IDENTIFIER = "app.yaaru.ice-memo1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -343,7 +369,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"IceImageMemo/Preview Content\"";
-				DEVELOPMENT_TEAM = X492QDP79L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = IceImageMemo/Info.plist;
@@ -353,12 +378,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = app.masaharu.misaki.FedeMemo;
+				PRODUCT_BUNDLE_IDENTIFIER = app.masaharu.misaki.FedeMemo1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
