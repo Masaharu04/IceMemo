@@ -3,6 +3,7 @@ import SwiftUI
 import Combine
 import AVFoundation
 
+@MainActor
 protocol MainCameraViewModel: ObservableObject {
     var session: AVCaptureSession { get }
     var isPresented: Bool { get }
@@ -18,6 +19,7 @@ protocol MainCameraViewModel: ObservableObject {
     func fetchLastPhoto() -> URL?
 }
 
+@MainActor
 final class MainCameraViewModelImpl: MainCameraViewModel {
     @Published var expirationType: Expiration = .day {
         didSet {
@@ -85,6 +87,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     func onPinchEnded() {
         isPinching = false
     }
+    
     func onTakePhoto() {
         let shotDate = Date()
         service.capturePhoto()
