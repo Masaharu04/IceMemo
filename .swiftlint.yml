@@ -1,36 +1,57 @@
-name: iOS CI
+excluded:
+  - DerivedData
+  - .build
+  - vendor
+  - IceImageMemo/oldLogic
+  - IceImageMemo/oldVIew
 
-on:
-  pull_request:
-  push:
-    branches: [ develop, main ]
+disabled_rules:
+  - trailing_comma
+  - todo
 
-jobs:
-  build:
-    runs-on: macos-latest
+opt_in_rules:
+  - empty_count
+  - closure_spacing
+  - contains_over_first_not_nil
+  - discouraged_optional_boolean
+  - empty_string
+  - fatal_error_message
+  - first_where
+  - modifier_order
+  - overridden_super_call
+  - private_action
+  - private_outlet
+  - redundant_nil_coalescing
+  - sorted_first_last
+  - yoda_condition
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+line_length:
+  warning: 150
+  error: 200
 
-      - name: Set up Xcode
-        run: sudo xcode-select -s /Applications/Xcode.app
+type_body_length:
+  warning: 300
+  error: 500
 
-      - name: Install tools
-        run: |
-          brew install swiftlint
-          brew install swift-format
+file_length:
+  warning: 500
+  error: 1000
 
-      - name: Lint code with SwiftLint
-        run: swiftlint
+function_body_length:
+  warning: 50
+  error: 100
 
-      - name: Check format with SwiftFormat
-        run: swift-format lint --recursive .
+identifier_name:
+  min_length:
+    warning: 1
+  excluded:
+    - id
+    - x
+    - y
+    - i
+    - j
 
-      - name: Build project
-        run: |
-          xcodebuild -project IceImageMemo.xcodeproj \
-            -scheme IceImageMemo \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=18.0' \
-            clean build | xcpretty
+nesting:
+  type_level: 2
 
+reporter: xcode
