@@ -1,0 +1,3 @@
+#include? "Local.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = app.yaaru.ice-memo1

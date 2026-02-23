@@ -46,3 +46,6 @@ iOSInjectionProject/
 .bundle/
 vendor/bundle/
 
+# 個人のXcode設定（チームIDなど）- 各自がLocal.xcconfig.sampleからコピーして作成
+xcconfig/Local.xcconfig
+
