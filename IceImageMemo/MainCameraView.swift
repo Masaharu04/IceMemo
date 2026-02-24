@@ -73,7 +73,6 @@ struct MainCameraView<VM: MainCameraViewModel>: View {
 }
 
 enum Expiration: String, CaseIterable, Identifiable {
-    case test = "test"
     case day = "day"
     case week = "week"
     case month = "month"
