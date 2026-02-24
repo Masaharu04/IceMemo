@@ -84,7 +84,6 @@ final class photoUseCaseImpl: PhotoUseCase {
         return "日付の取得に失敗しました。"
     }
 
-    
     func autoDelete() {
         let imageUrls = fetch()
         for url in imageUrls {
@@ -95,3 +94,4 @@ final class photoUseCaseImpl: PhotoUseCase {
         }
     }
 }
+
