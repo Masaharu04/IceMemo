@@ -55,6 +55,8 @@ final class photoUseCaseImpl: PhotoUseCase {
         // 3. 期限タイプに応じて期限日時を計算
         var expireDate: Date
         switch directoryName {
+        case "test":
+            expireDate = Calendar.current.date(byAdding: .second, value: 30, to: shootDate)!
         case "day":
             expireDate = Calendar.current.date(byAdding: .day, value: 1, to: shootDate)!
         case "week":

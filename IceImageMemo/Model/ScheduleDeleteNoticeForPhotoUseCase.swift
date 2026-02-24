@@ -5,7 +5,7 @@ final class ScheduleDeleteNoticeForPhotoUseCase {
 
     func execute(expiration: Expiration, shotDate: Date) {
         switch expiration {
-        case .day, .week:
+        case .test, .day, .week:
             break
         case .month:
             scheduleMonthNotice(idBase: shotDate)

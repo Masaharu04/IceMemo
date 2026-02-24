@@ -170,7 +170,7 @@ extension MainCameraViewModelImpl {
             fatalError("ドキュメントディレクトリのURL取得に失敗")
         }
         
-        let subfolders = ["day", "week", "month", "year"]
+        let subfolders = ["test","day", "week", "month", "year"]
         let fileManager = FileManager.default
         
         for name in subfolders {
