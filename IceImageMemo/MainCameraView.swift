@@ -23,7 +23,7 @@ struct MainCameraView<VM: MainCameraViewModel>: View {
                 Spacer()
                 HStack(alignment: .center){
                     Group {
-                        if let url = vm.fetchLastPhoto(),
+                        if let url = vm.lastPhotoURL,
                            let uiImage = UIImage(contentsOfFile: url.path) {
                             Image(uiImage: uiImage)
                                 .resizable()
