@@ -60,8 +60,8 @@ struct AppContainer {
         AlbumViewModelImpl(photoUseCase: makePhotoUseCase())
     }
     
-    func makeDetailViewModel(imageUrl: URL) -> DetailViewModelImpl {
-        DetailViewModelImpl(photoUseCase: makePhotoUseCase(), imageURL: imageUrl)
+    func makeDetailViewModel(imageUrl: URL, onDelete: (() -> Void)? = nil) -> DetailViewModelImpl {
+        DetailViewModelImpl(photoUseCase: makePhotoUseCase(), imageURL: imageUrl, onDelete: onDelete)
     }
 }
 
@@ -74,7 +74,8 @@ protocol AppCoordinatorProtocol: ObservableObject {
 final class AppCoordinator: AppCoordinatorProtocol {
     @Published var presentedRoute: AppRoute?
     private let container: AppContainer
-    
+    var onPhotoDeleted: (() -> Void)?
+
     init(container: AppContainer) {
         self.container = container
     }
@@ -88,7 +89,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
         case .album:
             AlbumView(vm: self.container.makeAlbumViewModel())
         case .detail(let imageUrl):
-            DetailView(vm: self.container.makeDetailViewModel(imageUrl: imageUrl))
+            DetailView(vm: self.container.makeDetailViewModel(imageUrl: imageUrl, onDelete: onPhotoDeleted))
         }
     }
 }

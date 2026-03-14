@@ -45,7 +45,7 @@ struct MainCameraView<VM: MainCameraViewModel>: View {
                     HStack(alignment: .center, spacing: 0) {
                         // 左: サムネイル（円形・写真がなければ非表示）
                         ZStack {
-                            if let url = vm.fetchLastPhoto(),
+                            if let url = vm.lastPhotoURL,
                                let uiImage = UIImage(contentsOfFile: url.path) {
                                 Image(uiImage: uiImage)
                                     .resizable()

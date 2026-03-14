@@ -15,7 +15,7 @@ protocol MainCameraViewModel: ObservableObject {
     func onTapAlbumButton()
     func zoomIn()
     func zoomOut()
-    func fetchLastPhoto() -> URL?
+    var lastPhotoURL: URL? { get }
 }
 
 final class MainCameraViewModelImpl: MainCameraViewModel {
@@ -25,6 +25,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
         }
     }
     @Published var isPresented: Bool = false
+    @Published var lastPhotoURL: URL?
     private let service: CameraService
     private var photoUseCase: PhotoUseCase
     private let noticeUseCase = ScheduleDeleteNoticeForPhotoUseCase()
@@ -45,14 +46,17 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
         self.service = service
         self.coordinator = coordinator
         self.photoUseCase = photoUseCase
+        coordinator.onPhotoDeleted = { [weak self] in
+            self?.refreshLastPhoto()
+        }
         service.photoPublisher
             .compactMap { UIImage(data: $0) }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
-                self?.objectWillChange.send()
                 if let expiration = self?.expirationType {
                     self?.storePhoto(expiration: expiration, image: image)
                 }
+                self?.refreshLastPhoto()
             }
             .store(in: &bag)
     }
@@ -63,6 +67,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
             await service.configure()
             service.startRunning()
         }
+        refreshLastPhoto()
     }
     
     func onDisappear() {
@@ -113,9 +118,8 @@ extension MainCameraViewModelImpl {
             )
     }
     
-    func fetchLastPhoto() -> URL? {
-        let photoUrls =  self.photoUseCase.fetch()
-        return photoUrls.first
+    func refreshLastPhoto() {
+        lastPhotoURL = photoUseCase.fetch().first
     }
     
     private func makeUrl(expiration: Expiration, shotDate: Date) -> URL {

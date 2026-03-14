@@ -38,12 +38,16 @@ final class DetailViewModelImpl: DetailViewModel {
     @Published var remainDate: String = ""
     var imageURL: URL
     
+    var onDelete: (() -> Void)?
+
     init(
         photoUseCase: PhotoUseCase,
-        imageURL: URL
+        imageURL: URL,
+        onDelete: (() -> Void)? = nil
     ) {
         self.photoUseCase = photoUseCase
         self.imageURL = imageURL
+        self.onDelete = onDelete
     }
     
     func didTapImage(isTapoed: Bool) {
@@ -58,6 +62,7 @@ final class DetailViewModelImpl: DetailViewModel {
         
         isDelete = false
         photoUseCase.deletePhoto(imageUrl: imageURL)
+        onDelete?()
     }
     
     func fetchRemainDate() {
