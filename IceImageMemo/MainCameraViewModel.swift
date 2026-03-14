@@ -34,6 +34,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     private var baseZoomFactor: CGFloat = 1.0
     private var isPinching: Bool = false
     private var lastShotDate: Date?
+    private var canTakePhoto: Bool = true
     var session: AVCaptureSession{
         service.session
     }
@@ -92,10 +93,16 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     }
     
     func onTakePhoto() {
+        guard canTakePhoto else { return }
+        canTakePhoto = false
+
         let shotDate = Date()
         service.capturePhoto()
-        
         lastShotDate = shotDate
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.canTakePhoto = true
+        }
     }
     
     func onTapAlbumButton() {
