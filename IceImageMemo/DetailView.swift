@@ -23,7 +23,7 @@ struct DetailView<VM: DetailViewModel>: View {
                                 Button {
                                     vm.isDelete = true
                                 } label: {
-                                    Text("Delete")
+                                    Image(systemName: "trash")
                                 }
                             }
                             ToolbarItem(placement: .bottomBar) {
