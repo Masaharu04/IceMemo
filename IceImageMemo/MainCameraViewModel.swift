@@ -39,6 +39,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     private var baseZoomFactor: CGFloat = 1.0
     private var isPinching: Bool = false
     private var lastShotDate: Date?
+    private var canTakePhoto: Bool = true
     var session: AVCaptureSession{
         service.session
     }
@@ -51,14 +52,17 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
         self.service = service
         self.coordinator = coordinator
         self.photoUseCase = photoUseCase
+        coordinator.onPhotoDeleted = { [weak self] in
+            self?.refreshLastPhoto()
+        }
         service.photoPublisher
             .compactMap { UIImage(data: $0) }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] image in
-                self?.objectWillChange.send()
                 if let expiration = self?.expirationType {
                     self?.storePhoto(expiration: expiration, image: image)
                 }
+                self?.refreshLastPhoto()
             }
             .store(in: &bag)
     }
@@ -70,6 +74,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
             await service.configure()
             service.startRunning()
         }
+        refreshLastPhoto()
     }
     
     func onDisappear() {
@@ -94,10 +99,16 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     }
     
     func onTakePhoto() {
+        guard canTakePhoto else { return }
+        canTakePhoto = false
+
         let shotDate = Date()
         service.capturePhoto()
-        
         lastShotDate = shotDate
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.canTakePhoto = true
+        }
     }
     
     private func changeZoom(scale: CGFloat) {
@@ -153,9 +164,8 @@ extension MainCameraViewModelImpl {
             )
     }
     
-    func fetchLastPhoto() -> URL? {
-        let photoUrls =  self.photoUseCase.fetch()
-        return photoUrls.first
+    func refreshLastPhoto() {
+        lastPhotoURL = photoUseCase.fetch().first
     }
     
     private func makeUrl(expiration: Expiration, shotDate: Date) -> URL {
