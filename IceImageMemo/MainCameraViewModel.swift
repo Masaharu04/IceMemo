@@ -46,7 +46,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     init(
         service: CameraService,
         coordinator: AppCoordinator,
-        photoUseCase: photoUseCaseImpl
+        photoUseCase: PhotoUseCaseImpl
     ) {
         self.service = service
         self.coordinator = coordinator
