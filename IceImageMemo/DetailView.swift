@@ -3,62 +3,71 @@ import SwiftUI
 struct DetailView<VM: DetailViewModel>: View {
     @ObservedObject var vm: VM
     @Environment(\.dismiss) private var dismiss
+
     var body: some View {
         GeometryReader { geometry in
             if let uiImage = UIImage(contentsOfFile: vm.imageURL.path) {
-                VStack(spacing: 10) {
+                ZStack {
+                    Color(.systemBackground).ignoresSafeArea()
+
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFit()
-                        .clipped()
-                        .cornerRadius(12)
-                        .padding(.horizontal, 16)
-                        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .onTapGesture {
-                            vm.isTapped.toggle()
-                            vm.didTapImage(isTapoed: vm.isTapped)
-                        }
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button {
-                                    vm.isDelete = true
-                                } label: {
-                                    Image(systemName: "trash")
-                                }
-                            }
-                            ToolbarItem(placement: .bottomBar) {
-                                ShareLink(
-                                    item: ShareableUIImage(uiImage: uiImage),
-                                    preview: SharePreview(
-                                        "",
-                                        image: Image(uiImage: uiImage)
-                                    )
-                                ) {
-                                    Label("Share", systemImage: "square.and.arrow.up")
-                                }
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                vm.isTapped.toggle()
+                                vm.didTapImage(isTapoed: vm.isTapped)
                             }
                         }
-                        .alert("本当に削除しますか？", isPresented: $vm.isDelete) {
-                            Button("削除", role: .destructive) {
-                                vm.didTapDelteButton()
-                                dismiss()
-                            }
-                            Button("キャンセル", role: .cancel) { }
-                        }
-                    Text(vm.remainDate)
-                        .font(.headline)
-                        .foregroundStyle(.primary)
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 16)
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
-                        .padding(.top, 8)
+
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .toolbar(vm.isTapped ? .hidden : .visible, for: .navigationBar)
+                .toolbar {
+                    ToolbarItemGroup(placement: .bottomBar) {
+                        ShareLink(
+                            item: ShareableUIImage(uiImage: uiImage),
+                            preview: SharePreview(
+                                "",
+                                image: Image(uiImage: uiImage)
+                            )
+                        ) {
+                            Image(systemName: "square.and.arrow.up")
+                                .foregroundStyle(.primary)
+                        }
+
+                        Spacer()
+
+                        Text(vm.remainDate)
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundStyle(.primary)
+                            .fixedSize(horizontal: true, vertical: false)
+                            .padding(.horizontal, 10)
+
+                        Spacer()
+
+                        Button {
+                            vm.isDelete = true
+                        } label: {
+                            Image(systemName: "trash")
+                                .foregroundStyle(.primary)
+                        }
+                    }
+                }
+                .alert("本当に削除しますか？", isPresented: $vm.isDelete) {
+                    Button("削除", role: .destructive) {
+                        vm.didTapDelteButton()
+                        dismiss()
+                    }
+                    Button("キャンセル", role: .cancel) { }
+                }
             }
         }
+        .background(Color(.systemBackground))
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             vm.fetchRemainDate()
         }
     }
 }
-
