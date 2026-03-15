@@ -44,7 +44,9 @@ struct ContentView: View{
             //tutroial_View()
         }else{
             MainCameraView(vm: vm)
-                .sheet(item: $coordinator.presentedRoute) { route in
+                .sheet(item: $coordinator.presentedRoute, onDismiss: {
+                    vm.refreshLastPhoto()
+                }) { route in
                     coordinator.destinationView(for: route)
                 }
                 .environmentObject(coordinator)
