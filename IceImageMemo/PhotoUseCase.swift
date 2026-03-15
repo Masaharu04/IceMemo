@@ -8,7 +8,7 @@ protocol PhotoUseCase {
     func autoDelete()
 }
 
-final class photoUseCaseImpl: PhotoUseCase {
+final class PhotoUseCaseImpl: PhotoUseCase {
     private let repository: PhotoRepository
     
     init(repository: PhotoRepository) {

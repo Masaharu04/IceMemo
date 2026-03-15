@@ -30,12 +30,12 @@ struct ContentView: View{
     init() {
         let photoRepository = PhotoRepositoryImpl()
         let container = AppContainer(
-            makePhotoUseCase: { photoUseCaseImpl(repository: photoRepository) }
+            makePhotoUseCase: { PhotoUseCaseImpl(repository: photoRepository) }
         )
         let coordinator = AppCoordinator(container: container)
         _coordinator = StateObject(wrappedValue: coordinator)
         let service = CameraServiceImpl()
-        let photoUseCase = photoUseCaseImpl(repository: photoRepository)
+        let photoUseCase = PhotoUseCaseImpl(repository: photoRepository)
         self.vm = MainCameraViewModelImpl(service: service, coordinator: coordinator, photoUseCase: photoUseCase)
         vm.viewdidLoad()
     }
