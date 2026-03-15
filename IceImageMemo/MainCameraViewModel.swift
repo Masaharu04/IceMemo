@@ -18,7 +18,6 @@ protocol MainCameraViewModel: ObservableObject {
     func onTapAlbumButton()
     func onPinchChanged(scale: CGFloat)
     func onPinchEnded()
-    func fetchLastPhoto() -> URL?
     func refreshLastPhoto()
 }
 @MainActor
@@ -140,10 +139,6 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     
     func onTapAlbumButton() {
         coordinator?.present(.album)
-    }
-
-    func refreshLastPhoto() {
-        lastPhotoURL = fetchLastPhoto()
     }
     
 }
