@@ -8,6 +8,8 @@ protocol MainCameraViewModel: ObservableObject {
     var session: AVCaptureSession { get }
     var isPresented: Bool { get }
     var expirationType: Expiration { get set }
+    var lastImage: UIImage { get set }
+    var lastPhotoURL: URL? { get }
     func presentSheet()
     func onAppear()
     func onDisappear()
@@ -16,9 +18,9 @@ protocol MainCameraViewModel: ObservableObject {
     func onTapAlbumButton()
     func onPinchChanged(scale: CGFloat)
     func onPinchEnded()
-    var lastPhotoURL: URL? { get }
+    func fetchLastPhoto() -> URL?
+    func refreshLastPhoto()
 }
-
 @MainActor
 final class MainCameraViewModelImpl: MainCameraViewModel {
     @Published var expirationType: Expiration = .day {
@@ -27,6 +29,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
         }
     }
     @Published var isPresented: Bool = false
+    @Published var lastImage: UIImage = UIImage()
     @Published var lastPhotoURL: URL?
     private let service: CameraService
     private var photoUseCase: PhotoUseCase
@@ -65,6 +68,7 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     }
     
     func onAppear() {
+        refreshLastPhoto()
         //TODO: カメラセッションの起動や権限の確認
         Task {
             await service.configure()
@@ -137,6 +141,10 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     func onTapAlbumButton() {
         coordinator?.present(.album)
     }
+
+    func refreshLastPhoto() {
+        lastPhotoURL = fetchLastPhoto()
+    }
     
 }
 extension MainCameraViewModelImpl {
@@ -148,6 +156,8 @@ extension MainCameraViewModelImpl {
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
         photoUseCase.savePhoto(data: imageData,url: saveUrl)
         
+        refreshLastPhoto()
+
         noticeUseCase.execute(
                 expiration: expiration,
                 shotDate: shotDate

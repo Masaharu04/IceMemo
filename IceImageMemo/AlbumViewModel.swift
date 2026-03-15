@@ -21,8 +21,10 @@ final class AlbumViewModelImpl: AlbumViewModel {
     }
     
     func onAppear() {
+        self.photoUseCase.autoDelete()
         let urls = fetch()
         self.photoUrls = urls
+        
     }
     
     func isExpiringSoon(_ url: URL) -> Bool {
