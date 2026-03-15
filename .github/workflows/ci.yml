@@ -1,48 +1,62 @@
-name: iOS CI (PR only)
+name: CI
 
 on:
   pull_request:
-    branches: [ develop, main ]
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
+  lint:
+    name: Lint & Format
     runs-on: macos-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Fetch base branch explicitly
-        run: |
-          git fetch origin ${{ github.event.pull_request.base.ref }} --no-tags
+      - name: Fetch base branch
+        run: git fetch origin ${{ github.event.pull_request.base.ref }} --no-tags
 
       - name: Install tools
-        run: |
-          brew install swiftlint swift-format
-          gem install xcpretty
+        run: brew install swiftlint swift-format
 
-      - name: Lint & Format (changed Swift files only)
+      - name: Run SwiftLint
         run: |
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD -- '*.swift')
-          
-          if [ -z "$CHANGED_FILES" ]; then
-            echo "✅ No Swift files changed."
-          else
-            echo "$CHANGED_FILES" | while read file; do
-              if [ -f "$file" ]; then
-                echo "🧹 Linting: $file"
-                swiftlint --path "$file" || true
-                echo "🎨 Checking format: $file"
-                swift-format lint "$file" || true
-              fi
-            done
+          CHANGED=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD -- '*.swift')
+          if [ -z "$CHANGED" ]; then
+            echo "No Swift files changed — skipping lint."
+            exit 0
           fi
+          echo "$CHANGED" | xargs swiftlint lint --strict
 
-      - name: Build project
+      - name: Run swift-format lint
         run: |
-          xcodebuild -project IceImageMemo.xcodeproj \
-            -scheme IceImageMemo \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=18.0' \
-            clean build | xcpretty
+          CHANGED=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD -- '*.swift')
+          if [ -z "$CHANGED" ]; then
+            echo "No Swift files changed — skipping format check."
+            exit 0
+          fi
+          echo "$CHANGED" | xargs swift-format lint --strict
+
+  build:
+    name: Build
+    runs-on: macos-latest
+    needs: lint
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Build via Fastlane
+        run: bundle exec fastlane ci_build_check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
