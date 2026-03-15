@@ -1,5 +1,4 @@
 import Foundation
-import SwiftUI
 
 protocol DetailViewModel: ObservableObject {
     var imageURL: URL { get }
@@ -10,7 +9,7 @@ protocol DetailViewModel: ObservableObject {
 
     func didTapDelteButton()
     func fetchRemainDate()
-    func onPinchChanged(magnification: CGFloat, anchor: UnitPoint, viewSize: CGSize, imageSize: CGSize)
+    func onPinchChanged(magnification: CGFloat, anchor: CGPoint, viewSize: CGSize, imageSize: CGSize)
     func onPinchEnded(viewSize: CGSize, imageSize: CGSize)
     func onDragChanged(translation: CGSize, viewSize: CGSize, imageSize: CGSize)
     func onDragEnded()
@@ -62,7 +61,7 @@ final class DetailViewModelImpl: DetailViewModel {
 
     // MARK: - Zoom & Pan
 
-    func onPinchChanged(magnification: CGFloat, anchor: UnitPoint, viewSize: CGSize, imageSize: CGSize) {
+    func onPinchChanged(magnification: CGFloat, anchor: CGPoint, viewSize: CGSize, imageSize: CGSize) {
         let newScale = min(max(lastScale * magnification, minScale), maxScale)
         let anchorOffset = CGSize(
             width: (anchor.x - 0.5) * viewSize.width,

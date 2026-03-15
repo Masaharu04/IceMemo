@@ -22,7 +22,7 @@ struct DetailView<VM: DetailViewModel>: View {
                                 .onChanged { value in
                                     vm.onPinchChanged(
                                         magnification: value.magnification,
-                                        anchor: value.startAnchor,
+                                        anchor: CGPoint(x: value.startAnchor.x, y: value.startAnchor.y),
                                         viewSize: geometry.size,
                                         imageSize: imgSize
                                     )
