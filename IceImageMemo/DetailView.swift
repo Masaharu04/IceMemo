@@ -4,35 +4,6 @@ struct DetailView<VM: DetailViewModel>: View {
     @ObservedObject var vm: VM
     @Environment(\.dismiss) private var dismiss
 
-    @State private var scale: CGFloat = 1.0
-    @State private var lastScale: CGFloat = 1.0
-    @State private var offset: CGSize = .zero
-    @State private var lastOffset: CGSize = .zero
-    private let minScale: CGFloat = 1.0
-    private let maxScale: CGFloat = 5.0
-
-    private func displayedImageSize(imageSize: CGSize, viewSize: CGSize) -> CGSize {
-        let imageAspect = imageSize.width / imageSize.height
-        let viewAspect = viewSize.width / viewSize.height
-        if imageAspect > viewAspect {
-            let w = viewSize.width
-            return CGSize(width: w, height: w / imageAspect)
-        } else {
-            let h = viewSize.height
-            return CGSize(width: h * imageAspect, height: h)
-        }
-    }
-
-    private func clampedOffset(_ newOffset: CGSize, imageSize: CGSize, viewSize: CGSize) -> CGSize {
-        let displayed = displayedImageSize(imageSize: imageSize, viewSize: viewSize)
-        let maxX = max((displayed.width * scale - viewSize.width) / 2, 0)
-        let maxY = max((displayed.height * scale - viewSize.height) / 2, 0)
-        return CGSize(
-            width: min(max(newOffset.width, -maxX), maxX),
-            height: min(max(newOffset.height, -maxY), maxY)
-        )
-    }
-
     var body: some View {
         GeometryReader { geometry in
             if let uiImage = UIImage(contentsOfFile: vm.imageURL.path) {
@@ -44,84 +15,46 @@ struct DetailView<VM: DetailViewModel>: View {
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .scaleEffect(scale)
-                        .offset(offset)
+                        .scaleEffect(vm.scale)
+                        .offset(vm.offset)
                         .gesture(
                             MagnifyGesture()
                                 .onChanged { value in
-                                    let newScale = min(max(lastScale * value.magnification, minScale), maxScale)
-                                    let anchor = value.startAnchor
-                                    let viewSize = geometry.size
-                                    // ピンチポイントからビュー中心までの距離
-                                    let anchorOffset = CGSize(
-                                        width: (anchor.x - 0.5) * viewSize.width,
-                                        height: (anchor.y - 0.5) * viewSize.height
+                                    vm.onPinchChanged(
+                                        magnification: value.magnification,
+                                        anchor: value.startAnchor,
+                                        viewSize: geometry.size,
+                                        imageSize: imgSize
                                     )
-                                    // スケール変化に応じてオフセットを調整
-                                    let scaleDelta = newScale / scale
-                                    let newOffset = CGSize(
-                                        width: anchorOffset.width * (1 - scaleDelta) + offset.width * scaleDelta,
-                                        height: anchorOffset.height * (1 - scaleDelta) + offset.height * scaleDelta
-                                    )
-                                    scale = newScale
-                                    offset = clampedOffset(newOffset, imageSize: imgSize, viewSize: viewSize)
                                 }
                                 .onEnded { _ in
                                     withAnimation(.easeInOut(duration: 0.2)) {
-                                        if scale < minScale {
-                                            scale = minScale
-                                        }
-                                        lastScale = scale
-                                        if scale == minScale {
-                                            offset = .zero
-                                            lastOffset = .zero
-                                        } else {
-                                            offset = clampedOffset(offset, imageSize: imgSize, viewSize: geometry.size)
-                                            lastOffset = offset
-                                        }
+                                        vm.onPinchEnded(viewSize: geometry.size, imageSize: imgSize)
                                     }
                                 }
                                 .simultaneously(with:
                                     DragGesture()
                                         .onChanged { value in
-                                            guard scale > minScale else { return }
-                                            let newOffset = CGSize(
-                                                width: lastOffset.width + value.translation.width,
-                                                height: lastOffset.height + value.translation.height
+                                            vm.onDragChanged(
+                                                translation: value.translation,
+                                                viewSize: geometry.size,
+                                                imageSize: imgSize
                                             )
-                                            offset = clampedOffset(newOffset, imageSize: imgSize, viewSize: geometry.size)
                                         }
                                         .onEnded { _ in
-                                            lastOffset = offset
+                                            vm.onDragEnded()
                                         }
                                 )
                         )
                         .onTapGesture(count: 2) { location in
                             withAnimation(.easeInOut(duration: 0.2)) {
-                                if scale > minScale {
-                                    scale = minScale
-                                    lastScale = minScale
-                                    offset = .zero
-                                    lastOffset = .zero
-                                } else {
-                                    let newScale: CGFloat = 3.0
-                                    let viewSize = geometry.size
-                                    let anchorOffset = CGSize(
-                                        width: location.x - viewSize.width / 2,
-                                        height: location.y - viewSize.height / 2
-                                    )
-                                    let newOffset = CGSize(
-                                        width: anchorOffset.width * (1 - newScale),
-                                        height: anchorOffset.height * (1 - newScale)
-                                    )
-                                    scale = newScale
-                                    lastScale = newScale
-                                    offset = clampedOffset(newOffset, imageSize: imgSize, viewSize: viewSize)
-                                    lastOffset = offset
-                                }
+                                vm.onDoubleTap(
+                                    location: location,
+                                    viewSize: geometry.size,
+                                    imageSize: imgSize
+                                )
                             }
                         }
-
                 }
                 .toolbar {
                     ToolbarItemGroup(placement: .bottomBar) {

@@ -53,6 +53,7 @@ enum AppRoute: Identifiable {
     }
 }
 
+@MainActor
 struct AppContainer {
     let makePhotoUseCase: () -> PhotoUseCase
     
@@ -71,6 +72,7 @@ protocol AppCoordinatorProtocol: ObservableObject {
     func dismiss()
 }
 
+@MainActor
 final class AppCoordinator: AppCoordinatorProtocol {
     @Published var presentedRoute: AppRoute?
     private let container: AppContainer
