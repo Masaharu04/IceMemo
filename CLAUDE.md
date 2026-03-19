@@ -6,7 +6,7 @@
 UIKit（Storyboard, XIB, UIViewControllerなど）は原則として使用しません。
 
 ## Target Environment
-- **iOS Target**: iOS 18.0+
+- **iOS Target**: iOS 26.0+
 - **Swift Version**: Swift 5.0+
 - **Framework**: SwiftUI / AVFoundation / UserNotifications
 
