@@ -5,12 +5,10 @@
 //  Created by Masaharu on 2023/07/25.
 //
 
-import Foundation
 import CoreImage
+import Foundation
 
-func read_exifdata(image_url: URL) -> Dictionary<String, Any>{
+func read_exifdata(image_url: URL) -> [String: Any] {
     let photo_ci = CIImage(contentsOf: image_url)
-    let imageProperties = photo_ci!.properties
-    return imageProperties
+    return photo_ci!.properties
 }
-

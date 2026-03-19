@@ -1,6 +1,6 @@
-import SwiftUI
 import AVFoundation
 import Combine
+import SwiftUI
 
 struct MainCameraView<VM: MainCameraViewModel>: View {
     @ObservedObject var vm: VM
@@ -108,11 +108,12 @@ struct MainCameraView<VM: MainCameraViewModel>: View {
     }
 }
 
-
 enum Expiration: String, CaseIterable, Identifiable {
-    case day = "day"
-    case week = "week"
-    case month = "month"
-    case year = "year"
-    var id: Self { self }
+    case day
+    case week
+    case month
+    case year
+    var id: Self {
+        self
+    }
 }

@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, develop]
 
 concurrency:
   group: ci-${{ github.pull_request.number || github.ref }}
@@ -22,7 +22,7 @@ jobs:
         run: git fetch origin ${{ github.event.pull_request.base.ref }} --no-tags
 
       - name: Install tools
-        run: brew install swiftlint swift-format
+        run: brew install swiftlint swiftformat
 
       - name: Run SwiftLint
         run: |
@@ -33,14 +33,14 @@ jobs:
           fi
           echo "$CHANGED" | xargs swiftlint lint --strict
 
-      - name: Run swift-format lint
+      - name: Run SwiftFormat check
         run: |
           CHANGED=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD -- '*.swift')
           if [ -z "$CHANGED" ]; then
             echo "No Swift files changed — skipping format check."
             exit 0
           fi
-          echo "$CHANGED" | xargs swift-format lint --strict
+          echo "$CHANGED" | xargs swiftformat --lint
 
   build:
     name: Build

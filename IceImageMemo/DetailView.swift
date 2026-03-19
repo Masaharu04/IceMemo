@@ -43,8 +43,7 @@ struct DetailView<VM: DetailViewModel>: View {
                                         }
                                         .onEnded { _ in
                                             vm.onDragEnded()
-                                        }
-                                )
+                                        })
                         )
                         .onTapGesture(count: 2) { location in
                             withAnimation(.easeInOut(duration: 0.2)) {
@@ -93,7 +92,7 @@ struct DetailView<VM: DetailViewModel>: View {
                         vm.didTapDelteButton()
                         dismiss()
                     }
-                    Button("キャンセル", role: .cancel) { }
+                    Button("キャンセル", role: .cancel) {}
                 }
             }
         }
