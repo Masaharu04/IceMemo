@@ -50,7 +50,8 @@ extension AlbumView {
     func photoCell(url: URL) -> some View {
         GeometryReader { geo in
             ZStack {
-                if let uiImage = UIImage(contentsOfFile: url.path) {
+                let displayImage = vm.croppedImage(for: url) ?? UIImage(contentsOfFile: url.path)
+                if let uiImage = displayImage {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFill()

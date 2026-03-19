@@ -6,7 +6,9 @@ struct DetailView<VM: DetailViewModel>: View {
 
     var body: some View {
         GeometryReader { geometry in
-            if let uiImage = UIImage(contentsOfFile: vm.imageURL.path) {
+            let displayImage = vm.showingCropped ? vm.croppedImage : UIImage(contentsOfFile: vm.imageURL.path)
+            let originalImage = UIImage(contentsOfFile: vm.imageURL.path)
+            if let uiImage = displayImage ?? originalImage {
                 let imgSize = uiImage.size
                 ZStack {
                     Color(.systemBackground).ignoresSafeArea()
@@ -58,10 +60,10 @@ struct DetailView<VM: DetailViewModel>: View {
                 .toolbar {
                     ToolbarItemGroup(placement: .bottomBar) {
                         ShareLink(
-                            item: ShareableUIImage(uiImage: uiImage),
+                            item: ShareableUIImage(uiImage: originalImage ?? uiImage),
                             preview: SharePreview(
                                 "",
-                                image: Image(uiImage: uiImage)
+                                image: Image(uiImage: originalImage ?? uiImage)
                             )
                         ) {
                             Image(systemName: "square.and.arrow.up")
@@ -86,6 +88,14 @@ struct DetailView<VM: DetailViewModel>: View {
                                 .foregroundStyle(.primary)
                         }
                     }
+
+                    if vm.isCropAvailable {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button(action: { vm.toggleCropView() }) {
+                                Image(systemName: vm.showingCropped ? "photo" : "doc.viewfinder")
+                            }
+                        }
+                    }
                 }
                 .alert("本当に削除しますか？", isPresented: $vm.isDelete) {
                     Button("削除", role: .destructive) {
@@ -100,6 +110,7 @@ struct DetailView<VM: DetailViewModel>: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             vm.fetchRemainDate()
+            Task { await vm.loadCroppedImageIfNeeded() }
         }
     }
 }
