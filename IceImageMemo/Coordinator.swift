@@ -4,13 +4,13 @@ import SwiftUI
 enum AppRoute: Identifiable {
     case album
     case detail(URL)
-    
+
     var id: String {
         switch self {
         case .album:
-            return "album"
+            "album"
         case .detail:
-            return "detail"
+            "detail"
         }
     }
 }
@@ -18,11 +18,11 @@ enum AppRoute: Identifiable {
 @MainActor
 struct AppContainer {
     let makePhotoUseCase: () -> PhotoUseCase
-    
+
     func makeAlbumViewModel() -> AlbumViewModelImpl {
         AlbumViewModelImpl(photoUseCase: makePhotoUseCase())
     }
-    
+
     func makeDetailViewModel(imageUrl: URL, onDelete: (() -> Void)? = nil) -> DetailViewModelImpl {
         DetailViewModelImpl(photoUseCase: makePhotoUseCase(), imageURL: imageUrl, onDelete: onDelete)
     }
@@ -43,19 +43,22 @@ final class AppCoordinator: AppCoordinatorProtocol {
     init(container: AppContainer) {
         self.container = container
     }
-    
-    func present(_ route: AppRoute) { presentedRoute = route }
-    func dismiss() { presentedRoute = nil }
-    
+
+    func present(_ route: AppRoute) {
+        presentedRoute = route
+    }
+
+    func dismiss() {
+        presentedRoute = nil
+    }
+
     @ViewBuilder
     func destinationView(for route: AppRoute) -> some View {
         switch route {
         case .album:
-            AlbumView(vm: self.container.makeAlbumViewModel())
-        case .detail(let imageUrl):
-            DetailView(vm: self.container.makeDetailViewModel(imageUrl: imageUrl, onDelete: onPhotoDeleted))
+            AlbumView(vm: container.makeAlbumViewModel())
+        case let .detail(imageUrl):
+            DetailView(vm: container.makeDetailViewModel(imageUrl: imageUrl, onDelete: onPhotoDeleted))
         }
     }
 }
-
-

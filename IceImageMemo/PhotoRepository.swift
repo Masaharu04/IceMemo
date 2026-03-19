@@ -19,7 +19,7 @@ final class PhotoRepositoryImpl: PhotoRepository {
         for bucket in Expiration.allCases {
             let dir = documentsURL.appendingPathComponent(bucket.rawValue, isDirectory: true)
             guard fm.fileExists(atPath: dir.path) else { continue }
-            
+
             do {
                 let items = try fm.contentsOfDirectory(
                     at: dir,
@@ -29,7 +29,7 @@ final class PhotoRepositoryImpl: PhotoRepository {
                 for url in items {
                     let values = try url.resourceValues(forKeys: [.isDirectoryKey])
                     let isDir = values.isDirectory ?? false
-                    if !isDir && allowedExts.contains(url.pathExtension.lowercased()) {
+                    if !isDir, allowedExts.contains(url.pathExtension.lowercased()) {
                         imageUrls.append(url)
                     }
                 }
@@ -39,7 +39,7 @@ final class PhotoRepositoryImpl: PhotoRepository {
         }
         return imageUrls
     }
-    
+
     func delete(url: URL) {
         let filemanager = FileManager.default
         do {
@@ -48,7 +48,7 @@ final class PhotoRepositoryImpl: PhotoRepository {
             print(error.localizedDescription)
         }
     }
-    
+
     func save(data: Data, url: URL) {
         do {
             try data.write(to: url)
@@ -57,4 +57,3 @@ final class PhotoRepositoryImpl: PhotoRepository {
         }
     }
 }
-

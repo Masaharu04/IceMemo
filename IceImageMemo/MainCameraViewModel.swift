@@ -1,7 +1,7 @@
+import AVFoundation
+import Combine
 import Foundation
 import SwiftUI
-import Combine
-import AVFoundation
 
 @MainActor
 protocol MainCameraViewModel: ObservableObject {
@@ -20,6 +20,7 @@ protocol MainCameraViewModel: ObservableObject {
     func onPinchEnded()
     func refreshLastPhoto()
 }
+
 @MainActor
 final class MainCameraViewModelImpl: MainCameraViewModel {
     @Published var expirationType: Expiration = .day {
@@ -27,8 +28,9 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
             print("選択肢が変更されました: \(expirationType.rawValue)")
         }
     }
+
     @Published var isPresented: Bool = false
-    @Published var lastImage: UIImage = UIImage()
+    @Published var lastImage: UIImage = .init()
     @Published var lastPhotoURL: URL?
     private let service: CameraService
     private var photoUseCase: PhotoUseCase
@@ -39,9 +41,10 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
     private var isPinching: Bool = false
     private var lastShotDate: Date?
     private var canTakePhoto: Bool = true
-    var session: AVCaptureSession{
+    var session: AVCaptureSession {
         service.session
     }
+
     private weak var coordinator: AppCoordinator?
     init(
         service: CameraService,
@@ -65,38 +68,38 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
             }
             .store(in: &bag)
     }
-    
+
     func onAppear() {
         refreshLastPhoto()
-        //TODO: カメラセッションの起動や権限の確認
+        // TODO: カメラセッションの起動や権限の確認
         Task {
             await service.configure()
             service.startRunning()
         }
         refreshLastPhoto()
     }
-    
+
     func onDisappear() {
         service.stopRunning()
     }
-    
+
     func presentSheet() {
         isPresented = true
     }
-    
+
     func viewdidLoad() {
         requestPushNotification()
         makeDirectories()
     }
-    
+
     func onPinchChanged(scale: CGFloat) {
         changeZoom(scale: scale)
     }
-    
+
     func onPinchEnded() {
         isPinching = false
     }
-    
+
     func onTakePhoto() {
         guard canTakePhoto else { return }
         canTakePhoto = false
@@ -109,86 +112,87 @@ final class MainCameraViewModelImpl: MainCameraViewModel {
             self?.canTakePhoto = true
         }
     }
-    
+
     private func changeZoom(scale: CGFloat) {
         guard let deviceInput = session.inputs.first as? AVCaptureDeviceInput else {
             print("Failed to get AVCaptureDeviceInput")
             return
         }
         let device = deviceInput.device
-        
+
         if !isPinching {
             isPinching = true
             baseZoomFactor = device.videoZoomFactor
         }
         var newFactor = baseZoomFactor * scale
-        
+
         do {
             try device.lockForConfiguration()
-            
+
             let minFactor: CGFloat = 1.0
             let maxFactor = min(device.activeFormat.videoMaxZoomFactor, maxZoom)
             newFactor = max(minFactor, min(newFactor, maxFactor))
-            
+
             device.videoZoomFactor = newFactor
             device.unlockForConfiguration()
         } catch {
             print("Failed to change zoom: \(error)")
         }
     }
-    
+
     func onTapAlbumButton() {
         coordinator?.present(.album)
     }
-    
 }
+
 extension MainCameraViewModelImpl {
-    
     func storePhoto(expiration: Expiration, image: UIImage) {
         guard let shotDate = lastShotDate else { return }
 
         let saveUrl = makeUrl(expiration: expiration, shotDate: shotDate)
         guard let imageData = image.jpegData(compressionQuality: 0.5) else { return }
-        photoUseCase.savePhoto(data: imageData,url: saveUrl)
-        
+        photoUseCase.savePhoto(data: imageData, url: saveUrl)
+
         refreshLastPhoto()
 
         noticeUseCase.execute(
-                expiration: expiration,
-                shotDate: shotDate
-            )
+            expiration: expiration,
+            shotDate: shotDate
+        )
     }
-    
+
     func refreshLastPhoto() {
         lastPhotoURL = photoUseCase.fetch().first
     }
-    
-    private func makeUrl(expiration: Expiration, shotDate: Date) -> URL {
+
+    private func makeUrl(expiration: Expiration, shotDate _: Date) -> URL {
         let formatter = DateFormatter()
         formatter.calendar = .init(identifier: .gregorian)
         formatter.timeZone = .current
         formatter.locale = .current
         formatter.dateFormat = "yyyyMMddHHmmss"
-        
+
         let timestamp = formatter.string(from: Date())
         let filename = "\(expiration.rawValue)/\(timestamp).jpg"
-        
+
         guard let documentsURL = FileManager.default.urls(for: .documentDirectory,
-                                                          in: .userDomainMask).first else {
+                                                          in: .userDomainMask).first
+        else {
             fatalError("ドキュメントディレクトリのURL取得に失敗しました")
         }
         return documentsURL.appendingPathComponent(filename)
     }
-    
+
     private func makeDirectories() {
         guard let docURL = FileManager.default.urls(for: .documentDirectory,
-                                                    in: .userDomainMask).first else {
+                                                    in: .userDomainMask).first
+        else {
             fatalError("ドキュメントディレクトリのURL取得に失敗")
         }
-        
+
         let subfolders = ["day", "week", "month", "year"]
         let fileManager = FileManager.default
-        
+
         for name in subfolders {
             let dirURL = docURL.appendingPathComponent(name)
             if !fileManager.fileExists(atPath: dirURL.path) {
@@ -201,11 +205,11 @@ extension MainCameraViewModelImpl {
             }
         }
     }
-    
+
     func requestPushNotification() {
         UNUserNotificationCenter.current().requestAuthorization(
             options: [.alert, .sound, .badge]
-        ) { granted, error in
+        ) { granted, _ in
             print("通知許可:", granted)
         }
     }

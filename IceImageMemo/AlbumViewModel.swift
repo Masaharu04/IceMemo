@@ -10,23 +10,22 @@ protocol AlbumViewModel: ObservableObject {
 final class AlbumViewModelImpl: AlbumViewModel {
     @Published var photoUrls: [URL]
     private var photoUseCase: PhotoUseCase
-    
+
     init(photoUseCase: PhotoUseCase) {
         self.photoUseCase = photoUseCase
-        self.photoUrls = []
+        photoUrls = []
     }
-    
+
     func fetch() -> [URL] {
-        self.photoUseCase.fetch()
+        photoUseCase.fetch()
     }
-    
+
     func onAppear() {
-        self.photoUseCase.autoDelete()
+        photoUseCase.autoDelete()
         let urls = fetch()
-        self.photoUrls = urls
-        
+        photoUrls = urls
     }
-    
+
     func isExpiringSoon(_ url: URL) -> Bool {
         let remainString = photoUseCase.getRemainDate(imageUrl: url)
         if remainString.contains("期限切れ") { return false }
@@ -40,4 +39,3 @@ final class AlbumViewModelImpl: AlbumViewModel {
         return false
     }
 }
-
