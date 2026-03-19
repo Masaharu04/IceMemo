@@ -1,59 +1,68 @@
+import Photos
 import SwiftUI
 import UIKit
-import Photos
 
 // TODO: 入れなくなったら消す
-struct TapItems:Identifiable{
+struct TapItems: Identifiable {
     var id = UUID()
-    var icon : String
-    var tap:Tap
+    var icon: String
+    var tap: Tap
 }
 
 var tapItems = [
     TapItems(icon: "d.circle", tap: .day),
     TapItems(icon: "w.circle", tap: .week),
     TapItems(icon: "m.circle", tap: .month),
-    TapItems(icon: "y.circle", tap: .year)]
+    TapItems(icon: "y.circle", tap: .year),
+]
 
-enum Tap :String{
+enum Tap: String {
     case day
     case week
     case month
     case year
 }
-var is_first:Bool = false
 
-struct ContentView: View{
+var isFirst: Bool = false
+
+struct ContentView: View {
     @StateObject private var coordinator: AppCoordinator
     let vm: MainCameraViewModelImpl
 
     init() {
         let photoRepository = PhotoRepositoryImpl()
         let container = AppContainer(
-            makePhotoUseCase: { photoUseCaseImpl(repository: photoRepository) }
+            makePhotoUseCase: { PhotoUseCaseImpl(repository: photoRepository) }
         )
         let coordinator = AppCoordinator(container: container)
         _coordinator = StateObject(wrappedValue: coordinator)
         let service = CameraServiceImpl()
-        let photoUseCase = photoUseCaseImpl(repository: photoRepository)
-        self.vm = MainCameraViewModelImpl(service: service, coordinator: coordinator, photoUseCase: photoUseCase)
+        let photoUseCase = PhotoUseCaseImpl(repository: photoRepository)
+        vm = MainCameraViewModelImpl(service: service, coordinator: coordinator, photoUseCase: photoUseCase)
         vm.viewdidLoad()
     }
-    var body: some View{
-        if is_first == true{
-            //tutroial_View()
-        }else{
+
+    var body: some View {
+        if isFirst == true {
+            // tutroial_View()
+        } else {
             MainCameraView(vm: vm)
-                .sheet(item: $coordinator.presentedRoute) { route in
-                    coordinator.destinationView(for: route)
-                }
+                .sheet(
+                    item: $coordinator.presentedRoute,
+                    onDismiss: {
+                        vm.refreshLastPhoto()
+                    },
+                    content: { route in
+                        coordinator.destinationView(for: route)
+                    }
+                )
                 .environmentObject(coordinator)
         }
     }
 }
 
-struct ContentView_Preiews: PreviewProvider{
-    static var previews: some View{
+struct ContentViewPreviews: PreviewProvider {
+    static var previews: some View {
         ContentView()
     }
 }

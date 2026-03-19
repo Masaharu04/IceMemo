@@ -1,12 +1,11 @@
 import SwiftUI
 
-
 struct AlbumView<VM: AlbumViewModel>: View {
     @ObservedObject var vm: VM
     @EnvironmentObject var coordinator: AppCoordinator
-    
+
     private let spacing: CGFloat = 8
-    
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -26,9 +25,12 @@ struct AlbumView<VM: AlbumViewModel>: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button(action: { coordinator.dismiss() }) {
-                        Image(systemName: "xmark")
-                    }
+                    Button(
+                        action: { coordinator.dismiss() },
+                        label: {
+                            Image(systemName: "xmark")
+                        }
+                    )
                 }
                 ToolbarItem(placement: .principal) {
                     Text("写メモ帳")
@@ -61,7 +63,7 @@ extension AlbumView {
                         .frame(width: geo.size.width, height: geo.size.width)
                         .cornerRadius(12)
                 }
-                
+
                 if vm.isExpiringSoon(url) {
                     Color.black.opacity(0.3)
                         .cornerRadius(12)

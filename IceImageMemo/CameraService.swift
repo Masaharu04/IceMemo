@@ -1,7 +1,7 @@
-import UIKit
-import SwiftUI
-import Combine
 import AVFoundation
+import Combine
+import SwiftUI
+import UIKit
 
 protocol CameraService {
     var session: AVCaptureSession { get }
@@ -21,33 +21,57 @@ final class CameraServiceImpl: NSObject, CameraService {
     var photoPublisher: AnyPublisher<Data, Never> {
         photoSubject.eraseToAnyPublisher()
     }
-    
+
     func checkAuthorization() -> AVAuthorizationStatus {
-        let status = AVCaptureDevice.authorizationStatus(for: .video)
-        return status
+        AVCaptureDevice.authorizationStatus(for: .video)
     }
-    
-    func configure() async    {
+
+    func configure() async {
         let status = checkAuthorization()
-        if status == .notDetermined{
+        if status == .notDetermined {
             let granted = await AVCaptureDevice.requestAccess(for: .video)
             guard granted else { return }
         }
         guard AVCaptureDevice.authorizationStatus(for: .video) == .authorized else { return }
-        
+
         session.beginConfiguration()
         session.sessionPreset = .photo
-        
-        if let device = AVCaptureDevice.default(
+
+        let deviceTypes: [AVCaptureDevice.DeviceType] = [
+            .builtInTripleCamera,
+            .builtInDualWideCamera,
+            .builtInDualCamera,
             .builtInWideAngleCamera,
-            for: .video,
+        ]
+
+        let mediaType: AVMediaType = .video
+
+        let discovery = AVCaptureDevice.DiscoverySession(
+            deviceTypes: deviceTypes,
+            mediaType: mediaType,
             position: .back
-        ) {
+        )
+
+        let devices = discovery.devices
+
+        if let device =
+            devices.first(where: { $0.deviceType == .builtInTripleCamera }) ??
+            devices.first(where: { $0.deviceType == .builtInDualWideCamera }) ??
+            devices.first(where: { $0.deviceType == .builtInDualCamera }) ??
+            devices.first(where: { $0.deviceType == .builtInWideAngleCamera }) {
             do {
                 let input = try AVCaptureDeviceInput(device: device)
                 if session.canAddInput(input) {
                     session.addInput(input)
-                    self.deviceInput = input
+                    deviceInput = input
+
+                    try device.lockForConfiguration()
+                    if let switchOverFactor = device.virtualDeviceSwitchOverVideoZoomFactors.first {
+                        device.videoZoomFactor = CGFloat(switchOverFactor.floatValue)
+                    } else {
+                        device.videoZoomFactor = 1.0
+                    }
+                    device.unlockForConfiguration()
                 }
             } catch {
                 print("Input error:", error)
@@ -58,7 +82,7 @@ final class CameraServiceImpl: NSObject, CameraService {
         }
         session.commitConfiguration()
     }
-    
+
     func startRunning() {
         sessionQueue.async {
             if !self.session.isRunning {
@@ -66,7 +90,7 @@ final class CameraServiceImpl: NSObject, CameraService {
             }
         }
     }
-    
+
     func stopRunning() {
         sessionQueue.async {
             if self.session.isRunning {
@@ -74,7 +98,7 @@ final class CameraServiceImpl: NSObject, CameraService {
             }
         }
     }
-    
+
     func capturePhoto() {
         let settings = AVCapturePhotoSettings()
         photoOutput.capturePhoto(with: settings, delegate: self)
@@ -82,7 +106,7 @@ final class CameraServiceImpl: NSObject, CameraService {
 }
 
 extension CameraServiceImpl: AVCapturePhotoCaptureDelegate {
-    func photoOutput(_ output: AVCapturePhotoOutput,
+    func photoOutput(_: AVCapturePhotoOutput,
                      didFinishProcessingPhoto photo: AVCapturePhoto,
                      error: Error?) {
         if let error {
@@ -98,30 +122,31 @@ extension CameraServiceImpl: AVCapturePhotoCaptureDelegate {
 final class CameraPreviewContainerView: UIView {
     private let previewLayer: AVCaptureVideoPreviewLayer
     init(session: AVCaptureSession) {
-        self.previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        previewLayer = AVCaptureVideoPreviewLayer(session: session)
         super.init(frame: .zero)
         backgroundColor = .black
         previewLayer.videoGravity = .resizeAspectFill
         layer.addSublayer(previewLayer)
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         previewLayer.frame = bounds
-        if let conn = previewLayer.connection, conn.isVideoOrientationSupported {
-            conn.videoOrientation = .portrait
-        }
+        guard let connection = previewLayer.connection else { return }
+        connection.videoRotationAngle = 90
     }
 }
 
 struct CameraServiceView: UIViewRepresentable {
     let session: AVCaptureSession
-    func makeUIView(context: Context) -> CameraPreviewContainerView {
+    func makeUIView(context _: Context) -> CameraPreviewContainerView {
         CameraPreviewContainerView(session: session)
     }
-    func updateUIView(_ uiView: CameraPreviewContainerView, context: Context) {}
+
+    func updateUIView(_: CameraPreviewContainerView, context _: Context) {}
 }

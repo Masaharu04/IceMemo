@@ -2,11 +2,11 @@ import Foundation
 import UserNotifications
 
 final class ScheduleDeleteNoticeForPhotoUseCase {
-
     func execute(expiration: Expiration, shotDate: Date) {
         switch expiration {
         case .day, .week:
             break
+
         case .month:
             scheduleMonthNotice(idBase: shotDate)
 
@@ -25,13 +25,12 @@ private extension ScheduleDeleteNoticeForPhotoUseCase {
 }
 
 private extension ScheduleDeleteNoticeForPhotoUseCase {
-
     func scheduleMonthNotice(idBase: Date) {
         guard
             let expireDate = Calendar.current.date(byAdding: .month, value: 1, to: idBase),
             let notifyDate = Calendar.current
-                .date(byAdding: .day, value: -1, to: expireDate)?
-                .at8AM()
+            .date(byAdding: .day, value: -1, to: expireDate)?
+            .at8AM()
         else { return }
 
         scheduleNotification(
@@ -44,7 +43,6 @@ private extension ScheduleDeleteNoticeForPhotoUseCase {
 }
 
 private extension ScheduleDeleteNoticeForPhotoUseCase {
-
     func scheduleYearNotices(idBase: Date) {
         guard let expireDate = Calendar.current.date(byAdding: .year, value: 1, to: idBase) else {
             return
@@ -52,11 +50,11 @@ private extension ScheduleDeleteNoticeForPhotoUseCase {
 
         guard
             let weekBefore = Calendar.current
-                .date(byAdding: .day, value: -7, to: expireDate)?
-                .at8AM(),
+            .date(byAdding: .day, value: -7, to: expireDate)?
+            .at8AM(),
             let dayBefore = Calendar.current
-                .date(byAdding: .day, value: -1, to: expireDate)?
-                .at8AM()
+            .date(byAdding: .day, value: -1, to: expireDate)?
+            .at8AM()
         else { return }
 
         scheduleNotification(
@@ -76,7 +74,6 @@ private extension ScheduleDeleteNoticeForPhotoUseCase {
 }
 
 private extension ScheduleDeleteNoticeForPhotoUseCase {
-
     func scheduleNotification(
         id: String,
         title: String,

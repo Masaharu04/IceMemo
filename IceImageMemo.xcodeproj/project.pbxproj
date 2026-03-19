@@ -39,6 +39,7 @@
 		72DCA1AD2E75598F00A9E2CE /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		72DCA2A82E8555EA00A9E2CE /* PhotoRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRepository.swift; sourceTree = "<group>"; };
 		944E089C2A6FAFA100163123 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CC0000002A6EA0B900B41CE3 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Shared.xcconfig; path = xcconfig/Shared.xcconfig; sourceTree = SOURCE_ROOT; };
 		D091853D2F3878C5000F905D /* CancelDeleteNoticeForPhotoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelDeleteNoticeForPhotoUseCase.swift; sourceTree = "<group>"; };
 		D099643E2A6EA0B700B41CE3 /* FadeMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FadeMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D09964412A6EA0B700B41CE3 /* IceImageMemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IceImageMemoApp.swift; sourceTree = "<group>"; };
@@ -64,6 +65,7 @@
 			children = (
 				D09964402A6EA0B700B41CE3 /* IceImageMemo */,
 				D099643F2A6EA0B700B41CE3 /* Products */,
+				CC0000002A6EA0B900B41CE3 /* Shared.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -123,6 +125,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D099644C2A6EA0B900B41CE3 /* Build configuration list for PBXNativeTarget "FadeMemo" */;
 			buildPhases = (
+				D07357522F6C18FE004B7752 /* linter */,
 				D099643A2A6EA0B700B41CE3 /* Sources */,
 				D099643B2A6EA0B700B41CE3 /* Frameworks */,
 				D099643C2A6EA0B700B41CE3 /* Resources */,
@@ -180,6 +183,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D07357522F6C18FE004B7752 /* linter */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = linter;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ -f \"/opt/homebrew/bin/swiftlint\" ]]; then\n    /opt/homebrew/bin/swiftlint\nelif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D099643A2A6EA0B700B41CE3 /* Sources */ = {
@@ -241,10 +265,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = T2SK837QN7;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -304,10 +327,9 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = T2SK837QN7;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -329,6 +351,7 @@
 		};
 		D099644D2A6EA0B900B41CE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CC0000002A6EA0B900B41CE3 /* Shared.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -350,7 +373,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = "app.yaaru.ice-memo1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -363,6 +385,7 @@
 		};
 		D099644E2A6EA0B900B41CE3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CC0000002A6EA0B900B41CE3 /* Shared.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -384,7 +407,6 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.2;
-				PRODUCT_BUNDLE_IDENTIFIER = app.masaharu.misaki.FedeMemo1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
