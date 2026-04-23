@@ -156,11 +156,12 @@
 			};
 			buildConfigurationList = D09964392A6EA0B700B41CE3 /* Build configuration list for PBXProject "IceImageMemo" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ja;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = D09964352A6EA0B700B41CE3;
 			productRefGroup = D099643F2A6EA0B700B41CE3 /* Products */;

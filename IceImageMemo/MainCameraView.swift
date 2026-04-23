@@ -28,7 +28,7 @@ struct MainCameraView<VM: MainCameraViewModel>: View {
                     // Segmented Control
                     Picker("Expiration", selection: $vm.expirationType) {
                         ForEach(Expiration.allCases) { item in
-                            Text(item.rawValue).tag(item)
+                            Text(item.localizedLabel).tag(item)
                         }
                     }
                     .pickerStyle(.segmented)
@@ -113,7 +113,13 @@ enum Expiration: String, CaseIterable, Identifiable {
     case week
     case month
     case year
-    var id: Self {
-        self
+    var id: Self { self }
+    var localizedLabel: LocalizedStringKey {
+        switch self {
+        case .day: "expiration.day"
+        case .week: "expiration.week"
+        case .month: "expiration.month"
+        case .year: "expiration.year"
+        }
     }
 }
