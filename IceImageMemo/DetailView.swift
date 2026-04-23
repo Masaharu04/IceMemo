@@ -69,14 +69,14 @@ struct DetailView<VM: DetailViewModel>: View {
                                 if #available(iOS 26, *) {
                                     Image(systemName: "square.and.arrow.up")
                                         .font(.title2)
-                                        .foregroundStyle(.black)
-                                        .padding(16)
+                                        .foregroundStyle(.white)
+                                        .frame(width: 52, height: 52)
                                         .glassEffect(in: .circle)
                                 } else {
                                     Image(systemName: "square.and.arrow.up")
                                         .font(.title2)
-                                        .foregroundStyle(.black)
-                                        .padding(16)
+                                        .foregroundStyle(.primary)
+                                        .frame(width: 52, height: 52)
                                         .background(.ultraThinMaterial, in: Circle())
                                 }
                             }
