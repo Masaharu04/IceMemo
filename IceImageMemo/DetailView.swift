@@ -69,19 +69,19 @@ struct DetailView<VM: DetailViewModel>: View {
                                 if #available(iOS 26, *) {
                                     Image(systemName: "square.and.arrow.up")
                                         .font(.title2)
-                                        .foregroundStyle(.primary)
+                                        .foregroundStyle(.black)
                                         .padding(16)
                                         .glassEffect(in: .circle)
                                 } else {
                                     Image(systemName: "square.and.arrow.up")
                                         .font(.title2)
-                                        .foregroundStyle(.primary)
+                                        .foregroundStyle(.black)
                                         .padding(16)
                                         .background(.ultraThinMaterial, in: Circle())
                                 }
                             }
                             .padding(.trailing, 20)
-                            .padding(.bottom, 20)
+                            .padding(.bottom, 8)
                         }
                     }
                 }
@@ -89,16 +89,16 @@ struct DetailView<VM: DetailViewModel>: View {
                     ToolbarItem(placement: .principal) {
                         if #available(iOS 26, *) {
                             Text(vm.remainDate)
-                                .font(.subheadline)
-                                .fontWeight(.medium)
+                                .font(.headline)
+                                .fontWeight(.semibold)
                                 .foregroundStyle(.primary)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
                                 .glassEffect(in: .capsule)
                         } else {
                             Text(vm.remainDate)
-                                .font(.subheadline)
-                                .fontWeight(.medium)
+                                .font(.headline)
+                                .fontWeight(.semibold)
                                 .foregroundStyle(.primary)
                         }
                     }
