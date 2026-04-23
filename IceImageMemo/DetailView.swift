@@ -54,31 +54,37 @@ struct DetailView<VM: DetailViewModel>: View {
                                 )
                             }
                         }
+
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            ShareLink(
+                                item: ShareableUIImage(uiImage: uiImage),
+                                preview: SharePreview(
+                                    "",
+                                    image: Image(uiImage: uiImage)
+                                )
+                            ) {
+                                Image(systemName: "square.and.arrow.up")
+                                    .font(.title2)
+                                    .foregroundStyle(.primary)
+                                    .padding(16)
+                                    .background(.ultraThinMaterial, in: Circle())
+                            }
+                            .padding(.trailing, 20)
+                            .padding(.bottom, 20)
+                        }
+                    }
                 }
                 .toolbar {
-                    ToolbarItemGroup(placement: .bottomBar) {
-                        ShareLink(
-                            item: ShareableUIImage(uiImage: uiImage),
-                            preview: SharePreview(
-                                "",
-                                image: Image(uiImage: uiImage)
-                            )
-                        ) {
-                            Image(systemName: "square.and.arrow.up")
-                                .foregroundStyle(.primary)
-                        }
-
-                        Spacer()
-
+                    ToolbarItem(placement: .principal) {
                         Text(vm.remainDate)
                             .font(.subheadline)
                             .fontWeight(.medium)
                             .foregroundStyle(.primary)
-                            .fixedSize(horizontal: true, vertical: false)
-                            .padding(.horizontal, 10)
-
-                        Spacer()
-
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             vm.isDelete = true
                         } label: {
