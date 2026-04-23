@@ -70,7 +70,7 @@ struct DetailView<VM: DetailViewModel>: View {
                                     .font(.title2)
                                     .foregroundStyle(.primary)
                                     .padding(16)
-                                    .background(.ultraThinMaterial, in: Circle())
+                                    .glassEffect(in: .circle)
                             }
                             .padding(.trailing, 20)
                             .padding(.bottom, 20)
@@ -83,6 +83,9 @@ struct DetailView<VM: DetailViewModel>: View {
                             .font(.subheadline)
                             .fontWeight(.medium)
                             .foregroundStyle(.primary)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .glassEffect(in: .capsule)
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
