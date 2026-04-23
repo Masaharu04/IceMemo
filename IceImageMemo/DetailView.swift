@@ -66,11 +66,19 @@ struct DetailView<VM: DetailViewModel>: View {
                                     image: Image(uiImage: uiImage)
                                 )
                             ) {
-                                Image(systemName: "square.and.arrow.up")
-                                    .font(.title2)
-                                    .foregroundStyle(.primary)
-                                    .padding(16)
-                                    .glassEffect(in: .circle)
+                                if #available(iOS 26, *) {
+                                    Image(systemName: "square.and.arrow.up")
+                                        .font(.title2)
+                                        .foregroundStyle(.primary)
+                                        .padding(16)
+                                        .glassEffect(in: .circle)
+                                } else {
+                                    Image(systemName: "square.and.arrow.up")
+                                        .font(.title2)
+                                        .foregroundStyle(.primary)
+                                        .padding(16)
+                                        .background(.ultraThinMaterial, in: Circle())
+                                }
                             }
                             .padding(.trailing, 20)
                             .padding(.bottom, 20)
@@ -79,13 +87,20 @@ struct DetailView<VM: DetailViewModel>: View {
                 }
                 .toolbar {
                     ToolbarItem(placement: .principal) {
-                        Text(vm.remainDate)
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundStyle(.primary)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .glassEffect(in: .capsule)
+                        if #available(iOS 26, *) {
+                            Text(vm.remainDate)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.primary)
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .glassEffect(in: .capsule)
+                        } else {
+                            Text(vm.remainDate)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundStyle(.primary)
+                        }
                     }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
