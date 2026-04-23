@@ -113,13 +113,20 @@ enum Expiration: String, CaseIterable, Identifiable {
     case week
     case month
     case year
-    var id: Self { self }
+    var id: Self {
+        self
+    }
+
     var localizedLabel: LocalizedStringKey {
         switch self {
-        case .day: "expiration.day"
-        case .week: "expiration.week"
-        case .month: "expiration.month"
-        case .year: "expiration.year"
+        case .day:
+            "expiration.day"
+        case .week:
+            "expiration.week"
+        case .month:
+            "expiration.month"
+        case .year:
+            "expiration.year"
         }
     }
 }
