@@ -24,6 +24,7 @@
 		D09964462A6EA0B900B41CE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D09964452A6EA0B900B41CE3 /* Assets.xcassets */; };
 		D09964492A6EA0B900B41CE3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D09964482A6EA0B900B41CE3 /* Preview Assets.xcassets */; };
 		D0D7C6A82F1CCF7300FD707F /* ScheduleDeleteNoticeForPhotoUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D7C6A72F1CCF7200FD707F /* ScheduleDeleteNoticeForPhotoUseCase.swift */; };
+		D0LC00012EE1C50900ED1622 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = D0LC00022EE1C50900ED1622 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		D09964452A6EA0B900B41CE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D09964482A6EA0B900B41CE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D0D7C6A72F1CCF7200FD707F /* ScheduleDeleteNoticeForPhotoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDeleteNoticeForPhotoUseCase.swift; sourceTree = "<group>"; };
+		D0LC00022EE1C50900ED1622 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = "com.apple.dt.xcstrings"; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				D0D7C6A92F1CCF9900FD707F /* Model */,
 				72DCA1A12E6C0C0300A9E2CE /* MainCameraViewModel.swift */,
 				27751CC12EE1C50900ED1622 /* ShareableUIImage.swift */,
+				D0LC00022EE1C50900ED1622 /* Localizable.xcstrings */,
 				72085CF72E65C6920056926B /* CameraService.swift */,
 				D09964452A6EA0B900B41CE3 /* Assets.xcassets */,
 				D09964472A6EA0B900B41CE3 /* Preview Content */,
@@ -179,6 +182,7 @@
 			files = (
 				D09964492A6EA0B900B41CE3 /* Preview Assets.xcassets in Resources */,
 				D09964462A6EA0B900B41CE3 /* Assets.xcassets in Resources */,
+				D0LC00012EE1C50900ED1622 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
