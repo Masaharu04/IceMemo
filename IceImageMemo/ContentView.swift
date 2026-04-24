@@ -39,7 +39,8 @@ struct ContentView: View {
     let service = CameraServiceImpl()
     let photoUseCase = PhotoUseCaseImpl(repository: photoRepository)
     vm = MainCameraViewModelImpl(
-      service: service, coordinator: coordinator, photoUseCase: photoUseCase)
+      service: service, coordinator: coordinator, photoUseCase: photoUseCase
+    )
     vm.viewdidLoad()
   }
 

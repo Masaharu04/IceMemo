@@ -59,7 +59,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
     switch route {
     case .album:
       AlbumView(vm: container.makeAlbumViewModel())
-    case .detail(let imageUrl):
+    case let .detail(imageUrl):
       DetailView(vm: container.makeDetailViewModel(imageUrl: imageUrl, onDelete: onPhotoDeleted))
     }
   }

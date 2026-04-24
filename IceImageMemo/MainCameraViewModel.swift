@@ -206,7 +206,8 @@ extension MainCameraViewModelImpl {
         do {
           try fileManager.createDirectory(
             at: dirURL,
-            withIntermediateDirectories: false)
+            withIntermediateDirectories: false
+          )
         } catch {
           print("ディレクトリ作成に失敗: \(name), error: \(error)")
         }

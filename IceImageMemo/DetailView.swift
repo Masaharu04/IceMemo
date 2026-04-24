@@ -34,7 +34,7 @@ struct DetailView<VM: DetailViewModel>: View {
                 }
                 .simultaneously(
                   with:
-                    DragGesture()
+                  DragGesture()
                     .onChanged { value in
                       vm.onDragChanged(
                         translation: value.translation,
@@ -44,7 +44,8 @@ struct DetailView<VM: DetailViewModel>: View {
                     }
                     .onEnded { _ in
                       vm.onDragEnded()
-                    })
+                    }
+                )
             )
             .onTapGesture(count: 2) { location in
               withAnimation(.easeInOut(duration: 0.2)) {
