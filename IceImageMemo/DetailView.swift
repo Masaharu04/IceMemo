@@ -56,46 +56,69 @@ struct DetailView<VM: DetailViewModel>: View {
                                 )
                             }
                         }
+
+                    VStack {
+                        Spacer()
+                        HStack {
+                            Spacer()
+                            ShareLink(
+                                item: ShareableUIImage(uiImage: originalImage ?? uiImage),
+                                preview: SharePreview(
+                                    "",
+                                    image: Image(uiImage: originalImage ?? uiImage)
+                                )
+                            ) {
+                                if #available(iOS 26, *) {
+                                    Image(systemName: "square.and.arrow.up")
+                                        .font(.title2)
+                                        .foregroundStyle(.white)
+                                        .frame(width: 52, height: 52)
+                                        .glassEffect(in: .circle)
+                                } else {
+                                    Image(systemName: "square.and.arrow.up")
+                                        .font(.title2)
+                                        .foregroundStyle(.primary)
+                                        .frame(width: 52, height: 52)
+                                        .background(.ultraThinMaterial, in: Circle())
+                                }
+                            }
+                            .padding(.trailing, 20)
+                            .padding(.bottom, 8)
+                        }
+                    }
                 }
                 .toolbar {
-                    ToolbarItemGroup(placement: .bottomBar) {
-                        ShareLink(
-                            item: ShareableUIImage(uiImage: originalImage ?? uiImage),
-                            preview: SharePreview(
-                                "",
-                                image: Image(uiImage: originalImage ?? uiImage)
-                            )
-                        ) {
-                            Image(systemName: "square.and.arrow.up")
+                    ToolbarItem(placement: .principal) {
+                        if #available(iOS 26, *) {
+                            Text(vm.remainDate)
+                                .font(.headline)
+                                .fontWeight(.semibold)
                                 .foregroundStyle(.primary)
-                        }
-
-                        Spacer()
-
-                        Text(vm.remainDate)
-                            .font(.subheadline)
-                            .fontWeight(.medium)
-                            .foregroundStyle(.primary)
-                            .fixedSize(horizontal: true, vertical: false)
-                            .padding(.horizontal, 10)
-
-                        Spacer()
-
-                        Button {
-                            vm.isDelete = true
-                        } label: {
-                            Image(systemName: "trash")
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .glassEffect(in: .capsule)
+                        } else {
+                            Text(vm.remainDate)
+                                .font(.headline)
+                                .fontWeight(.semibold)
                                 .foregroundStyle(.primary)
                         }
                     }
-
                     if vm.isCropAvailable {
-                        ToolbarItem(placement: .topBarTrailing) {
+                        ToolbarItem(placement: .topBarLeading) {
                             Button {
                                 vm.toggleCropView()
                             } label: {
                                 Image(systemName: vm.showingCropped ? "photo" : "doc.viewfinder")
                             }
+                        }
+                    }
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            vm.isDelete = true
+                        } label: {
+                            Image(systemName: "trash")
+                                .foregroundStyle(.primary)
                         }
                     }
                 }
