@@ -91,7 +91,9 @@ struct DetailView<VM: DetailViewModel>: View {
 
                     if vm.isCropAvailable {
                         ToolbarItem(placement: .topBarTrailing) {
-                            Button(action: { vm.toggleCropView() }) {
+                            Button {
+                                vm.toggleCropView()
+                            } label: {
                                 Image(systemName: vm.showingCropped ? "photo" : "doc.viewfinder")
                             }
                         }

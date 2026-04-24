@@ -33,7 +33,7 @@ final class DetailViewModelImpl: DetailViewModel {
     @Published var scale: CGFloat = 1.0
     @Published var offset: CGSize = .zero
     @Published var showingCropped: Bool = false
-    @Published var croppedImage: UIImage? = nil
+    @Published var croppedImage: UIImage?
 
     var isCropAvailable: Bool { croppedImage != nil }
     var imageURL: URL
