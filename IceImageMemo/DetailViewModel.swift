@@ -63,8 +63,7 @@ final class DetailViewModelImpl: DetailViewModel {
 
   // MARK: - Zoom & Pan
 
-  func onPinchChanged(magnification: CGFloat, anchor: CGPoint, viewSize: CGSize, imageSize: CGSize)
-  {
+  func onPinchChanged(magnification: CGFloat, anchor: CGPoint, viewSize: CGSize, imageSize: CGSize) {
     let newScale = min(max(lastScale * magnification, minScale), maxScale)
     let anchorOffset = CGSize(
       width: (anchor.x - 0.5) * viewSize.width,

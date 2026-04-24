@@ -35,8 +35,7 @@ final class AlbumViewModelImpl: AlbumViewModel {
       let match = regex.firstMatch(
         in: remainString, range: NSRange(remainString.startIndex..., in: remainString)),
       let range = Range(match.range(at: 1), in: remainString),
-      let days = Int(remainString[range])
-    {
+      let days = Int(remainString[range]) {
       return days <= 3
     }
     return false
