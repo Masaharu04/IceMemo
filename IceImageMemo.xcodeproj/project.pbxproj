@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		888A33367224F439F3713DC2 /* DocumentCropService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A04677B3F07F266BDBA78 /* DocumentCropService.swift */; };
 		27751CC22EE1C50900ED1622 /* ShareableUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27751CC12EE1C50900ED1622 /* ShareableUIImage.swift */; };
 		72085CF42E65C26F0056926B /* MainCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72085CF32E65C2620056926B /* MainCameraView.swift */; };
 		72085CF82E65C6A50056926B /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72085CF72E65C6920056926B /* CameraService.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC9A04677B3F07F266BDBA78 /* DocumentCropService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentCropService.swift; sourceTree = "<group>"; };
 		27751CC12EE1C50900ED1622 /* ShareableUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableUIImage.swift; sourceTree = "<group>"; };
 		72085CF32E65C2620056926B /* MainCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCameraView.swift; sourceTree = "<group>"; };
 		72085CF72E65C6920056926B /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				72085CF32E65C2620056926B /* MainCameraView.swift */,
 				D0D7C6A92F1CCF9900FD707F /* Model */,
 				72DCA1A12E6C0C0300A9E2CE /* MainCameraViewModel.swift */,
+				BC9A04677B3F07F266BDBA78 /* DocumentCropService.swift */,
 				27751CC12EE1C50900ED1622 /* ShareableUIImage.swift */,
 				72085CF72E65C6920056926B /* CameraService.swift */,
 				D09964452A6EA0B900B41CE3 /* Assets.xcassets */,
@@ -223,6 +226,7 @@
 				72DCA1AA2E7062E500A9E2CE /* PhotoUseCase.swift in Sources */,
 				D09964422A6EA0B700B41CE3 /* IceImageMemoApp.swift in Sources */,
 				72DCA1A82E6F053300A9E2CE /* AlbumView.swift in Sources */,
+				888A33367224F439F3713DC2 /* DocumentCropService.swift in Sources */,
 				27751CC22EE1C50900ED1622 /* ShareableUIImage.swift in Sources */,
 				72DCA1A22E6C0C0C00A9E2CE /* MainCameraViewModel.swift in Sources */,
 			);
