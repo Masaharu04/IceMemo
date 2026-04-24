@@ -2,63 +2,65 @@ import Foundation
 import SwiftUI
 
 enum AppRoute: Identifiable {
-    case album
-    case detail(URL)
+  case album
+  case detail(URL)
 
-    var id: String {
-        switch self {
-        case .album:
-            "album"
-        case .detail:
-            "detail"
-        }
+  var id: String {
+    switch self {
+    case .album:
+      "album"
+    case .detail:
+      "detail"
     }
+  }
 }
 
 @MainActor
 struct AppContainer {
-    let makePhotoUseCase: () -> PhotoUseCase
+  let makePhotoUseCase: () -> PhotoUseCase
 
-    func makeAlbumViewModel() -> AlbumViewModelImpl {
-        AlbumViewModelImpl(photoUseCase: makePhotoUseCase())
-    }
+  func makeAlbumViewModel() -> AlbumViewModelImpl {
+    AlbumViewModelImpl(photoUseCase: makePhotoUseCase())
+  }
 
-    func makeDetailViewModel(imageUrl: URL, onDelete: (() -> Void)? = nil) -> DetailViewModelImpl {
-        DetailViewModelImpl(photoUseCase: makePhotoUseCase(), imageURL: imageUrl, onDelete: onDelete)
-    }
-}
-
-protocol AppCoordinatorProtocol: ObservableObject {
-    var presentedRoute: AppRoute? { get set }
-    func present(_ route: AppRoute)
-    func dismiss()
+  func makeDetailViewModel(imageUrl: URL, onDelete: (() -> Void)? = nil) -> DetailViewModelImpl {
+    DetailViewModelImpl(photoUseCase: makePhotoUseCase(), imageURL: imageUrl, onDelete: onDelete)
+  }
 }
 
 @MainActor
+protocol AppCoordinatorProtocol: AnyObject, Observable {
+  var presentedRoute: AppRoute? { get set }
+  func present(_ route: AppRoute)
+  func dismiss()
+}
+
+@Observable
+@MainActor
 final class AppCoordinator: AppCoordinatorProtocol {
-    @Published var presentedRoute: AppRoute?
-    private let container: AppContainer
-    var onPhotoDeleted: (() -> Void)?
+  var presentedRoute: AppRoute?
+  private let container: AppContainer
+  var onPhotoDeleted: (() -> Void)?
 
-    init(container: AppContainer) {
-        self.container = container
-    }
+  init(container: AppContainer) {
+    self.container = container
+  }
 
-    func present(_ route: AppRoute) {
-        presentedRoute = route
-    }
+  func present(_ route: AppRoute) {
+    presentedRoute = route
+  }
 
-    func dismiss() {
-        presentedRoute = nil
-    }
+  func dismiss() {
+    presentedRoute = nil
+  }
 
-    @ViewBuilder
-    func destinationView(for route: AppRoute) -> some View {
-        switch route {
-        case .album:
-            AlbumView(vm: container.makeAlbumViewModel())
-        case let .detail(imageUrl):
-            DetailView(vm: container.makeDetailViewModel(imageUrl: imageUrl, onDelete: onPhotoDeleted))
-        }
+  @ViewBuilder
+  func destinationView(for route: AppRoute) -> some View {
+    switch route {
+    case .album:
+      AlbumView(vm: container.makeAlbumViewModel())
+    case let .detail(imageUrl):
+      DetailView(vm: container.makeDetailViewModel(imageUrl: imageUrl, onDelete: onPhotoDeleted))
     }
+  }
 }
