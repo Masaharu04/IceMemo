@@ -40,7 +40,7 @@ struct DocumentCropServiceImpl: DocumentCropService {
         let w = CGFloat(cgImage.width)
         let h = CGFloat(cgImage.height)
 
-        // Vision 正規化座標（左下原点）→ CIImage ピクセル座標（左下原点）
+        /// Vision 正規化座標（左下原点）→ CIImage ピクセル座標（左下原点）
         func toCI(_ p: CGPoint) -> CIVector {
             CIVector(x: p.x * w, y: p.y * h)
         }

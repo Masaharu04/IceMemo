@@ -35,7 +35,10 @@ final class DetailViewModelImpl: DetailViewModel {
     @Published var showingCropped: Bool = false
     @Published var croppedImage: UIImage?
 
-    var isCropAvailable: Bool { croppedImage != nil }
+    var isCropAvailable: Bool {
+        croppedImage != nil
+    }
+
     var imageURL: URL
     var onDelete: (() -> Void)?
 
