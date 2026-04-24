@@ -1,3 +1,4 @@
+--indent 2
 --disable wrapMultilineStatementBraces
 --swiftversion 5.9
 --exclude DerivedData,.build,vendor,IceImageMemo/oldLogic,IceImageMemo/oldVIew
