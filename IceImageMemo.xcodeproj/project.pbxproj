@@ -48,7 +48,7 @@
 		D09964452A6EA0B900B41CE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D09964482A6EA0B900B41CE3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		D0D7C6A72F1CCF7200FD707F /* ScheduleDeleteNoticeForPhotoUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDeleteNoticeForPhotoUseCase.swift; sourceTree = "<group>"; };
-		D0LC00022EE1C50900ED1622 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = "com.apple.dt.xcstrings"; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		D0LC00022EE1C50900ED1622 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = com.apple.dt.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
