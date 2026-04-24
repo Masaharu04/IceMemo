@@ -32,10 +32,11 @@ final class AlbumViewModelImpl: AlbumViewModel {
     if remainString.contains("期限切れ") { return false }
     let pattern = #"残り (\d+)日"#
     if let regex = try? NSRegularExpression(pattern: pattern),
-      let match = regex.firstMatch(
-        in: remainString, range: NSRange(remainString.startIndex..., in: remainString)),
-      let range = Range(match.range(at: 1), in: remainString),
-      let days = Int(remainString[range]) {
+       let match = regex.firstMatch(
+         in: remainString, range: NSRange(remainString.startIndex..., in: remainString)
+       ),
+       let range = Range(match.range(at: 1), in: remainString),
+       let days = Int(remainString[range]) {
       return days <= 3
     }
     return false
