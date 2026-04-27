@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 @MainActor
 protocol DetailViewModel: AnyObject, Observable {
@@ -7,9 +8,14 @@ protocol DetailViewModel: AnyObject, Observable {
   var remainDate: String { get }
   var scale: CGFloat { get set }
   var offset: CGSize { get set }
+  var showingCropped: Bool { get set }
+  var croppedImage: UIImage? { get }
+  var isCropAvailable: Bool { get }
 
   func didTapDelteButton()
   func fetchRemainDate()
+  func loadCroppedImageIfNeeded() async
+  func toggleCropView()
   func onPinchChanged(magnification: CGFloat, anchor: CGPoint, viewSize: CGSize, imageSize: CGSize)
   func onPinchEnded(viewSize: CGSize, imageSize: CGSize)
   func onDragChanged(translation: CGSize, viewSize: CGSize, imageSize: CGSize)
@@ -22,11 +28,18 @@ protocol DetailViewModel: AnyObject, Observable {
 final class DetailViewModelImpl: DetailViewModel {
   private var photoUseCase: PhotoUseCase
   private let cancelNoticeUseCase = CancelDeleteNoticeForPhotoUseCase()
+  private let cropService: DocumentCropService
 
   var isDelete: Bool = false
   var remainDate: String = ""
   var scale: CGFloat = 1.0
   var offset: CGSize = .zero
+  var showingCropped: Bool = false
+  var croppedImage: UIImage?
+
+  var isCropAvailable: Bool {
+    croppedImage != nil
+  }
 
   var imageURL: URL
   var onDelete: (() -> Void)?
@@ -39,10 +52,12 @@ final class DetailViewModelImpl: DetailViewModel {
   init(
     photoUseCase: PhotoUseCase,
     imageURL: URL,
+    cropService: DocumentCropService,
     onDelete: (() -> Void)? = nil
   ) {
     self.photoUseCase = photoUseCase
     self.imageURL = imageURL
+    self.cropService = cropService
     self.onDelete = onDelete
   }
 
@@ -59,6 +74,25 @@ final class DetailViewModelImpl: DetailViewModel {
 
   func fetchRemainDate() {
     remainDate = photoUseCase.getRemainDate(imageUrl: imageURL)
+  }
+
+  func loadCroppedImageIfNeeded() async {
+    guard croppedImage == nil else { return }
+    guard let image = UIImage(contentsOfFile: imageURL.path) else { return }
+    let result = await cropService.detectAndCrop(from: image)
+    croppedImage = result
+    if result != nil {
+      showingCropped = true
+    }
+  }
+
+  func toggleCropView() {
+    guard isCropAvailable else { return }
+    showingCropped.toggle()
+    scale = 1.0
+    offset = .zero
+    lastScale = 1.0
+    lastOffset = .zero
   }
 
   // MARK: - Zoom & Pan

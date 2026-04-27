@@ -19,12 +19,21 @@ enum AppRoute: Identifiable {
 struct AppContainer {
   let makePhotoUseCase: () -> PhotoUseCase
 
+  private func makeCropService() -> DocumentCropService {
+    DocumentCropServiceImpl()
+  }
+
   func makeAlbumViewModel() -> AlbumViewModelImpl {
-    AlbumViewModelImpl(photoUseCase: makePhotoUseCase())
+    AlbumViewModelImpl(photoUseCase: makePhotoUseCase(), cropService: makeCropService())
   }
 
   func makeDetailViewModel(imageUrl: URL, onDelete: (() -> Void)? = nil) -> DetailViewModelImpl {
-    DetailViewModelImpl(photoUseCase: makePhotoUseCase(), imageURL: imageUrl, onDelete: onDelete)
+    DetailViewModelImpl(
+      photoUseCase: makePhotoUseCase(),
+      imageURL: imageUrl,
+      cropService: makeCropService(),
+      onDelete: onDelete
+    )
   }
 }
 
