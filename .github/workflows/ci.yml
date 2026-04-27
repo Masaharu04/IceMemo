@@ -27,7 +27,7 @@ jobs:
       - name: Detect changed Swift files
         id: changed
         run: |
-          FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD -- '*.swift')
+          FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}..HEAD -- '*.swift' | tr '\n' ' ')
           echo "files=$FILES" >> "$GITHUB_OUTPUT"
 
       - name: Run SwiftLint
