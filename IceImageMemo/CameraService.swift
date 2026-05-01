@@ -44,11 +44,9 @@ final class CameraServiceImpl: NSObject, CameraService {
             .builtInWideAngleCamera,
         ]
 
-        let mediaType: AVMediaType = .video
-
         let discovery = AVCaptureDevice.DiscoverySession(
             deviceTypes: deviceTypes,
-            mediaType: mediaType,
+            mediaType: .video,
             position: .back
         )
 
@@ -79,6 +77,10 @@ final class CameraServiceImpl: NSObject, CameraService {
         }
         if session.canAddOutput(photoOutput) {
             session.addOutput(photoOutput)
+        }
+        if let connection = photoOutput.connection(with: .video),
+           connection.isVideoRotationAngleSupported(90) {
+            connection.videoRotationAngle = 90
         }
         session.commitConfiguration()
     }
