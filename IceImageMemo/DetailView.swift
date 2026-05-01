@@ -72,7 +72,7 @@ struct DetailView<VM: DetailViewModel>: View {
               ) {
                 Image(systemName: "square.and.arrow.up")
                   .font(.title2)
-                  .foregroundStyle(.white)
+                  .foregroundStyle(.primary)
                   .frame(width: 52, height: 52)
                   .glassEffect(in: .circle)
               }
